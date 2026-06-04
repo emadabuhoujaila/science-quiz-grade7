@@ -631,16 +631,20 @@ function doStartQuiz(cls, st, lkKey) {
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
 }
 
-// Lock on exit
+// Lock on exit — multiple events for reliability
 window.addEventListener('beforeunload', function() {
-  if (window._quizActive && window._curStudent && window._curClass) {
-    savePartialAndLock();
-  }
+  if (window._quizActive) savePartialAndLock();
 });
+window.addEventListener('pagehide', function() {
+  if (window._quizActive) savePartialAndLock();
+});
+// Tab switch / minimize / phone lock
 document.addEventListener('visibilitychange', function() {
-  if (document.hidden && window._quizActive && window._curStudent && window._curClass) {
-    savePartialAndLock();
-  }
+  if (document.hidden && window._quizActive) savePartialAndLock();
+});
+// Window blur (switch app or open another window)
+window.addEventListener('blur', function() {
+  if (window._quizActive) savePartialAndLock();
 });
 
 function savePartialAndLock() {
