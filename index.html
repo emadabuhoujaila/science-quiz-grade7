@@ -631,19 +631,35 @@ function doStartQuiz(cls, st, lkKey) {
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
 }
 
-// Lock on exit — multiple events for reliability
+// ── LOCK ON LEAVE ──
+var _lockTimer = null;
+
+function scheduleLock() {
+  if (!window._quizActive) return;
+  // Small delay to avoid false triggers (e.g. clicking inside page)
+  _lockTimer = setTimeout(function() {
+    if (window._quizActive) savePartialAndLock();
+  }, 800);
+}
+function cancelLock() {
+  if (_lockTimer) { clearTimeout(_lockTimer); _lockTimer = null; }
+}
+
+// Tab hidden / app switch / screen off
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) scheduleLock();
+  else cancelLock();
+});
+
+// Window loses focus (another app, another window, file manager…)
+window.addEventListener('blur', function() { scheduleLock(); });
+window.addEventListener('focus', function() { cancelLock(); });
+
+// Page unload / tab close / navigation away
 window.addEventListener('beforeunload', function() {
   if (window._quizActive) savePartialAndLock();
 });
 window.addEventListener('pagehide', function() {
-  if (window._quizActive) savePartialAndLock();
-});
-// Tab switch / minimize / phone lock
-document.addEventListener('visibilitychange', function() {
-  if (document.hidden && window._quizActive) savePartialAndLock();
-});
-// Window blur (switch app or open another window)
-window.addEventListener('blur', function() {
   if (window._quizActive) savePartialAndLock();
 });
 
@@ -885,7 +901,14 @@ function delAllFb() { db.ref(PATH).remove(); localStorage.removeItem('sq_local')
 function loadDash() {
   listenActiveSessions();
   listenPendingDevice();
+  listenLockedChanges();
   loadFromFb(function(){ renderSummary(); renderTable('all'); renderClassStatus(); renderSupport(); renderOutcomes(); });
+}
+
+function listenLockedChanges() {
+  db.ref(LOCKED_PATH).on('value', function() {
+    renderClassStatus();
+  });
 }
 
 function refreshDash() {
@@ -987,20 +1010,22 @@ function renderClassStatus() {
 }
 
 function unlockStudent(k, name) {
-  if (confirm('فتح الاختبار للطالب: '+name+'؟')) {
-    db.ref(LOCKED_PATH+'/'+k).remove();
-    alert('✅ تم فتح الاختبار للطالب '+name);
+  db.ref(LOCKED_PATH+'/'+k).remove().then(function() {
+    alert('✅ تم فتح الاختبار للطالب: '+name);
     loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
-  }
+  });
 }
 
 function resetStudentAttempt(k, name, cls, fbKey) {
   if (confirm('إعادة محاولة الطالب: '+name+'؟\nسيتم حذف إجابته السابقة وفتح الاختبار له من جديد.')) {
-    if (fbKey) db.ref(PATH+'/'+fbKey).remove();
-    db.ref(ATTEMPTS_PATH+'/'+k).remove();
-    db.ref(LOCKED_PATH+'/'+k).remove();
-    alert('✅ تم فتح الاختبار للطالب '+name+' للمحاولة مرة أخرى.');
-    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+    var ops = [];
+    if (fbKey) ops.push(db.ref(PATH+'/'+fbKey).remove());
+    ops.push(db.ref(ATTEMPTS_PATH+'/'+k).remove());
+    ops.push(db.ref(LOCKED_PATH+'/'+k).remove());
+    Promise.all(ops).then(function() {
+      alert('✅ تم فتح الاختبار للطالب '+name+' للمحاولة مرة أخرى.');
+      loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+    });
   }
 }
 
