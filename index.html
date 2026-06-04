@@ -650,26 +650,40 @@ var _lockTimer = null;
 
 function scheduleLock() {
   if (!window._quizActive) return;
-  // Small delay to avoid false triggers (e.g. clicking inside page)
   _lockTimer = setTimeout(function() {
-    if (window._quizActive) savePartialAndLock();
-  }, 800);
+    if (window._quizActive) {
+      savePartialAndLock();
+      showLockedMessage();
+    }
+  }, 1500);
 }
+
 function cancelLock() {
   if (_lockTimer) { clearTimeout(_lockTimer); _lockTimer = null; }
 }
 
-// Tab hidden / app switch / screen off
 document.addEventListener('visibilitychange', function() {
-  if (document.hidden) scheduleLock();
-  else cancelLock();
+  if (document.hidden) {
+    scheduleLock();
+  } else {
+    // Student came back — if already locked show message immediately
+    if (!window._quizActive && window._lockKey) {
+      showLockedMessage();
+    } else {
+      cancelLock();
+    }
+  }
 });
 
-// Window loses focus (another app, another window, file manager…)
 window.addEventListener('blur', function() { scheduleLock(); });
-window.addEventListener('focus', function() { cancelLock(); });
+window.addEventListener('focus', function() {
+  if (!window._quizActive && window._lockKey) {
+    showLockedMessage();
+  } else {
+    cancelLock();
+  }
+});
 
-// Page unload / tab close / navigation away
 window.addEventListener('beforeunload', function() {
   if (window._quizActive) savePartialAndLock();
 });
