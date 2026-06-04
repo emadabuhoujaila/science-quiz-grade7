@@ -3,423 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار العلوم التدريبي - الصف السابع</title>
+<title>اختبار العلوم - الصف السابع</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
-:root {
-  --primary: #1a6b3c;
-  --primary-light: #2d9e5f;
-  --secondary: #0d4f8b;
-  --accent: #f0a500;
-  --danger: #c0392b;
-  --success: #27ae60;
-  --bg: #f4f7f6;
-  --card: #ffffff;
-  --text: #2c3e50;
-  --border: #dce3e0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
-body { background: var(--bg); color: var(--text); min-height: 100vh; }
+:root{--primary:#1a6b3c;--pl:#2d9e5f;--sec:#0d4f8b;--acc:#f0a500;--dan:#c0392b;--suc:#27ae60;--bg:#f4f7f6;--txt:#2c3e50;--brd:#dce3e0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
+body{background:var(--bg);color:var(--txt);min-height:100vh}
+.screen{display:none}.screen.active{display:block}
 
-.top-bar {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white; padding: 12px 20px;
-  display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-.top-bar h1 { font-size: 1.1rem; }
-.top-bar .school { font-size: 0.8rem; opacity: 0.85; }
-.timer-box {
-  background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.4);
-  border-radius: 8px; padding: 6px 16px; text-align: center;
-  font-size: 1.4rem; font-weight: bold; min-width: 90px; transition: background 0.3s;
-}
-.timer-box.warning { background: rgba(240,165,0,0.5); }
-.timer-box.danger { background: rgba(192,57,43,0.7); animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-
-.screen { display: none; }
-.screen.active { display: block; }
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.topbar h1{font-size:1rem}.topbar .sub{font-size:.78rem;opacity:.85}
+.timer{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:8px;padding:5px 14px;font-size:1.3rem;font-weight:700;min-width:84px;text-align:center;transition:background .3s}
+.timer.warn{background:rgba(240,165,0,.5)}.timer.danger{background:rgba(192,57,43,.7);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 
 /* LOGIN */
-#loginScreen {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a6b3c 0%, #0d4f8b 100%);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-}
-#loginScreen.active { display: flex; }
-.login-card {
-  background: white; border-radius: 16px; padding: 36px 32px;
-  width: 100%; max-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-}
-.login-card .logo { text-align: center; margin-bottom: 20px; }
-.login-card .logo h2 { color: var(--primary); font-size: 1.4rem; margin-top: 8px; }
-.login-card .logo p { color: #666; font-size: 0.85rem; }
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text); font-size: 0.9rem; }
-.form-group select, .form-group input {
-  width: 100%; padding: 10px 14px; border: 2px solid var(--border);
-  border-radius: 8px; font-size: 0.95rem; color: var(--text);
-  transition: border-color 0.2s; background: white;
-}
-.form-group select:focus, .form-group input:focus { outline: none; border-color: var(--primary); }
-.btn-login {
-  width: 100%; padding: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white; border: none; border-radius: 8px; font-size: 1rem;
-  font-weight: bold; cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
-}
-.btn-login:hover { opacity: 0.9; }
-.teacher-link { text-align: center; margin-top: 14px; }
-.teacher-link a { color: var(--secondary); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+#loginScreen{min-height:100vh;background:linear-gradient(135deg,#1a6b3c,#0d4f8b);display:flex;align-items:center;justify-content:center;padding:20px}
+#loginScreen.active{display:flex}
+#teacherLogin{min-height:100vh;background:linear-gradient(135deg,#0d4f8b,#1a237e);display:flex;align-items:center;justify-content:center;padding:20px}
+#teacherLogin.active{display:flex}
+.card{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:460px;box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.card .logo{text-align:center;margin-bottom:18px}.card .logo h2{color:var(--primary);font-size:1.3rem;margin-top:6px}.card .logo p{color:#666;font-size:.83rem}
+.fg{margin-bottom:14px}.fg label{display:block;margin-bottom:5px;font-weight:600;font-size:.88rem}
+.fg select,.fg input{width:100%;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;font-size:.93rem;color:var(--txt);background:#fff;transition:border-color .2s}
+.fg select:focus,.fg input:focus{outline:none;border-color:var(--primary)}
+.btn-login{width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.97rem;font-weight:700;cursor:pointer;margin-top:6px}
+.btn-login:hover{opacity:.9}
+.tlink{text-align:center;margin-top:12px}.tlink a{color:var(--sec);font-size:.83rem;cursor:pointer;text-decoration:underline}
+.fbst{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;padding:3px 10px;border-radius:10px}
+.fbst.ok{background:#d5f5e3;color:#1e8449}.fbst.err{background:#fde8e6;color:#922b21}.fbst.wait{background:#fef9e7;color:#7d6608}
 
 /* QUIZ */
-#quizScreen { padding: 0; }
-.quiz-body { max-width: 820px; margin: 0 auto; padding: 20px 16px 40px; }
-.student-info-bar {
-  background: white; border-radius: 10px; padding: 10px 16px;
-  margin-bottom: 16px; display: flex; justify-content: space-between;
-  align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.1); font-size: 0.85rem; color: #555;
-}
-.progress-container { background: #e8eceb; border-radius: 8px; height: 8px; margin-bottom: 4px; }
-.progress-bar { height: 8px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 8px; transition: width 0.4s; }
-.progress-label { font-size: 0.75rem; color: #777; text-align: center; margin-bottom: 16px; }
-
-.question-card {
-  background: white; border-radius: 12px; padding: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px;
-}
-.q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-.q-num { background: var(--primary); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; flex-shrink: 0; }
-.q-type-badge { font-size: 0.72rem; background: #e8f4fd; color: var(--secondary); padding: 3px 10px; border-radius: 12px; font-weight: 600; }
-.bloom-badge { font-size: 0.68rem; background: #fef9e7; color: #b7770d; padding: 2px 8px; border-radius: 10px; }
-.q-text { font-size: 0.97rem; line-height: 1.7; margin-bottom: 16px; font-weight: 500; }
-.hint-box { background: #fffbf0; border-right: 3px solid var(--accent); padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; color: #7d6608; margin-bottom: 14px; }
-
-.options-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.options-list li label {
-  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-  border: 2px solid var(--border); border-radius: 8px; cursor: pointer;
-  transition: all 0.2s; font-size: 0.92rem;
-}
-.options-list li label:hover { border-color: var(--primary); background: #f0faf5; }
-.options-list li input[type=radio] { accent-color: var(--primary); width: 16px; height: 16px; flex-shrink: 0; }
-.options-list li.correct label { border-color: var(--success); background: #eafaf1; }
-.options-list li.wrong label { border-color: var(--danger); background: #fdedeb; }
-.options-list li.reveal-correct label { border-color: var(--success); background: #eafaf1; }
-
-.tf-options { display: flex; gap: 12px; }
-.tf-btn {
-  flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 8px;
-  background: white; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.2s;
-}
-.tf-btn:hover { border-color: var(--primary); }
-.tf-btn.selected { border-color: var(--primary); background: #e8f4fd; }
-.tf-btn.correct { border-color: var(--success); background: #eafaf1; }
-.tf-btn.wrong { border-color: var(--danger); background: #fdedeb; }
-
-.fill-input {
-  width: 100%; padding: 10px 14px; border: 2px solid var(--border);
-  border-radius: 8px; font-size: 0.95rem; transition: border-color 0.2s;
-}
-.fill-input:focus { outline: none; border-color: var(--primary); }
-.fill-input.correct { border-color: var(--success); background: #eafaf1; }
-.fill-input.wrong { border-color: var(--danger); background: #fdedeb; }
-
-.match-container { display: flex; flex-direction: column; gap: 8px; }
-.match-row { display: flex; align-items: center; gap: 10px; }
-.match-label { flex: 1; background: #f0f4f8; padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; }
-.match-select { flex: 1; padding: 8px; border: 2px solid var(--border); border-radius: 6px; font-size: 0.88rem; background: white; }
-.match-select.correct { border-color: var(--success); background: #eafaf1; }
-.match-select.wrong { border-color: var(--danger); background: #fdedeb; }
-
-.order-list { display: flex; flex-direction: column; gap: 6px; }
-.order-item {
-  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-  background: #f9fafb; border: 2px solid var(--border); border-radius: 8px;
-  cursor: grab; transition: all 0.2s; font-size: 0.88rem;
-}
-.order-item:active { cursor: grabbing; }
-.order-item.dragging { opacity: 0.5; }
-.order-item.drag-over { border-color: var(--primary); background: #e8f4fd; }
-.order-handle { color: #aaa; font-size: 1.2rem; }
-.order-num { background: var(--primary); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: bold; flex-shrink: 0; }
-.order-item.correct-order { border-color: var(--success); background: #eafaf1; }
-.order-item.wrong-order { border-color: var(--danger); background: #fdedeb; }
-
-.feedback-box {
-  margin-top: 14px; padding: 12px 14px; border-radius: 8px;
-  font-size: 0.85rem; line-height: 1.6; display: none;
-}
-.feedback-box.correct { background: #eafaf1; border: 1px solid #a9dfbf; color: #1e8449; }
-.feedback-box.wrong { background: #fdedeb; border: 1px solid #f1948a; color: #922b21; }
-.feedback-box.show { display: block; }
-
-.nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; gap: 10px; }
-.btn { padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.92rem; font-weight: 600; transition: all 0.2s; }
-.btn-prev { background: #e8eceb; color: var(--text); }
-.btn-prev:hover { background: #d5dbd9; }
-.btn-next { background: var(--primary); color: white; }
-.btn-next:hover { background: var(--primary-light); }
-.btn-submit { background: var(--accent); color: white; }
-.btn-submit:hover { background: #d4920a; }
-.btn-check { background: var(--secondary); color: white; font-size: 0.85rem; padding: 8px 16px; }
-
-.q-nav-dots { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.q-dot {
-  width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border);
-  background: white; cursor: pointer; font-size: 0.78rem; font-weight: bold;
-  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-}
-.q-dot.answered { background: var(--primary); color: white; border-color: var(--primary); }
-.q-dot.current { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(240,165,0,0.3); }
-.q-dot.correct-dot { background: var(--success); color: white; border-color: var(--success); }
-.q-dot.wrong-dot { background: var(--danger); color: white; border-color: var(--danger); }
+.qbody{max-width:800px;margin:0 auto;padding:18px 14px 40px}
+.sbar{background:#fff;border-radius:10px;padding:9px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.1);font-size:.83rem;color:#555}
+.pbg{background:#e8eceb;border-radius:8px;height:7px;margin-bottom:3px}
+.pb{height:7px;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:8px;transition:width .4s}
+.plbl{font-size:.73rem;color:#777;text-align:center;margin-bottom:14px}
+.qcard{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:14px}
+.qhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.qnum{background:var(--primary);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0}
+.tbadge{font-size:.7rem;background:#e8f4fd;color:var(--sec);padding:2px 9px;border-radius:10px;font-weight:600}
+.bbadge{font-size:.66rem;background:#fef9e7;color:#b7770d;padding:2px 7px;border-radius:9px;margin-top:2px}
+.qtxt{font-size:.95rem;line-height:1.7;margin-bottom:14px;font-weight:500}
+.hint{background:#fffbf0;border-right:3px solid var(--acc);padding:7px 11px;border-radius:6px;font-size:.8rem;color:#7d6608;margin-bottom:12px}
+/* MCQ */
+.opts{list-style:none;display:flex;flex-direction:column;gap:7px}
+.opts li label{display:flex;align-items:center;gap:9px;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;cursor:pointer;transition:all .2s;font-size:.9rem}
+.opts li label:hover{border-color:var(--primary);background:#f0faf5}
+.opts li input[type=radio]{accent-color:var(--primary);width:15px;height:15px;flex-shrink:0}
+.opts li.rc label{border-color:var(--suc);background:#eafaf1}
+.opts li.wr label{border-color:var(--dan);background:#fdedeb}
+/* TF */
+.tfopts{display:flex;gap:10px}
+.tfbtn{flex:1;padding:11px;border:2px solid var(--brd);border-radius:8px;background:#fff;cursor:pointer;font-size:.97rem;font-weight:600;transition:all .2s}
+.tfbtn:hover{border-color:var(--primary)}
+.tfbtn.sel{border-color:var(--primary);background:#e8f4fd}
+.tfbtn.rc{border-color:var(--suc);background:#eafaf1}
+.tfbtn.wr{border-color:var(--dan);background:#fdedeb}
+/* Fill */
+.fi{width:100%;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;font-size:.93rem;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--primary)}
+.fi.rc{border-color:var(--suc);background:#eafaf1}.fi.wr{border-color:var(--dan);background:#fdedeb}
+/* Match */
+.mc{display:flex;flex-direction:column;gap:7px}
+.mr{display:flex;align-items:center;gap:9px}
+.ml{flex:1;background:#f0f4f8;padding:7px 11px;border-radius:6px;font-size:.86rem}
+.ms{flex:1;padding:7px;border:2px solid var(--brd);border-radius:6px;font-size:.86rem;background:#fff}
+.ms.rc{border-color:var(--suc);background:#eafaf1}.ms.wr{border-color:var(--dan);background:#fdedeb}
+/* Order */
+.ol{display:flex;flex-direction:column;gap:5px}
+.oi{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#f9fafb;border:2px solid var(--brd);border-radius:8px;cursor:grab;transition:all .2s;font-size:.86rem}
+.oi:active{cursor:grabbing}.oi.dragging{opacity:.5}.oi.dov{border-color:var(--primary);background:#e8f4fd}
+.oh{color:#aaa;font-size:1.1rem}
+.on{background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0}
+.oi.cor{border-color:var(--suc);background:#eafaf1}.oi.wrr{border-color:var(--dan);background:#fdedeb}
+/* Feedback */
+.fb{margin-top:12px;padding:11px 13px;border-radius:8px;font-size:.83rem;line-height:1.6;display:none}
+.fb.rc{background:#eafaf1;border:1px solid #a9dfbf;color:#1e8449}
+.fb.wr{background:#fdedeb;border:1px solid #f1948a;color:#922b21}
+.fb.show{display:block}
+/* Nav */
+.navbtns{display:flex;justify-content:space-between;margin-top:14px;gap:9px}
+.btn{padding:9px 20px;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
+.btn-prev{background:#e8eceb;color:var(--txt)}.btn-prev:hover{background:#d5dbd9}
+.btn-next{background:var(--primary);color:#fff}.btn-next:hover{background:var(--pl)}
+.btn-sub{background:var(--acc);color:#fff}.btn-sub:hover{background:#d4920a}
+.btn-chk{background:var(--sec);color:#fff;font-size:.83rem;padding:7px 14px}
+/* Dots */
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--brd);background:#fff;cursor:pointer;font-size:.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.dot.ans{background:var(--primary);color:#fff;border-color:var(--primary)}
+.dot.cur{border-color:var(--acc);box-shadow:0 0 0 3px rgba(240,165,0,.3)}
+.dot.cok{background:var(--suc);color:#fff;border-color:var(--suc)}
+.dot.cwrr{background:var(--dan);color:#fff;border-color:var(--dan)}
 
 /* RESULT */
-#resultScreen { padding: 0; }
-.result-body { max-width: 720px; margin: 0 auto; padding: 24px 16px 40px; }
-.result-card {
-  background: white; border-radius: 16px; padding: 32px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px;
-}
-.score-circle {
-  width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 20px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  font-size: 2rem; font-weight: bold; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-.score-circle.excellent { background: linear-gradient(135deg, #27ae60, #2ecc71); }
-.score-circle.good { background: linear-gradient(135deg, #2980b9, #3498db); }
-.score-circle.pass { background: linear-gradient(135deg, #f39c12, #f0a500); }
-.score-circle.fail { background: linear-gradient(135deg, #c0392b, #e74c3c); }
-.score-label { font-size: 0.75rem; font-weight: normal; }
-.result-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 20px 0; }
-.stat-box { background: var(--bg); border-radius: 10px; padding: 14px; text-align: center; }
-.stat-box .num { font-size: 1.6rem; font-weight: bold; color: var(--primary); }
-.stat-box .lbl { font-size: 0.78rem; color: #666; }
-.bloom-breakdown { text-align: right; margin-top: 20px; }
-.bloom-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
-.bloom-bar-bg { flex: 1; background: #e8eceb; border-radius: 4px; height: 10px; margin: 0 10px; }
-.bloom-bar-fill { height: 10px; border-radius: 4px; background: var(--primary); transition: width 0.6s; }
-.btn-retry { background: var(--primary); color: white; padding: 12px 28px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; margin: 6px; }
-.btn-retry:hover { background: var(--primary-light); }
+.rbody{max-width:700px;margin:0 auto;padding:22px 14px 40px}
+.rcard{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.1);text-align:center;margin-bottom:18px}
+.scircle{width:130px;height:130px;border-radius:50%;margin:0 auto 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.9rem;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.scircle.exc{background:linear-gradient(135deg,#27ae60,#2ecc71)}
+.scircle.good{background:linear-gradient(135deg,#2980b9,#3498db)}
+.scircle.pass{background:linear-gradient(135deg,#f39c12,#f0a500)}
+.scircle.fail{background:linear-gradient(135deg,#c0392b,#e74c3c)}
+.slbl{font-size:.73rem;font-weight:normal}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px 0}
+.sbox{background:var(--bg);border-radius:10px;padding:12px;text-align:center}
+.sbox .n{font-size:1.5rem;font-weight:700;color:var(--primary)}.sbox .l{font-size:.76rem;color:#666}
+.blrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:.83rem}
+.blbg{flex:1;background:#e8eceb;border-radius:4px;height:9px;margin:0 9px}
+.blf{height:9px;border-radius:4px;background:var(--primary);transition:width .6s}
+.rtn{background:var(--primary);color:#fff;padding:11px 26px;border:none;border-radius:10px;font-size:.97rem;font-weight:700;cursor:pointer;margin:5px}
+.rtn:hover{background:var(--pl)}
 
-/* TEACHER */
-#teacherLogin {
-  min-height: 100vh; background: linear-gradient(135deg, #0d4f8b, #1a237e);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-}
-#teacherLogin.active { display: flex; }
-#teacherDashboard { padding: 0; }
-.dashboard-body { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
-.dashboard-header { background: white; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.btn-danger { background: var(--danger); color: white; }
-.btn-danger:hover { background: #a93226; }
-.btn-success { background: var(--success); color: white; }
-.btn-success:hover { background: #1e8449; }
-.btn-info { background: var(--secondary); color: white; }
-.btn-info:hover { background: #0a3d6e; }
-.btn-warning { background: var(--accent); color: white; }
-.btn-warning:hover { background: #d4920a; }
-.tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.tab-btn {
-  padding: 8px 18px; border: 2px solid var(--border); border-radius: 8px;
-  background: white; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-  transition: all 0.2s; color: var(--text);
-}
-.tab-btn.active { background: var(--secondary); color: white; border-color: var(--secondary); }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-th { background: var(--secondary); color: white; padding: 10px 14px; font-size: 0.85rem; text-align: right; }
-td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 0.84rem; }
-tr:hover td { background: #f8fafb; }
-.badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; }
-.badge-green { background: #d5f5e3; color: #1e8449; }
-.badge-red { background: #fde8e6; color: #922b21; }
-.badge-blue { background: #d6eaf8; color: #1a5276; }
-.badge-yellow { background: #fef9e7; color: #7d6608; }
-.export-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-.analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
-.analytics-card { background: white; border-radius: 10px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.07); text-align: center; }
-.analytics-card .big-num { font-size: 2rem; font-weight: bold; color: var(--primary); }
-.analytics-card .desc { font-size: 0.8rem; color: #666; margin-top: 4px; }
-.btn-sm { padding: 5px 12px; font-size: 0.78rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
-.main-tab-content { display: none; }
-.main-tab-content.active { display: block; }
-.sub-tabs { margin-bottom: 14px; }
-.analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px,1fr)); gap: 18px; }
-.chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-.chart-card.full-width { grid-column: 1 / -1; }
-.chart-title { font-size: 0.95rem; color: var(--secondary); margin-bottom: 14px; font-weight: 700; }
-.outcome-card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-.outcome-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.outcome-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
-.outcome-rate { font-size: 1.1rem; font-weight: bold; }
-.outcome-bar-bg { background: #e8eceb; border-radius: 6px; height: 12px; margin-bottom: 8px; }
-.outcome-bar { height: 12px; border-radius: 6px; transition: width 0.6s; }
-.outcome-bar.good { background: linear-gradient(90deg, var(--success), #2ecc71); }
-.outcome-bar.medium { background: linear-gradient(90deg, var(--accent), #f39c12); }
-.outcome-bar.weak { background: linear-gradient(90deg, var(--danger), #e74c3c); }
-.outcome-tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; margin-left: 6px; }
-.tag-weak { background: #fde8e6; color: #922b21; }
-.tag-medium { background: #fef9e7; color: #7d6608; }
-.tag-good { background: #d5f5e3; color: #1e8449; }
-.support-card { background: linear-gradient(135deg, #fde8e6, #fff); border: 1.5px solid #f1948a; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-.support-info h4 { font-size: 0.9rem; color: var(--danger); margin-bottom: 4px; }
-.support-info p { font-size: 0.8rem; color: #666; }
-
-/* Firebase status */
-.fb-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; padding: 4px 10px; border-radius: 12px; }
-.fb-status.connected { background: #d5f5e3; color: #1e8449; }
-.fb-status.disconnected { background: #fde8e6; color: #922b21; }
-.fb-status.loading { background: #fef9e7; color: #7d6608; }
-
-/* Loading overlay */
-.loading-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.85);
-  z-index: 2000; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
-}
-.loading-overlay.show { display: flex; }
-.spinner { width: 48px; height: 48px; border: 5px solid #e8eceb; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* DASHBOARD */
+.dbody{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
+.ag{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.ac{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 6px rgba(0,0,0,.07);text-align:center}
+.ac .bn{font-size:1.8rem;font-weight:700;color:var(--primary)}.ac .d{font-size:.78rem;color:#666;margin-top:3px}
+/* Tab system */
+.maintabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;border-bottom:2px solid var(--brd);padding-bottom:10px}
+.mtab{padding:8px 16px;border:2px solid var(--brd);border-radius:8px;background:#fff;cursor:pointer;font-size:.87rem;font-weight:600;color:var(--txt);transition:all .2s}
+.mtab.active{background:var(--sec);color:#fff;border-color:var(--sec)}
+.tabpane{display:none}.tabpane.active{display:block}
+/* Export buttons */
+.xbtns{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px}
+.xbtn{padding:9px 16px;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s;color:#fff}
+.xbtn:hover{opacity:.88}
+.xbtn.green{background:var(--suc)}.xbtn.blue{background:var(--sec)}.xbtn.orange{background:var(--acc)}.xbtn.red{background:var(--dan)}.xbtn.purple{background:#8e44ad}
+/* Subtabs */
+.stabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.stab{padding:6px 14px;border:2px solid var(--brd);border-radius:7px;background:#fff;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--txt);transition:all .2s}
+.stab.active{background:var(--sec);color:#fff;border-color:var(--sec)}
+/* Table */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+th{background:var(--sec);color:#fff;padding:9px 12px;font-size:.82rem;text-align:right}
+td{padding:8px 12px;border-bottom:1px solid #eee;font-size:.81rem}
+tr:hover td{background:#f8fafb}
+.badge{display:inline-block;padding:2px 9px;border-radius:9px;font-size:.73rem;font-weight:700}
+.bg{background:#d5f5e3;color:#1e8449}.bb{background:#d6eaf8;color:#1a5276}
+.by{background:#fef9e7;color:#7d6608}.br{background:#fde8e6;color:#922b21}
+.btn-sm{padding:4px 11px;font-size:.76rem;border-radius:6px;border:none;cursor:pointer;font-weight:600;background:var(--dan);color:#fff}
+/* Charts */
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:16px}
+.cc{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.cc.full{grid-column:1/-1}.cctitle{font-size:.92rem;color:var(--sec);margin-bottom:12px;font-weight:700}
+/* Outcome cards */
+.outcard{background:#fff;border-radius:11px;padding:16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.outhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.outtitle{font-size:.88rem;font-weight:700;color:var(--txt)}
+.outpct{font-size:1.05rem;font-weight:700}
+.obg{background:#e8eceb;border-radius:5px;height:11px;margin-bottom:7px}
+.ob{height:11px;border-radius:5px;transition:width .6s}
+.ob.wk{background:linear-gradient(90deg,var(--dan),#e74c3c)}
+.ob.md{background:linear-gradient(90deg,var(--acc),#f39c12)}
+.ob.gd{background:linear-gradient(90deg,var(--suc),#2ecc71)}
+.otag{display:inline-block;padding:2px 9px;border-radius:9px;font-size:.7rem;font-weight:600;margin-right:5px}
+.otg-wk{background:#fde8e6;color:#922b21}.otg-md{background:#fef9e7;color:#7d6608}.otg-gd{background:#d5f5e3;color:#1e8449}
+/* Support */
+.suppsum{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:14px}
+.suppcard{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 5px rgba(0,0,0,.07);text-align:center}
 
 /* Modal */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
-.modal-overlay.show { display: flex; }
-.modal-box { background: white; border-radius: 12px; padding: 28px; max-width: 400px; width: 90%; text-align: center; }
-.modal-box h3 { margin-bottom: 12px; color: var(--text); }
-.modal-box p { color: #666; margin-bottom: 20px; font-size: 0.9rem; }
-.modal-buttons { display: flex; gap: 10px; justify-content: center; }
-
-@media (max-width: 600px) {
-  .login-card { padding: 24px 18px; }
-  .result-stats { grid-template-columns: repeat(2,1fr); }
-  .top-bar h1 { font-size: 0.9rem; }
-}
+.mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.mover.show{display:flex}
+.mbox{background:#fff;border-radius:12px;padding:26px;max-width:380px;width:90%;text-align:center}
+.mbox h3{margin-bottom:10px;color:var(--txt)}.mbox p{color:#666;margin-bottom:18px;font-size:.88rem}
+.mbtns{display:flex;gap:9px;justify-content:center}
+/* Loading */
+.lov{display:none;position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.lov.show{display:flex}
+.spin{width:44px;height:44px;border:5px solid #e8eceb;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){.card{padding:22px 16px}.rstats{grid-template-columns:repeat(2,1fr)}.topbar h1{font-size:.87rem}}
 </style>
 </head>
 <body>
 
 <!-- Loading -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div id="loadingMsg" style="color:var(--primary);font-weight:600">جارٍ الاتصال بقاعدة البيانات...</div>
-</div>
+<div class="lov" id="lov"><div class="spin"></div><div id="lovMsg" style="color:var(--primary);font-weight:600">جارٍ التحميل...</div></div>
 
 <!-- LOGIN -->
 <div id="loginScreen" class="screen active">
-  <div class="login-card">
+  <div class="card">
     <div class="logo">
-      <div style="font-size:3rem">🔬</div>
+      <div style="font-size:2.8rem">🔬</div>
       <h2>اختبار العلوم التدريبي</h2>
       <p>مدرسة محمد بن حمد الشرقي للبنين - حلقة ثانية</p>
-      <p style="margin-top:4px;color:#888">المعلم: عماد أبو حجيلة | الصف السابع</p>
-      <div style="margin-top:10px" id="fbStatusLogin"><span class="fb-status loading">⏳ جارٍ الاتصال...</span></div>
+      <p style="margin-top:3px;color:#888">المعلم: عماد أبو حجيلة | الصف السابع</p>
+      <div style="margin-top:8px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
     </div>
-    <div class="form-group">
-      <label>اختر الشعبة:</label>
+    <div class="fg"><label>اختر الشعبة:</label>
       <select id="selClass" onchange="loadStudents()">
         <option value="">-- اختر الشعبة --</option>
-        <option value="1">الشعبة 1</option>
-        <option value="2">الشعبة 2</option>
-        <option value="4">الشعبة 4</option>
-        <option value="5">الشعبة 5</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>اختر اسمك:</label>
-      <select id="selStudent">
-        <option value="">-- اختر الشعبة أولاً --</option>
-      </select>
-    </div>
+        <option value="1">الشعبة 1</option><option value="2">الشعبة 2</option>
+        <option value="4">الشعبة 4</option><option value="5">الشعبة 5</option>
+      </select></div>
+    <div class="fg"><label>اختر اسمك:</label>
+      <select id="selStudent"><option value="">-- اختر الشعبة أولاً --</option></select></div>
     <button class="btn-login" onclick="startQuiz()">🚀 بدء الاختبار</button>
-    <div class="teacher-link"><a onclick="showTeacherLogin()">🔐 لوحة المعلم</a></div>
+    <div class="tlink"><a onclick="goTeacherLogin()">🔐 لوحة المعلم</a></div>
   </div>
 </div>
 
 <!-- TEACHER LOGIN -->
 <div id="teacherLogin" class="screen">
-  <div class="login-card">
+  <div class="card">
     <div class="logo">
-      <div style="font-size:3rem">👨‍🏫</div>
-      <h2>لوحة المعلم</h2>
-      <p>أدخل رمز الدخول الخاص بالمعلم</p>
+      <div style="font-size:2.8rem">👨‍🏫</div>
+      <h2>لوحة المعلم</h2><p>أدخل رمز الدخول</p>
     </div>
-    <div class="form-group">
-      <label>رمز الدخول:</label>
-      <input type="password" id="teacherPwd" placeholder="أدخل الرمز السري" onkeydown="if(event.key==='Enter')checkTeacher()">
-    </div>
+    <div class="fg"><label>رمز الدخول:</label>
+      <input type="password" id="tPwd" placeholder="الرمز السري" onkeydown="if(event.key==='Enter')checkTeacher()"></div>
     <button class="btn-login" onclick="checkTeacher()">دخول</button>
-    <div class="teacher-link"><a onclick="showScreen('loginScreen')">← العودة</a></div>
+    <div class="tlink"><a onclick="showScreen('loginScreen')">← العودة</a></div>
   </div>
 </div>
 
 <!-- QUIZ -->
 <div id="quizScreen" class="screen">
-  <div class="top-bar">
-    <div>
-      <div class="school">مدرسة محمد بن حمد الشرقي للبنين</div>
-      <h1>تدريب على الاختبار النهائي - العلوم</h1>
-    </div>
-    <div class="timer-box" id="timerDisplay">60:00</div>
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>تدريب على الاختبار النهائي - العلوم</h1></div>
+    <div class="timer" id="timerEl">60:00</div>
   </div>
-  <div class="quiz-body">
-    <div class="student-info-bar">
-      <span id="studentNameBar">—</span>
-      <span id="classBar">—</span>
+  <div class="qbody">
+    <div class="sbar"><span id="sNameBar">—</span><span id="sClassBar">—</span></div>
+    <div class="dots" id="dotsEl"></div>
+    <div class="pbg"><div class="pb" id="pbEl" style="width:0%"></div></div>
+    <div class="plbl" id="plblEl">السؤال 1 من 30</div>
+    <div id="qCont"></div>
+    <div class="navbtns">
+      <button class="btn btn-prev" id="btnPrev" onclick="prevQ()">→ السابق</button>
+      <button class="btn btn-chk" onclick="checkCurrent()">✓ تحقق</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQ()">التالي ←</button>
     </div>
-    <div class="q-nav-dots" id="qNavDots"></div>
-    <div class="progress-container"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-    <div class="progress-label" id="progressLabel">السؤال 1 من 30</div>
-    <div id="questionContainer"></div>
-    <div class="nav-buttons">
-      <button class="btn btn-prev" onclick="prevQ()" id="btnPrev">→ السابق</button>
-      <button class="btn btn-check" onclick="checkCurrent()">✓ تحقق</button>
-      <button class="btn btn-next" onclick="nextQ()" id="btnNext">التالي ←</button>
-    </div>
-    <div style="text-align:center;margin-top:16px">
-      <button class="btn btn-submit" onclick="confirmSubmit()">📤 تسليم الاختبار</button>
+    <div style="text-align:center;margin-top:14px">
+      <button class="btn btn-sub" onclick="confirmSubmit()">📤 تسليم الاختبار</button>
     </div>
   </div>
 </div>
 
 <!-- RESULT -->
 <div id="resultScreen" class="screen">
-  <div class="top-bar">
-    <div>
-      <div class="school">مدرسة محمد بن حمد الشرقي للبنين</div>
-      <h1>نتيجة الاختبار التدريبي</h1>
-    </div>
-    <div style="font-size:0.85rem;opacity:0.85" id="resultStudentInfo"></div>
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>نتيجة الاختبار التدريبي</h1></div>
+    <div style="font-size:.83rem;opacity:.85" id="rStudentInfo"></div>
   </div>
-  <div class="result-body">
-    <div class="result-card">
-      <div class="score-circle" id="scoreCircle">
-        <div id="scorePercent">0%</div>
-        <div class="score-label">درجتك</div>
+  <div class="rbody">
+    <div class="rcard">
+      <div class="scircle" id="scircle"><div id="sPct">0%</div><div class="slbl">درجتك</div></div>
+      <h2 id="rMsg" style="margin-bottom:10px"></h2>
+      <p id="rSubMsg" style="color:#666;font-size:.88rem"></p>
+      <div class="rstats">
+        <div class="sbox"><div class="n" id="rCor">0</div><div class="l">إجابات صحيحة</div></div>
+        <div class="sbox"><div class="n" id="rWrong">0</div><div class="l">إجابات خاطئة</div></div>
+        <div class="sbox"><div class="n" id="rTime">—</div><div class="l">الوقت المستغرق</div></div>
       </div>
-      <h2 id="resultMsg" style="margin-bottom:12px"></h2>
-      <p id="resultSubMsg" style="color:#666;font-size:0.9rem"></p>
-      <div class="result-stats">
-        <div class="stat-box"><div class="num" id="resCorrect">0</div><div class="lbl">إجابات صحيحة</div></div>
-        <div class="stat-box"><div class="num" id="resWrong">0</div><div class="lbl">إجابات خاطئة</div></div>
-        <div class="stat-box"><div class="num" id="resTime">—</div><div class="lbl">الوقت المستغرق</div></div>
+      <div style="text-align:right">
+        <h4 style="margin-bottom:10px;color:var(--txt)">أداؤك حسب مستويات بلوم:</h4>
+        <div class="blrow"><span style="width:150px">تذكر وفهم (40%)</span><div class="blbg"><div class="blf" id="bl1" style="width:0%"></div></div><span id="bls1">0/12</span></div>
+        <div class="blrow"><span style="width:150px">تطبيق وتحليل (40%)</span><div class="blbg"><div class="blf" id="bl2" style="width:0%"></div></div><span id="bls2">0/12</span></div>
+        <div class="blrow"><span style="width:150px">تركيب وتقييم (20%)</span><div class="blbg"><div class="blf" id="bl3" style="width:0%"></div></div><span id="bls3">0/6</span></div>
       </div>
-      <div class="bloom-breakdown">
-        <h4 style="margin-bottom:12px;color:var(--text)">أداؤك حسب مستويات بلوم:</h4>
-        <div class="bloom-row"><span style="width:160px">تذكر وفهم (40%)</span><div class="bloom-bar-bg"><div class="bloom-bar-fill" id="bloomBar1" style="width:0%"></div></div><span id="bloomScore1">0/12</span></div>
-        <div class="bloom-row"><span style="width:160px">تطبيق وتحليل (40%)</span><div class="bloom-bar-bg"><div class="bloom-bar-fill" id="bloomBar2" style="width:0%"></div></div><span id="bloomScore2">0/12</span></div>
-        <div class="bloom-row"><span style="width:160px">تركيب وتقييم (20%)</span><div class="bloom-bar-bg"><div class="bloom-bar-fill" id="bloomBar3" style="width:0%"></div></div><span id="bloomScore3">0/6</span></div>
-      </div>
-      <div id="fbSaveStatus" style="margin-top:14px;font-size:0.85rem;color:#666"></div>
-      <div style="margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
-        <button class="btn-retry" onclick="retryQuiz()">🔄 إعادة الاختبار</button>
-        <button class="btn-retry" style="background:var(--secondary)" onclick="showScreen('loginScreen')">🏠 الصفحة الرئيسية</button>
+      <div id="fbSaveEl" style="margin-top:12px;font-size:.83rem;color:#666"></div>
+      <div style="margin-top:18px;display:flex;flex-wrap:wrap;justify-content:center;gap:9px">
+        <button class="rtn" onclick="retryQuiz()">🔄 إعادة الاختبار</button>
+        <button class="rtn" style="background:var(--sec)" onclick="showScreen('loginScreen')">🏠 الرئيسية</button>
       </div>
     </div>
   </div>
@@ -427,679 +280,774 @@ tr:hover td { background: #f8fafb; }
 
 <!-- TEACHER DASHBOARD -->
 <div id="teacherDashboard" class="screen">
-  <div class="top-bar">
-    <div>
-      <div class="school">مدرسة محمد بن حمد الشرقي للبنين</div>
-      <h1>لوحة تحكم المعلم - عماد أبو حجيلة</h1>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <span id="fbStatusDash" class="fb-status loading">⏳ جارٍ التحميل...</span>
-      <button class="btn btn-danger" style="padding:6px 14px;font-size:0.85rem" onclick="showScreen('loginScreen')">خروج</button>
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>لوحة تحكم المعلم - عماد أبو حجيلة</h1></div>
+    <div style="display:flex;align-items:center;gap:9px">
+      <span id="fbstDash" class="fbst wait">⏳ جارٍ التحميل</span>
+      <button class="btn btn-prev" style="padding:5px 12px;font-size:.82rem" onclick="showScreen('loginScreen')">خروج</button>
     </div>
   </div>
-  <div class="dashboard-body">
-    <div class="analytics-grid" id="analyticsCards"></div>
-    <div class="export-buttons">
-      <button class="btn btn-success" onclick="exportClass('1')">📊 تصدير الشعبة 1</button>
-      <button class="btn btn-success" onclick="exportClass('2')">📊 تصدير الشعبة 2</button>
-      <button class="btn btn-success" onclick="exportClass('4')">📊 تصدير الشعبة 4</button>
-      <button class="btn btn-success" onclick="exportClass('5')">📊 تصدير الشعبة 5</button>
-      <button class="btn btn-info" onclick="exportAll()">📁 تصدير الكل</button>
-      <button class="btn btn-warning" onclick="exportAnalysis()">🧠 تحليل علاجي</button>
-      <button class="btn btn-info" onclick="refreshDashboard()">🔄 تحديث</button>
-      <button class="btn btn-danger" onclick="confirmDeleteAll()">🗑️ حذف كل الإجابات</button>
+  <div class="dbody">
+    <!-- Analytics summary -->
+    <div class="ag" id="agEl"></div>
+
+    <!-- Export buttons -->
+    <div class="xbtns">
+      <button class="xbtn green" onclick="exportClass('1')">📊 الشعبة 1</button>
+      <button class="xbtn green" onclick="exportClass('2')">📊 الشعبة 2</button>
+      <button class="xbtn green" onclick="exportClass('4')">📊 الشعبة 4</button>
+      <button class="xbtn green" onclick="exportClass('5')">📊 الشعبة 5</button>
+      <button class="xbtn blue" onclick="exportAll()">📁 تصدير الكل</button>
+      <button class="xbtn purple" onclick="exportFullAnalysis()">🧠 تحليل النتائج</button>
+      <button class="xbtn orange" onclick="refreshDash()">🔄 تحديث</button>
+      <button class="xbtn red" onclick="confirmDelAll()">🗑️ حذف الكل</button>
     </div>
-    <!-- Main Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showMainTab('results')">📋 النتائج</button>
-      <button class="tab-btn" onclick="showMainTab('analysis')">📊 التحليل المتقدم</button>
-      <button class="tab-btn" onclick="showMainTab('support')">🎯 الطلاب المستهدفون</button>
-      <button class="tab-btn" onclick="showMainTab('outcomes')">📚 نواتج التعلم</button>
+
+    <!-- Main tabs -->
+    <div class="maintabs">
+      <button class="mtab active" onclick="switchTab('results')">📋 النتائج</button>
+      <button class="mtab" onclick="switchTab('charts')">📊 الرسوم البيانية</button>
+      <button class="mtab" onclick="switchTab('support')">🎯 الطلاب المستهدفون</button>
+      <button class="mtab" onclick="switchTab('outcomes')">📚 نواتج التعلم</button>
     </div>
 
     <!-- TAB: Results -->
-    <div id="tab-results" class="main-tab-content active">
-      <div class="tabs sub-tabs">
-        <button class="tab-btn active" onclick="showTab('all')">الكل</button>
-        <button class="tab-btn" onclick="showTab('1')">الشعبة 1</button>
-        <button class="tab-btn" onclick="showTab('2')">الشعبة 2</button>
-        <button class="tab-btn" onclick="showTab('4')">الشعبة 4</button>
-        <button class="tab-btn" onclick="showTab('5')">الشعبة 5</button>
+    <div class="tabpane active" id="tab-results">
+      <div class="stabs">
+        <button class="stab active" onclick="filterClass('all',this)">الكل</button>
+        <button class="stab" onclick="filterClass('1',this)">الشعبة 1</button>
+        <button class="stab" onclick="filterClass('2',this)">الشعبة 2</button>
+        <button class="stab" onclick="filterClass('4',this)">الشعبة 4</button>
+        <button class="stab" onclick="filterClass('5',this)">الشعبة 5</button>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th>
-              <th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th>
-              <th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>إجراء</th>
-            </tr>
-          </thead>
-          <tbody id="resultsTable"></tbody>
-        </table>
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th><th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>حذف</th></tr></thead>
+        <tbody id="tblBody"></tbody>
+      </table></div>
+    </div>
+
+    <!-- TAB: Charts -->
+    <div class="tabpane" id="tab-charts">
+      <div class="cg">
+        <div class="cc"><div class="cctitle">📊 توزيع الدرجات</div><canvas id="cScore" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">🧠 الأداء حسب مستويات بلوم</div><canvas id="cBloom" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">🏫 مقارنة متوسطات الشعب</div><canvas id="cClass" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">📈 نسبة النجاح والرسوب لكل شعبة</div><canvas id="cPass" height="230"></canvas></div>
+        <div class="cc full"><div class="cctitle">❓ نسبة الإجابات الصحيحة لكل سؤال (أخضر ≥70% | برتقالي 50-69% | أحمر &lt;50%)</div><canvas id="cQues" height="170"></canvas></div>
       </div>
     </div>
 
-    <!-- TAB: Advanced Analysis -->
-    <div id="tab-analysis" class="main-tab-content">
-      <div class="analysis-grid">
-        <!-- Score Distribution -->
-        <div class="chart-card">
-          <h3 class="chart-title">📊 توزيع الدرجات</h3>
-          <canvas id="scoreDistChart" height="220"></canvas>
-        </div>
-        <!-- Bloom Levels -->
-        <div class="chart-card">
-          <h3 class="chart-title">🧠 الأداء حسب مستويات بلوم</h3>
-          <canvas id="bloomChart" height="220"></canvas>
-        </div>
-        <!-- Class Comparison -->
-        <div class="chart-card">
-          <h3 class="chart-title">🏫 مقارنة الشعب</h3>
-          <canvas id="classChart" height="220"></canvas>
-        </div>
-        <!-- Question Difficulty -->
-        <div class="chart-card full-width">
-          <h3 class="chart-title">❓ صعوبة كل سؤال (% الإجابات الصحيحة)</h3>
-          <canvas id="questionChart" height="180"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB: Support Students -->
-    <div id="tab-support" class="main-tab-content">
-      <div class="support-filters" style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <label style="font-weight:600">تصفية حسب:</label>
-        <select id="supportThreshold" onchange="renderSupportTab()" style="padding:6px 12px;border:2px solid var(--border);border-radius:8px;background:white">
-          <option value="50">أقل من 50% (بحاجة دعم)</option>
-          <option value="60">أقل من 60%</option>
-          <option value="70">أقل من 70%</option>
+    <!-- TAB: Support -->
+    <div class="tabpane" id="tab-support">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+        <label style="font-weight:600;font-size:.88rem">تصفية:</label>
+        <select id="suppThr" onchange="renderSupport()" style="padding:6px 11px;border:2px solid var(--brd);border-radius:7px;background:#fff;font-size:.85rem">
+          <option value="50">أقل من 50%</option><option value="60">أقل من 60%</option><option value="70">أقل من 70%</option>
         </select>
-        <select id="supportClass" onchange="renderSupportTab()" style="padding:6px 12px;border:2px solid var(--border);border-radius:8px;background:white">
-          <option value="all">جميع الشعب</option>
-          <option value="1">الشعبة 1</option>
-          <option value="2">الشعبة 2</option>
-          <option value="4">الشعبة 4</option>
-          <option value="5">الشعبة 5</option>
+        <select id="suppCls" onchange="renderSupport()" style="padding:6px 11px;border:2px solid var(--brd);border-radius:7px;background:#fff;font-size:.85rem">
+          <option value="all">جميع الشعب</option><option value="1">الشعبة 1</option><option value="2">الشعبة 2</option><option value="4">الشعبة 4</option><option value="5">الشعبة 5</option>
         </select>
       </div>
-      <div id="supportSummary" style="margin-bottom:16px"></div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th>
-              <th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th>
-              <th>أضعف مجال</th><th>توصية علاجية</th>
-            </tr>
-          </thead>
-          <tbody id="supportTable"></tbody>
-        </table>
-      </div>
+      <div class="suppsum" id="suppSum"></div>
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th><th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>أضعف مجال</th><th>الأسئلة الخاطئة</th><th>توصية</th></tr></thead>
+        <tbody id="suppBody"></tbody>
+      </table></div>
     </div>
 
-    <!-- TAB: Learning Outcomes -->
-    <div id="tab-outcomes" class="main-tab-content">
-      <div id="outcomesContent"></div>
+    <!-- TAB: Outcomes -->
+    <div class="tabpane" id="tab-outcomes">
+      <div id="outSum" style="display:flex;gap:11px;flex-wrap:wrap;margin-bottom:18px"></div>
+      <div id="outList"></div>
     </div>
-
   </div>
 </div>
 
 <!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-box">
-    <h3 id="modalTitle">تأكيد</h3>
-    <p id="modalMsg"></p>
-    <div class="modal-buttons">
-      <button class="btn btn-danger" id="modalConfirmBtn">تأكيد</button>
+<div class="mover" id="mover">
+  <div class="mbox">
+    <h3 id="mTitle">تأكيد</h3><p id="mMsg"></p>
+    <div class="mbtns">
+      <button class="btn btn-sub" id="mOkBtn">تأكيد</button>
       <button class="btn btn-prev" onclick="closeModal()">إلغاء</button>
     </div>
   </div>
 </div>
 
 <script>
-// ===================== FIREBASE CONFIG =====================
-const firebaseConfig = {
-  apiKey: "AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",
-  authDomain: "final-exam-2026-e2777.firebaseapp.com",
-  databaseURL: "https://final-exam-2026-e2777-default-rtdb.firebaseio.com",
-  projectId: "final-exam-2026-e2777",
-  storageBucket: "final-exam-2026-e2777.firebasestorage.app",
-  messagingSenderId: "707186742298",
-  appId: "1:707186742298:web:e1739849c8674842f02da3"
+// ===== FIREBASE =====
+const fbCfg = {
+  apiKey:"AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",
+  authDomain:"final-exam-2026-e2777.firebaseapp.com",
+  databaseURL:"https://final-exam-2026-e2777-default-rtdb.firebaseio.com",
+  projectId:"final-exam-2026-e2777",
+  storageBucket:"final-exam-2026-e2777.firebasestorage.app",
+  messagingSenderId:"707186742298",
+  appId:"1:707186742298:web:e1739849c8674842f02da3"
 };
-
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(fbCfg);
 const db = firebase.database();
-const RESULTS_PATH = 'science_quiz_grade7'; // مسار منفصل لا يتعارض مع أي مشروع آخر
+const PATH = 'science_quiz_grade7';
 
-let fbConnected = false;
-db.ref('.info/connected').on('value', snap => {
-  fbConnected = snap.val() === true;
-  const statusEl = document.getElementById('fbStatusLogin');
-  if (statusEl) statusEl.innerHTML = fbConnected
-    ? '<span class="fb-status connected">🟢 متصل بـ Firebase</span>'
-    : '<span class="fb-status disconnected">🔴 غير متصل</span>';
-  const dashEl = document.getElementById('fbStatusDash');
-  if (dashEl) dashEl.className = 'fb-status ' + (fbConnected ? 'connected' : 'disconnected');
-  if (dashEl) dashEl.textContent = fbConnected ? '🟢 متصل' : '🔴 غير متصل';
+db.ref('.info/connected').on('value', s => {
+  const ok = s.val()===true;
+  ['fbst0','fbstDash'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = ok ? '<span class="fbst ok">🟢 متصل بـ Firebase</span>' : '<span class="fbst err">🔴 غير متصل</span>';
+  });
 });
 
-// ===================== STUDENTS DATA =====================
+// ===== STUDENTS =====
 const STUDENTS = {
-  '1': ['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
-  '2': ['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
-  '4': ['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
-  '5': ['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
+  '1':['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
+  '2':['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
+  '4':['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
+  '5':['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
 
-const TEACHER_PASSWORD = 'science2025';
+const TPWD = 'science2025';
 
-// ===================== QUESTIONS =====================
-const QUESTIONS = [
-  { id:1, bloom:1, type:'mcq', text:'أي من التراكيب الخلوية التالية يوجد في الخلية النباتية ويمنحها الدعم والصلابة لحمايتها، ولا يوجد في الخلية الحيوانية؟', hint:'ابحث عن التركيب الخارجي الأكثر سمكاً وصلابة المحيط بالخلية النباتية.', options:['جدار الخلية','غشاء الخلية','الميتوكوندريا','النواة'], correct:0, feedback:'جدار الخلية هو تركيب صلب يحيط بالخلية النباتية ليوفر لها الحماية والدعم الهيكلي.' },
-  { id:2, bloom:1, type:'mcq', text:'تمتلك الحزازيات تراكيب خضراء دقيقة تشبه الأوراق، ولكن العلماء لا يصنفونها كأوراق حقيقية. ما السبب العلمي المباشر لذلك؟', hint:'تذكر الميزة الأساسية التي تقسم المملكة النباتية إلى وعائية ولاوعائية.', options:['لأنها تفتقر إلى الأنسجة الناقلة (الوعائية)','لأنها لا تقوم بعملية البناء الضوئي','لأن حجمها دائماً أكبر من 5 سم','لأنها تنمو في بيئات جافة جداً'], correct:0, feedback:'الأوراق الحقيقية يجب أن تحتوي على عروق داخلية (أنسجة وعائية) لنقل الماء والمغذيات.' },
-  { id:3, bloom:1, type:'fill', text:'تُسمى الفتحات الصغيرة الموجودة على أسطح أوراق النبات والتي تعبر من خلالها الغازات وبخار الماء باسم: ___________', hint:'هذه الفتحات تحيط بها خلايا حارسة وتلعب دوراً في النتح والبناء الضوئي.', correct:'الثغور', altAnswers:['ثغور','الثغر'], feedback:'الثغور هي بوابات ميكروسكوبية تفتح وتغلق للتحكم في تبادل الغازات وخروج بخار الماء.' },
-  { id:4, bloom:1, type:'tf', text:'تنتج النباتات معراة البذور ثماراً تحيط ببذورها لحمايتها.', hint:'تذكر أصل تسمية "معراة البذور" وعلاقتها بوجود أو غياب الثمرة.', correct:false, feedback:'النباتات معراة البذور تنتج بذوراً عارية على أسطح المخاريط ولا تحيط بها أي ثمار.' },
-  { id:5, bloom:1, type:'match', text:'طابق الوظيفة بالتركيب النباتي المناسب:', hint:'ابدأ بالتركيب المسؤول عن التغلغل في التربة أولاً.', items:['امتصاص الماء والمعادن وتثبيت النبات في التربة','تدعيم الأوراق ونقل الماء والمغذيات بين الجذور والأوراق','الموقع الرئيسي لصنع الغذاء (البناء الضوئي) وتبادل الغازات'], options:['الجذور','السيقان','الأوراق'], correct:[0,1,2], feedback:'الجذر للامتصاص والتثبيت، والساق للنقل والدعامة، والورقة للتصنيع الغذائي.' },
-  { id:6, bloom:1, type:'order', text:'رتب مراحل دورة حياة النبات الوعائي ترتيباً صحيحاً بدءاً من مرحلة النبات البوغي:', hint:'تذكر أن مرحلة النبات البوغي ثنائية الكروموسومات وتبدأ فور اتحاد المشيجين.', items:['تكوّن اللاقحة (2n) بعد الإخصاب','انقسام متساوٍ لنمو اللاقحة إلى نبات بوغي كامل','حدوث الانقسام المنصف لإنتاج الأبواغ (n)','نمو الطور المشيجي لإنتاج الأمشاج الذكرية والأنثوية'], correct:[0,1,2,3], feedback:'تبدأ مرحلة الطور البوغي من لحظة الإخصاب (2n)، ثم الانقسام المتساوي، ثم الأبواغ، ثم الطور المشيجي.' },
-  { id:7, bloom:1, type:'mcq', text:'ما نوع السحب التي تكون متفرقة ورقيقة وبيضاء، وتبدو في السماء على ارتفاعات شاهقة جداً؟', hint:'اسم هذه السحب مستوحى من شكل ريش الطيور الناعم الخفيف.', options:['ريشية','ركامية','طبقية','مزن ركامية'], correct:0, feedback:'السحب الريشية تتكون على ارتفاعات عالية من بلورات ثلجية تمنحها مظهراً رقيقاً يشبه الريش.' },
-  { id:8, bloom:1, type:'mcq', text:'أي من الأجهزة التالية يستخدمه خبراء الأرصاد الجوية لتحديد اتجاه الرياح بدقة؟', hint:'ابحث عن الأداة التي تدور لتشير إلى الاتجاهات الأربعة بفعل قوة حركتها.', options:['أداة الرياح (دوارة الرياح)','الباروميتر','المرياح (الأنيموميتر)','الترمومتر'], correct:0, feedback:'أداة الرياح تمتلك سهماً يدور بحرية ليشير إلى الجهة التي تهب منها الرياح.' },
-  { id:9, bloom:1, type:'fill', text:'يُطلق على الساق التي تتميز بأنها طرية ومرنة وخضراء اللون (مثل سيقان البازلاء) اسم: ___________', hint:'فكر في الفرق بين جذع شجرة ضخمة وساق نباتات الزينة الصغيرة الطرية.', correct:'الساق العشبية', altAnswers:['عشبية','الساق العشبي','ساق عشبية'], feedback:'السيقان العشبية تكون خضراء ومرنة، على عكس السيقان الخشبية القاسية للأشجار.' },
-  { id:10, bloom:1, type:'tf', text:'نباتات رجل الذئب تنتمي إلى مجموعة النباتات اللاوعائية.', hint:'هذه النباتات تشبه أشجار صنوبر صغيرة ولها نظام نقل داخلي متطور.', correct:false, feedback:'نباتات رجل الذئب هي نباتات وعائية لابذرية، تمتلك أنسجة متخصصة (خشب ولحاء) لنقل الماء.' },
-  { id:11, bloom:1, type:'match', text:'طابق المصطلح العلمي بالتعريف الصحيح له:', hint:'السبات حالة فسيولوجية ترتبط بالخمول وتقليل استهلاك الطاقة في الظروف القاسية.', items:['السبات (Dormancy)','التلقيح (Pollination)','الجُذمور (Rhizome)'], options:['فترة يقل فيها النشاط الخلوي وتسبق عملية النمو','انتقال حبوب اللقاح من التراكيب الذكرية إلى الأنثوية','ساق أرضية جارية تنمو أفقياً تحت التربة في السراخس'], correct:[0,1,2], feedback:'السبات تكيف لحماية الجنين، والتلقيح يسبق الإخصاب، والجذمور ساق أرضية.' },
-  { id:12, bloom:1, type:'order', text:'رتب تراكيب الزهرة النموذجية من المحيط الخارجي باتجاه المركز الداخلي:', hint:'تذكر العضو الأنثوي الذي يجب أن يكون محمياً في نقطة الوسط تماماً.', items:['الأسدية (أعضاء التكاثر الذكرية)','السبلات (الأوراق الخضراء الخارجية)','المتاع أو الكربلة (العضو الأنثوي)','البتلات (الأوراق الملونة الجاذبة للحشرات)'], correct:[1,3,0,2], feedback:'الترتيب من الخارج للداخل: السبلات ← البتلات ← الأسدية ← المتاع.' },
-  { id:13, bloom:2, type:'mcq', text:'لاحظت في حقل ذرة نمو جذور إضافية تخرج من الساق السفلية وتنغرس في التربة. ما التحليل العلمي لنوع هذه الجذور ووظيفتها؟', hint:'اسم هذا الجذر مشتق من الوظيفة الميكانيكية التي يقدمها لمنع انقلاب النبات.', options:['جذور دعامية؛ لتثبيت الساق الطويلة ومنع سقوطها بفعل الرياح','جذور وتدية؛ لتخزين النشا في أعماق سحيقة من التربة','جذور ليفية؛ لامتصاص مياه الأمطار السطحية بسرعة','أشباه جذور؛ لتعويض غياب الأنسجة الوعائية'], correct:0, feedback:'الجذور الدعامية تعمل كأعمدة تثبيت هندسية تدعم النباتات ذات السيقان الطويلة كالذرة.' },
-  { id:14, bloom:2, type:'mcq', text:'إذا تعرض نسيج "اللحاء" لتلف كامل في جذع شجرة، فما هو العضو النباتي الذي سيتضور جوعاً أولاً؟', hint:'فكر في العضو المدفون في الظلام والذي يعتمد كلياً على ما يصل إليه من الأعلى.', options:['الجذور','البلاستيدات الخضراء في الأوراق','الخلايا الحارسة المحيطة بالثغور','البتلات الزهرية العلوية'], correct:0, feedback:'اللحاء ينقل الغذاء الجاهز من الأوراق إلى الجذور؛ فتلفه يقطع الإمداد الغذائي عن الجذر.' },
-  { id:15, bloom:2, type:'fill', text:'ينتج عن التكاثر الجنسي في النباتات أفراد يحملون تركيباً جينياً ____________ عن الآباء نتيجة دمج الأمشاج، مما يمنح الجيل الجديد قدرة أعلى على التكيف.', hint:'هذا النوع يتطلب انقساماً منصفاً لإنتاج أمشاج تلتحم لتكوين اللاقحة.', correct:'متنوعاً ومختلفاً', altAnswers:['متنوع','مختلف','متنوعاً','مختلفاً'], feedback:'التكاثر الجنسي يدمج الجينات عبر الإخصاب مما يخلق تنوعاً وراثياً حيوياً.' },
-  { id:16, bloom:2, type:'tf', text:'قام مزارع بقطع جزء من ساق نبات وزراعته في تربة رطبة لإنتاج نبات جديد مطابق تماماً للأصل. هذه الطريقة مثال واضح على التكاثر الجنسي.', hint:'هل شاركت خلية ذكرية وأنثوية وبذور، أم جزء جسدي من نبات واحد فقط؟', correct:false, feedback:'زراعة أجزاء من الساق هي تكاثر خضري (لاجنسي)، ينتج أفراداً متطابقين جينياً.' },
-  { id:17, bloom:2, type:'match', text:'طابق الخاصية التشريحية للنباتات بنتيجتها البيئية أو الاستخدامية:', hint:'اربط بين الطبيعة الخشنة الكاشطة للسيليكا واستخدامات الطهي والتنظيف اليدوي قديماً.', items:['احتواء سيقان "ذيل الحصان" على تجمع كثيف من معدن السيليكا الكاشط','مرونة السيقان العشبية الرقيقة في النباتات المتسلقة','نمو سعف السرخسيات انطلاقاً من جذامير أرضية محمية تحت التربة'], options:['استخدامها قديماً لتنظيف وجلي أواني الطهي والقدور','قدرة النبات على الانحناء والتسلق نحو الضوء دون كسر الساق','قدرة النبات على تجديد نموه حتى بعد تعرض السطح للحريق أو الرعي'], correct:[0,1,2], feedback:'السيليكا كاشطة للجلي، والمرونة تحمي من الرياح، والجذمور يحمي السرخس من الكوارث.' },
-  { id:18, bloom:2, type:'order', text:'رتب المسار الجغرافي لانتقال مياه الأمطار من المرتفعات الجبلية إلى المصب النهائي:', hint:'ابحث عن الخليج المفتوح كمنطقة منخفضة تمثل المصب النهائي لأي نظام نهري.', items:['جريان المياه وتجمعها في المجرى الرئيسي لنهر المسيسيبي','هطول الأمطار الغزيرة فوق قمم جبال الأبالاش','تدفق المياه وتفريغها في مياه خليج المكسيك'], correct:[1,0,2], feedback:'تتحرك مياه الأمطار من الجبال إلى شبكات التصريف (الأنهار) لتنتهي في المصبات البحرية.' },
-  { id:19, bloom:2, type:'mcq', text:'إذا علمت أن الطور المشيجي يحتوي على نصف العدد من الكروموسومات (n)، فماذا يحدث لعدد الكروموسومات فور حدوث الإخصاب؟', hint:'عملية الإخصاب في جوهرها عملية تجميع ودمج خلوي وليست عملية اختزال.', options:['يتضاعف ليصبح ثنائي الكروموسومات (2n) معلناً بدء الطور البوغي','ينخفض إلى النصف (0.5n)','يبقى ثابتاً (n)','يتلاشى تماماً وتتحول إلى أبواغ'], correct:0, feedback:'الإخصاب هو دمج لنواتين (n+n)، مما يستعيد العدد الكامل (2n) لبدء جيل بوغي جديد.' },
-  { id:20, bloom:2, type:'tf', text:'في محطة رصد، انخفضت قراءة الباروميتر بشكل متسارع. هذا يعني اقتراب جبهة هوائية منخفضة الضغط مصحوبة بطقس عاصف وسحب ماطرة.', hint:'تذكر أن الضغط المرتفع يرتبط بالاستقرار، بينما المنخفض يرتبط بالعواصف.', correct:true, feedback:'انخفاض الضغط الجوي يعني صعود الهواء الدافئ والرطب مما يؤدي لتشكل الغيوم والمنخفضات الماطرة.' },
-  { id:21, bloom:2, type:'fill', text:'تتميز الجذور الليفية بأنها تنمو كشبكة كثيفة من الخيوط المتشابكة بشكل ____________ وقريب من سطح التربة، مما يجعلها ممتازة في امتصاص مياه الأمطار السطحية.', hint:'هذا النوع من الجذور يشبه شبكة الشعيرات المتشابكة للنباتات العشبية والنجيليات.', correct:'أفقي واسع', altAnswers:['أفقي','واسع','أفقياً'], feedback:'الجذور الليفية تتكيف سطحياً لتغطية أكبر مساحة عرضية لامتصاص الرطوبة العلوية.' },
-  { id:22, bloom:2, type:'mcq', text:'إذا وضع طالب نبات وعائي داخل صندوق مغلق مظلم تماماً مع ري التربة بانتظام، ما التغير الذي سيطرأ على الأنسجة الوعائية بعد أسبوعين؟', hint:'فكر في المادة الأساسية التي يتطلب تصنيعها وجود فوتونات الضوء داخل الكلوروفيل.', options:['يتوقف اللحاء عن نقل الجلوكوز لغياب البناء الضوئي، بينما يستمر الخشب في نقل الماء مؤقتاً','يزداد معدل نقل الجلوكوز عبر اللحاء تعويضاً عن غياب الضوء','تتحول الساق العشبية فوراً إلى خشبية لتصنيع طاقة بديلة','تتوقف الجذور عن امتصاص الماء فور انغلاق الثغور في الظلام'], correct:0, feedback:'في الظلام تتوقف البلاستيدات عن صنع الجلوكوز، فلا غذاء لينقله اللحاء، لكن الخشب يستمر بنقل الماء.' },
-  { id:23, bloom:2, type:'match', text:'طابق كل مجموعة نباتية بميزتها التشريحية الفريدة:', hint:'تذكر المظهر الشكلي المميز للسرخس في الغابات وظهور البقع البوغية خلف أوراقه.', items:['النباتات مغطاة البذور (الزهرية)','الحشائش البوقية (اللاوعائية)','السرخسيات (الوعائية اللابذرية)'], options:['تطوير أزهار وثمار لحماية الأجنة داخل البذور','تراكيب تناسلية تشبه الأبواق الصغيرة وتفتقر للخشب','أوراق وعائية ضخمة (سعف) تنبثق من جذامير أرضية'], correct:[0,1,2], feedback:'مغطاة البذور تنتج أزهاراً وثماراً، والحشائش البوقية سميت شكلاً لتراكيبها، والسراخس تتميز بالسعف.' },
-  { id:24, bloom:2, type:'order', text:'رتب خطوات التكاثر الجنسي وتكوين الثمرة في النباتات الزهرية ترتيباً علمياً:', hint:'التلقيح (وصول حبة اللقاح للميسم) شرط أساسي يجب أن يسبق دائماً عملية الإخصاب الداخلي.', items:['انتقال حبوب اللقاح للميسم (التلقيح)','نمو المبيض وتحوله إلى ثمرة تحيط بالبذور','نضج الأعضاء التناسلية داخل الزهرة','اندماج نواة اللقاح مع نواة البويضة (الإخصاب)'], correct:[2,0,3,1], feedback:'الترتيب: نضج الزهرة ← التلقيح ← الإخصاب ← تكوين الثمرة.' },
-  { id:25, bloom:3, type:'mcq', text:'عثرت في بعثة استكشافية على نبات عملاق طوله 20م، لا ينتج أزهاراً أو ثماراً، وبذوره مكشوفة على أسطح تركيب مخروطي خشبي. كيف تصنفه في تقريرك العلمي؟', hint:'ركز في المفاتيح الثلاثة: طول ضخم (وعائي)، بذور بلا أزهار (معراة البذور)، التكاثر عبر مخروط.', options:['نبات وعائي بذري من قسم "معراة البذور" (المخروطيات)؛ له أنسجة وعائية شاهقة ومخاريط لحماية البذور العارية','نبات لاوعائي متطور تكيفت خلاياه لامتصاص الماء من الرطوبة الجوية','نبات وعائي لابذري من السرخسيات العملاقة أنتج مخاريط بديلة للأبواغ','نبات مغطى البذور طرأت عليه طفرة اختفاء الثمرة'], correct:0, feedback:'الطول يؤكد وجود أوعية نقل (وعائي)، ووجود البذور دون أزهار على مخاريط يضعه في "معراة البذور".' },
-  { id:26, bloom:3, type:'mcq', text:'صممت تجربة مخبرية لرفع إنتاج الطماطم عن طريق تحفيز التلقيح الحشري. أي الفرضيات الابتكارية التالية ستجذب النحل بكفاءة قصوى؟', hint:'فكر في الجزء التشريحي المسؤول في الزهرة عن لفت انتباه الحشرات وجذبها.', options:['رش النباتات بمستخلصات عطرية تحاكي روائح الزهر وتعديل الإضاءة لإبراز ألوان البتلات','إزالة جميع البتلات الملونة لتسهيل هبوط النحل مباشرة فوق الميسم','طلاء السيقان بمادة السيليكا الكاشطة لجذب الحشرات عبر الرائحة المعدنية','تغطية مياسم الأزهار بأكياس بلاستيكية لمنع التلقيح الخارجي'], correct:0, feedback:'البتلات الملونة والروائح العطرية هي الأدوات التكيفية التي طورتها النباتات لجذب الملقحات الحيوية.' },
-  { id:27, bloom:3, type:'fill', text:'يمثل الطور المشيجي مرحلة خلية أحادية الكروموسومات (n) وتبدأ دائماً بنمو البوغ، بينما يمثل الطور البوغي مرحلة خلايا ثنائية الكروموسومات (2n) وتبدأ حتماً بخلية ____________ الناتجة عن عملية الإخصاب.', hint:'ابحث عن الاسم العلمي الدقيق للخلية الأولى الناتجة من دمج المادة الوراثية الذكرية والأنثوية.', correct:'اللاقحة (الزيجوت)', altAnswers:['اللاقحة','الزيجوت','لاقحة','زيجوت'], feedback:'اللاقحة هي نقطة التحول الوراثي في دورة الحياة، حيث تندمج الأمشاج (n) لتشكل أول خلية (2n).' },
-  { id:28, bloom:3, type:'tf', text:'ادعى طالب أن النباتات اللاوعائية أكثر نجاحاً من الأشجار الوعائية لأنها لم تستهلك طاقة في بناء شبكات نقل معقدة. تقييم هذا الادعاء علمياً يظهر أنه خاطئ وناقص؛ لأن غياب النسيج الوعائي يفرض قيوداً صارمة على حجم النبات وموطنه.', hint:'فكر في القيود التي يفرضها غياب أوعية نقل المياه على طول النبات وموطنه الجغرافي.', correct:true, feedback:'غياب الأنسجة الوعائية يحرم النبات من الطول والعيش بعيداً عن الرطوبة، بينما النسيج الوعائي أتاح الانتشار الشامل.' },
-  { id:29, bloom:3, type:'match', text:'طابق كل تدمير أو خلل في تركيب النبات بالنتيجة الكارثية المباشرة المترتبة عليه:', hint:'جدار الخلية النباتية هو البديل الحيوي للهيكل العظمي في الحيوانات.', items:['قطع أشجار غابات المخروطيات (معراة البذور) بشكل جائر','جفاف قاسٍ أدى لغلق كامل لثغور أوراق النباتات','طفرة جينية عطلت إنتاج "الجدار الخلوي الصلب" في أجنة النباتات'], options:['اختلال التوازن البيئي ونقص حاد في مستخلصات كصمغ الراتنج والتربنتين','انهيار عملية تبادل الغازات وتوقف البناء الضوئي وموت المحاصيل','انهيار كامل في بنية خلايا النبات واستحالة وقوف النبات عمودياً'], correct:[0,1,2], feedback:'قطع المخروطيات يضرب صناعة الأخشاب، وغلق الثغور يمنع التصنيع، وغياب الجدار يدمر الدعامة الهيكلية.' },
-  { id:30, bloom:3, type:'order', text:'رتب خطوات تصميم نظام ابتكاري للتنبؤ بالسيول والفيضانات ترتيباً علمياً صحيحاً:', hint:'ابدأ دائماً من رصد وتجميع البيانات الأولية بواسطة أجهزة قياس الضغط الجوي أولاً.', items:['استخدام أداة اتجاه الرياح والأنيموميتر لتحديد سرعة واتجاه السحب الكثيفة','ابتكار شبكة قنوات تصريف ذكية وسدود متطورة لتوجيه مياه الأمطار','رصد انخفاض متسارع في الباروميتر مع رصد تشكل سحب مزن ركامية داكنة','إرسال تنبيهات رقمية فورية لتحذير سكان ضفاف النهر والمناطق المنخفضة'], correct:[2,0,3,1], feedback:'يبدأ العمل برصد البيانات (الضغط والغيوم)، ثم تحليل حركة الرياح، ثم التنبيهات الأمنية، وأخيراً الحلول الهندسية.' }
+// ===== QUESTIONS =====
+const QS = [
+  {id:1,bloom:1,type:'mcq',text:'أي من التراكيب الخلوية التالية يوجد في الخلية النباتية ويمنحها الدعم والصلابة لحمايتها، ولا يوجد في الخلية الحيوانية؟',hint:'ابحث عن التركيب الخارجي الأكثر سمكاً وصلابة المحيط بالخلية النباتية.',opts:['جدار الخلية','غشاء الخلية','الميتوكوندريا','النواة'],cor:0,fb:'جدار الخلية هو تركيب صلب يحيط بالخلية النباتية ليوفر لها الحماية والدعم الهيكلي.'},
+  {id:2,bloom:1,type:'mcq',text:'تمتلك الحزازيات تراكيب خضراء دقيقة تشبه الأوراق، ولكن العلماء لا يصنفونها كأوراق حقيقية. ما السبب العلمي المباشر؟',hint:'تذكر الميزة الأساسية التي تقسم المملكة النباتية إلى وعائية ولاوعائية.',opts:['لأنها تفتقر إلى الأنسجة الناقلة (الوعائية)','لأنها لا تقوم بعملية البناء الضوئي','لأن حجمها دائماً أكبر من 5 سم','لأنها تنمو في بيئات جافة جداً'],cor:0,fb:'الأوراق الحقيقية يجب أن تحتوي على عروق داخلية (أنسجة وعائية) لنقل الماء والمغذيات.'},
+  {id:3,bloom:1,type:'fill',text:'تُسمى الفتحات الصغيرة الموجودة على أسطح أوراق النبات والتي تعبر من خلالها الغازات وبخار الماء باسم: ___________',hint:'هذه الفتحات تحيط بها خلايا حارسة وتلعب دوراً في النتح والبناء الضوئي.',cor:'الثغور',alt:['ثغور','الثغر'],fb:'الثغور هي بوابات ميكروسكوبية تفتح وتغلق للتحكم في تبادل الغازات وخروج بخار الماء.'},
+  {id:4,bloom:1,type:'tf',text:'تنتج النباتات معراة البذور ثماراً تحيط ببذورها لحمايتها.',hint:'تذكر أصل تسمية "معراة البذور" وعلاقتها بوجود أو غياب الثمرة.',cor:false,fb:'النباتات معراة البذور تنتج بذوراً عارية على أسطح المخاريط ولا تحيط بها أي ثمار.'},
+  {id:5,bloom:1,type:'match',text:'طابق الوظيفة بالتركيب النباتي المناسب:',hint:'ابدأ بالتركيب المسؤول عن التغلغل في التربة أولاً.',items:['امتصاص الماء والمعادن وتثبيت النبات','تدعيم الأوراق ونقل الماء والمغذيات','الموقع الرئيسي للبناء الضوئي وتبادل الغازات'],opts:['الجذور','السيقان','الأوراق'],cor:[0,1,2],fb:'الجذر للامتصاص والتثبيت، والساق للنقل والدعامة، والورقة للتصنيع الغذائي.'},
+  {id:6,bloom:1,type:'order',text:'رتب مراحل دورة حياة النبات الوعائي بدءاً من مرحلة النبات البوغي:',hint:'تذكر أن مرحلة النبات البوغي ثنائية الكروموسومات وتبدأ فور اتحاد المشيجين.',items:['تكوّن اللاقحة (2n) بعد الإخصاب','انقسام متساوٍ لنمو اللاقحة إلى نبات بوغي','حدوث الانقسام المنصف لإنتاج الأبواغ (n)','نمو الطور المشيجي لإنتاج الأمشاج'],cor:[0,1,2,3],fb:'تبدأ مرحلة الطور البوغي من الإخصاب (2n)، ثم الانقسام المتساوي، ثم الأبواغ، ثم الطور المشيجي.'},
+  {id:7,bloom:1,type:'mcq',text:'ما نوع السحب التي تكون متفرقة ورقيقة وبيضاء وتبدو على ارتفاعات شاهقة جداً؟',hint:'اسم هذه السحب مستوحى من شكل ريش الطيور الناعم الخفيف.',opts:['ريشية','ركامية','طبقية','مزن ركامية'],cor:0,fb:'السحب الريشية تتكون على ارتفاعات عالية من بلورات ثلجية تمنحها مظهراً يشبه الريش.'},
+  {id:8,bloom:1,type:'mcq',text:'أي الأجهزة يستخدم لتحديد اتجاه الرياح بدقة؟',hint:'ابحث عن الأداة التي تدور لتشير إلى الاتجاهات الأربعة.',opts:['أداة الرياح (دوارة الرياح)','الباروميتر','المرياح (الأنيموميتر)','الترمومتر'],cor:0,fb:'دوارة الرياح تمتلك سهماً يدور بحرية ليشير إلى الجهة التي تهب منها الرياح.'},
+  {id:9,bloom:1,type:'fill',text:'يُطلق على الساق الطرية المرنة الخضراء (مثل سيقان البازلاء) اسم: ___________',hint:'فكر في الفرق بين جذع شجرة ضخمة وساق نباتات الزينة الصغيرة الطرية.',cor:'الساق العشبية',alt:['عشبية','الساق العشبي','ساق عشبية'],fb:'السيقان العشبية تكون خضراء ومرنة، على عكس السيقان الخشبية القاسية للأشجار.'},
+  {id:10,bloom:1,type:'tf',text:'نباتات رجل الذئب تنتمي إلى مجموعة النباتات اللاوعائية.',hint:'هذه النباتات لها نظام نقل داخلي متطور يشبه أشجار صنوبر صغيرة.',cor:false,fb:'نباتات رجل الذئب هي نباتات وعائية لابذرية، تمتلك أنسجة خشب ولحاء لنقل الماء.'},
+  {id:11,bloom:1,type:'match',text:'طابق المصطلح العلمي بالتعريف الصحيح:',hint:'السبات حالة فسيولوجية ترتبط بالخمول وتقليل استهلاك الطاقة.',items:['السبات (Dormancy)','التلقيح (Pollination)','الجُذمور (Rhizome)'],opts:['فترة يقل فيها النشاط الخلوي وتسبق النمو','انتقال حبوب اللقاح من التراكيب الذكرية إلى الأنثوية','ساق أرضية تنمو أفقياً تحت التربة في السراخس'],cor:[0,1,2],fb:'السبات تكيف لحماية الجنين، والتلقيح يسبق الإخصاب، والجذمور ساق أرضية.'},
+  {id:12,bloom:1,type:'order',text:'رتب تراكيب الزهرة من المحيط الخارجي باتجاه المركز:',hint:'تذكر العضو الأنثوي الذي يجب أن يكون محمياً في نقطة الوسط.',items:['الأسدية (أعضاء التكاثر الذكرية)','السبلات (الأوراق الخضراء الخارجية)','المتاع أو الكربلة (العضو الأنثوي)','البتلات (الأوراق الملونة)'],cor:[1,3,0,2],fb:'الترتيب من الخارج للداخل: السبلات ← البتلات ← الأسدية ← المتاع.'},
+  {id:13,bloom:2,type:'mcq',text:'لاحظت في حقل ذرة نمو جذور إضافية تخرج من الساق السفلية وتنغرس في التربة. ما التحليل العلمي لنوع هذه الجذور؟',hint:'اسم هذا الجذر مشتق من الوظيفة الميكانيكية لمنع انقلاب النبات.',opts:['جذور دعامية؛ لتثبيت الساق الطويلة ومنع سقوطها','جذور وتدية؛ لتخزين النشا في أعماق التربة','جذور ليفية؛ لامتصاص مياه الأمطار السطحية','أشباه جذور؛ لتعويض غياب الأنسجة الوعائية'],cor:0,fb:'الجذور الدعامية تعمل كأعمدة تثبيت هندسية تدعم النباتات ذات السيقان الطويلة كالذرة.'},
+  {id:14,bloom:2,type:'mcq',text:'إذا تعرض نسيج "اللحاء" لتلف كامل في جذع شجرة، فما العضو الذي سيتضور جوعاً أولاً؟',hint:'فكر في العضو المدفون في الظلام والذي يعتمد كلياً على ما يصل إليه من الأعلى.',opts:['الجذور','البلاستيدات الخضراء في الأوراق','الخلايا الحارسة المحيطة بالثغور','البتلات الزهرية'],cor:0,fb:'اللحاء ينقل الغذاء الجاهز من الأوراق إلى الجذور؛ فتلفه يقطع الإمداد الغذائي عن الجذر.'},
+  {id:15,bloom:2,type:'fill',text:'ينتج عن التكاثر الجنسي أفراد يحملون تركيباً جينياً ____________ عن الآباء نتيجة دمج الأمشاج، مما يمنح الجيل الجديد قدرة أعلى على التكيف.',hint:'هذا النوع يتطلب انقساماً منصفاً لإنتاج أمشاج تلتحم لتكوين اللاقحة.',cor:'متنوعاً ومختلفاً',alt:['متنوع','مختلف','متنوعاً','مختلفاً'],fb:'التكاثر الجنسي يدمج الجينات عبر الإخصاب مما يخلق تنوعاً وراثياً حيوياً.'},
+  {id:16,bloom:2,type:'tf',text:'قطع جزء من ساق نبات وزرعه في تربة رطبة لإنتاج نبات جديد مطابق للأصل. هذه الطريقة مثال على التكاثر الجنسي.',hint:'هل شاركت خلية ذكرية وأنثوية وبذور، أم جزء جسدي من نبات واحد فقط؟',cor:false,fb:'زراعة أجزاء من الساق هي تكاثر خضري (لاجنسي)، ينتج أفراداً متطابقين جينياً.'},
+  {id:17,bloom:2,type:'match',text:'طابق الخاصية التشريحية للنباتات بنتيجتها البيئية:',hint:'اربط بين الطبيعة الخشنة الكاشطة للسيليكا واستخدامات الطهي والتنظيف قديماً.',items:['احتواء سيقان ذيل الحصان على معدن السيليكا الكاشط','مرونة السيقان العشبية الرقيقة في النباتات المتسلقة','نمو سعف السرخسيات من جذامير أرضية تحت التربة'],opts:['استخدامها قديماً لتنظيف وجلي أواني الطهي','قدرة النبات على الانحناء والتسلق نحو الضوء','قدرة النبات على تجديد نموه بعد الحريق أو الرعي'],cor:[0,1,2],fb:'السيليكا كاشطة للجلي، والمرونة تحمي من الرياح، والجذمور يحمي السرخس من الكوارث.'},
+  {id:18,bloom:2,type:'order',text:'رتب المسار الجغرافي لانتقال مياه الأمطار من الجبال إلى المصب النهائي:',hint:'ابحث عن الخليج المفتوح كمنطقة منخفضة تمثل المصب النهائي.',items:['جريان المياه وتجمعها في نهر المسيسيبي','هطول الأمطار فوق قمم جبال الأبالاش','تدفق المياه وتفريغها في خليج المكسيك'],cor:[1,0,2],fb:'تتحرك مياه الأمطار من الجبال إلى شبكات التصريف (الأنهار) لتنتهي في المصبات البحرية.'},
+  {id:19,bloom:2,type:'mcq',text:'الطور المشيجي يحتوي على نصف الكروموسومات (n). فماذا يحدث لعددها فور حدوث الإخصاب؟',hint:'عملية الإخصاب في جوهرها عملية تجميع ودمج خلوي وليست اختزالاً.',opts:['يتضاعف ليصبح (2n) معلناً بدء الطور البوغي','ينخفض إلى النصف (0.5n)','يبقى ثابتاً (n)','يتلاشى ويتحول إلى أبواغ'],cor:0,fb:'الإخصاب هو دمج لنواتين (n+n)، مما يستعيد العدد الكامل (2n) لبدء جيل بوغي جديد.'},
+  {id:20,bloom:2,type:'tf',text:'انخفضت قراءة الباروميتر بشكل متسارع. هذا يعني اقتراب جبهة هوائية منخفضة الضغط مصحوبة بطقس عاصف وسحب ماطرة.',hint:'الضغط المرتفع يرتبط بالاستقرار، بينما المنخفض يرتبط بالعواصف.',cor:true,fb:'انخفاض الضغط يعني صعود الهواء الدافئ والرطب مما يؤدي لتشكل الغيوم والمنخفضات الماطرة.'},
+  {id:21,bloom:2,type:'fill',text:'تتميز الجذور الليفية بأنها تنمو كشبكة كثيفة بشكل ____________ وقريب من سطح التربة، مما يجعلها ممتازة في امتصاص مياه الأمطار السطحية.',hint:'هذا النوع يشبه شبكة الشعيرات المتشابكة للنباتات العشبية والنجيليات.',cor:'أفقي واسع',alt:['أفقي','واسع','أفقياً'],fb:'الجذور الليفية تتكيف سطحياً لتغطية أكبر مساحة عرضية لامتصاص الرطوبة العلوية.'},
+  {id:22,bloom:2,type:'mcq',text:'وضع طالب نبات وعائي داخل صندوق مغلق مظلم مع ري التربة بانتظام. ما التغير الذي سيطرأ على الأنسجة الوعائية بعد أسبوعين؟',hint:'فكر في المادة الأساسية التي يتطلب تصنيعها وجود فوتونات الضوء.',opts:['يتوقف اللحاء عن نقل الجلوكوز لغياب البناء الضوئي، بينما يستمر الخشب في نقل الماء','يزداد معدل نقل الجلوكوز عبر اللحاء تعويضاً عن الضوء','تتحول الساق العشبية إلى خشبية لتصنيع طاقة بديلة','تتوقف الجذور عن امتصاص الماء فور انغلاق الثغور'],cor:0,fb:'في الظلام تتوقف البلاستيدات عن صنع الجلوكوز، فلا غذاء لينقله اللحاء، لكن الخشب يستمر بنقل الماء.'},
+  {id:23,bloom:2,type:'match',text:'طابق كل مجموعة نباتية بميزتها التشريحية الفريدة:',hint:'تذكر المظهر الشكلي المميز للسرخس في الغابات وظهور البقع البوغية خلف أوراقه.',items:['النباتات مغطاة البذور (الزهرية)','الحشائش البوقية (اللاوعائية)','السرخسيات (الوعائية اللابذرية)'],opts:['تطوير أزهار وثمار لحماية الأجنة داخل البذور','تراكيب تناسلية تشبه الأبواق الصغيرة وتفتقر للخشب','أوراق وعائية ضخمة (سعف) تنبثق من جذامير أرضية'],cor:[0,1,2],fb:'مغطاة البذور تنتج أزهاراً وثماراً، والحشائش البوقية سميت لتراكيبها، والسراخس تتميز بالسعف.'},
+  {id:24,bloom:2,type:'order',text:'رتب خطوات التكاثر الجنسي وتكوين الثمرة في النباتات الزهرية:',hint:'التلقيح (وصول حبة اللقاح للميسم) شرط أساسي يجب أن يسبق الإخصاب الداخلي.',items:['انتقال حبوب اللقاح للميسم (التلقيح)','نمو المبيض وتحوله إلى ثمرة تحيط بالبذور','نضج الأعضاء التناسلية داخل الزهرة','اندماج نواة اللقاح مع نواة البويضة (الإخصاب)'],cor:[2,0,3,1],fb:'الترتيب: نضج الزهرة ← التلقيح ← الإخصاب ← تكوين الثمرة.'},
+  {id:25,bloom:3,type:'mcq',text:'عثرت على نبات عملاق طوله 20م، لا ينتج أزهاراً أو ثماراً، وبذوره مكشوفة على تركيب مخروطي خشبي. كيف تصنفه في تقريرك العلمي؟',hint:'ركز في المفاتيح الثلاثة: طول ضخم (وعائي)، بذور بلا أزهار (معراة البذور)، تكاثر عبر مخروط.',opts:['نبات وعائي بذري من قسم معراة البذور (المخروطيات) له أنسجة وعائية ومخاريط لحماية البذور','نبات لاوعائي متطور تكيفت خلاياه لامتصاص الماء من الرطوبة الجوية','نبات وعائي لابذري من السرخسيات العملاقة أنتج مخاريط بديلة للأبواغ','نبات مغطى البذور طرأت عليه طفرة اختفاء الثمرة'],cor:0,fb:'الطول يؤكد وجود أوعية نقل (وعائي)، ووجود البذور دون أزهار على مخاريط يضعه في معراة البذور.'},
+  {id:26,bloom:3,type:'mcq',text:'صممت تجربة مخبرية لرفع إنتاج الطماطم عبر تحفيز التلقيح الحشري. أي الفرضيات ستجذب النحل بكفاءة قصوى؟',hint:'فكر في الجزء التشريحي المسؤول في الزهرة عن لفت انتباه الحشرات وجذبها.',opts:['رش النباتات بمستخلصات عطرية تحاكي روائح الزهر وتعديل الإضاءة لإبراز ألوان البتلات','إزالة جميع البتلات الملونة لتسهيل هبوط النحل مباشرة فوق الميسم','طلاء السيقان بمادة السيليكا الكاشطة لجذب الحشرات','تغطية مياسم الأزهار بأكياس بلاستيكية لمنع التلقيح الخارجي'],cor:0,fb:'البتلات الملونة والروائح العطرية هي الأدوات التكيفية التي طورتها النباتات لجذب الملقحات.'},
+  {id:27,bloom:3,type:'fill',text:'يمثل الطور المشيجي مرحلة خلية أحادية الكروموسومات (n) وتبدأ بنمو البوغ، بينما يمثل الطور البوغي مرحلة خلايا ثنائية الكروموسومات (2n) وتبدأ بخلية ____________ الناتجة عن الإخصاب.',hint:'ابحث عن الاسم العلمي الدقيق للخلية الأولى الناتجة من دمج المادة الوراثية الذكرية والأنثوية.',cor:'اللاقحة (الزيجوت)',alt:['اللاقحة','الزيجوت','لاقحة','زيجوت'],fb:'اللاقحة هي نقطة التحول الوراثي في دورة الحياة، حيث تندمج الأمشاج (n) لتشكل أول خلية (2n).'},
+  {id:28,bloom:3,type:'tf',text:'ادعى طالب أن النباتات اللاوعائية أكثر نجاحاً من الأشجار الوعائية لأنها لم تستهلك طاقة في بناء شبكات نقل معقدة. تقييم هذا الادعاء علمياً يظهر أنه خاطئ وناقص؛ لأن غياب النسيج الوعائي يفرض قيوداً صارمة على حجم النبات وموطنه.',hint:'فكر في القيود التي يفرضها غياب أوعية نقل المياه على طول النبات وموطنه.',cor:true,fb:'غياب الأنسجة الوعائية يحرم النبات من الطول والعيش بعيداً عن الرطوبة، بينما النسيج الوعائي أتاح الانتشار الشامل.'},
+  {id:29,bloom:3,type:'match',text:'طابق كل تدمير أو خلل في تركيب النبات بالنتيجة الكارثية المباشرة:',hint:'جدار الخلية النباتية هو البديل الحيوي للهيكل العظمي في الحيوانات.',items:['قطع أشجار غابات المخروطيات بشكل جائر','جفاف قاسٍ أدى لغلق كامل لثغور أوراق النباتات','طفرة جينية عطلت إنتاج الجدار الخلوي الصلب'],opts:['اختلال التوازن البيئي ونقص مستخلصات كصمغ الراتنج','انهيار عملية تبادل الغازات وتوقف البناء الضوئي وموت المحاصيل','انهيار كامل في بنية خلايا النبات واستحالة وقوفه عمودياً'],cor:[0,1,2],fb:'قطع المخروطيات يضرب صناعة الأخشاب، وغلق الثغور يمنع التصنيع، وغياب الجدار يدمر الدعامة الهيكلية.'},
+  {id:30,bloom:3,type:'order',text:'رتب خطوات تصميم نظام ابتكاري للتنبؤ بالسيول والفيضانات ترتيباً علمياً:',hint:'ابدأ دائماً برصد وتجميع البيانات الأولية بواسطة أجهزة قياس الضغط الجوي أولاً.',items:['استخدام أداة اتجاه الرياح والأنيموميتر لتحديد سرعة واتجاه السحب','ابتكار شبكة قنوات تصريف ذكية وسدود متطورة لتوجيه مياه الأمطار','رصد انخفاض متسارع في الباروميتر مع تشكل سحب مزن ركامية داكنة','إرسال تنبيهات رقمية فورية لتحذير سكان المناطق المنخفضة'],cor:[2,0,3,1],fb:'يبدأ العمل برصد البيانات (الضغط والغيوم)، ثم تحليل حركة الرياح، ثم التنبيهات، وأخيراً الحلول الهندسية.'}
 ];
 
-// ===================== STATE =====================
-let currentStudent = null, currentClass = null, currentQ = 0;
-let answers = new Array(30).fill(null);
-let checked = new Array(30).fill(false);
-let orderStates = [];
-let timerInterval = null, timeLeft = 3600, startTime = null;
-let allResults = [], currentTab = 'all';
-let dragSrcPos = null;
+const OUTCOMES = [
+  {id:1,title:'التراكيب الخلوية - الخلية النباتية والحيوانية',qs:[1],bloom:1},
+  {id:2,title:'تصنيف النباتات - الوعائية واللاوعائية',qs:[2,10,28],bloom:1},
+  {id:3,title:'أجزاء النبات ووظائفها (جذر، ساق، ورقة)',qs:[3,5,9,21],bloom:1},
+  {id:4,title:'تصنيف البذور - معراة البذور ومغطاة البذور',qs:[4,25],bloom:1},
+  {id:5,title:'دورة حياة النباتات وتبادل الأجيال',qs:[6,19,27],bloom:1},
+  {id:6,title:'أنواع السحب وأجهزة الرصد الجوي',qs:[7,8,20],bloom:1},
+  {id:7,title:'تراكيب الزهرة والتكاثر الجنسي',qs:[11,12,24],bloom:1},
+  {id:8,title:'تحليل وظائف الجذور والأنسجة الوعائية',qs:[13,14,22],bloom:2},
+  {id:9,title:'التكاثر الجنسي واللاجنسي - التطبيق',qs:[15,16],bloom:2},
+  {id:10,title:'التكيفات البنيوية للنباتات',qs:[17,23],bloom:2},
+  {id:11,title:'دورة المياه ومسار الأنهار',qs:[18],bloom:2},
+  {id:12,title:'التصنيف والتقييم العلمي للنباتات',qs:[25,26,29],bloom:3},
+  {id:13,title:'التركيب المفاهيمي - دورة الحياة والتقييم النقدي',qs:[27,28],bloom:3},
+  {id:14,title:'الابتكار وحل المشكلات البيئية',qs:[30],bloom:3}
+];
 
-// ===================== UTILS =====================
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-function showLoading(msg) {
-  document.getElementById('loadingMsg').textContent = msg || 'جارٍ التحميل...';
-  document.getElementById('loadingOverlay').classList.add('show');
-}
-function hideLoading() { document.getElementById('loadingOverlay').classList.remove('show'); }
+// ===== STATE =====
+let curQ=0, answers=new Array(30).fill(null), checked=new Array(30).fill(false);
+let orderStates=[], timerInt=null, timeLeft=3600, startTime=null;
+let allResults=[], curClass='all', dragSrc=null;
+let charts={};
 
-function loadStudents() {
-  const cls = document.getElementById('selClass').value;
-  const sel = document.getElementById('selStudent');
-  sel.innerHTML = '<option value="">-- اختر اسمك --</option>';
-  if (cls && STUDENTS[cls]) {
-    STUDENTS[cls].forEach(name => {
-      const opt = document.createElement('option');
-      opt.value = name; opt.textContent = name;
-      sel.appendChild(opt);
-    });
-  }
+// ===== HELPERS =====
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showLov(msg){document.getElementById('lovMsg').textContent=msg||'جارٍ التحميل...';document.getElementById('lov').classList.add('show')}
+function hideLov(){document.getElementById('lov').classList.remove('show')}
+function loadStudents(){
+  const cls=document.getElementById('selClass').value;
+  const sel=document.getElementById('selStudent');
+  sel.innerHTML='<option value="">-- اختر اسمك --</option>';
+  if(cls&&STUDENTS[cls])STUDENTS[cls].forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
 }
-
-function showTeacherLogin() { showScreen('teacherLogin'); }
-function checkTeacher() {
-  if (document.getElementById('teacherPwd').value === TEACHER_PASSWORD) {
-    document.getElementById('teacherPwd').value = '';
-    loadDashboard();
-    showScreen('teacherDashboard');
-  } else { alert('رمز الدخول غير صحيح!'); }
+function goTeacherLogin(){showScreen('teacherLogin')}
+function checkTeacher(){
+  if(document.getElementById('tPwd').value===TPWD){document.getElementById('tPwd').value='';loadDash();showScreen('teacherDashboard')}
+  else alert('رمز الدخول غير صحيح!')
 }
 
-// ===================== QUIZ START =====================
-function startQuiz() {
-  const cls = document.getElementById('selClass').value;
-  const student = document.getElementById('selStudent').value;
-  if (!cls || !student) { alert('يرجى اختيار الشعبة والاسم أولاً'); return; }
-  currentClass = cls; currentStudent = student;
-  answers = new Array(30).fill(null);
-  checked = new Array(30).fill(false);
-  orderStates = QUESTIONS.map(q => q.type === 'order' ? [...Array(q.items.length).keys()] : null);
-  currentQ = 0; timeLeft = 3600; startTime = Date.now();
-  document.getElementById('studentNameBar').textContent = student;
-  document.getElementById('classBar').textContent = 'الشعبة ' + cls;
-  buildNavDots(); renderQuestion(); startTimer();
-  showScreen('quizScreen');
+// ===== QUIZ =====
+function startQuiz(){
+  const cls=document.getElementById('selClass').value;
+  const st=document.getElementById('selStudent').value;
+  if(!cls||!st){alert('يرجى اختيار الشعبة والاسم أولاً');return}
+  window._curStudent=st; window._curClass=cls;
+  answers=new Array(30).fill(null);checked=new Array(30).fill(false);
+  orderStates=QS.map(q=>q.type==='order'?[...Array(q.items.length).keys()]:null);
+  curQ=0;timeLeft=3600;startTime=Date.now();
+  document.getElementById('sNameBar').textContent=st;
+  document.getElementById('sClassBar').textContent='الشعبة '+cls;
+  buildDots();renderQ();startTimer();showScreen('quizScreen');
 }
 
-function startTimer() {
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    if (timeLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
-  }, 1000);
+function startTimer(){
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    timeLeft--;updateTimer();
+    if(timeLeft<=0){clearInterval(timerInt);submitQuiz()}
+  },1000);
+}
+function updateTimer(){
+  const m=Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s=(timeLeft%60).toString().padStart(2,'0');
+  const el=document.getElementById('timerEl');
+  el.textContent=m+':'+s;el.className='timer';
+  if(timeLeft<=300)el.classList.add('danger');else if(timeLeft<=600)el.classList.add('warn');
 }
 
-function updateTimerDisplay() {
-  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
-  const s = (timeLeft%60).toString().padStart(2,'0');
-  const el = document.getElementById('timerDisplay');
-  el.textContent = m + ':' + s;
-  el.className = 'timer-box';
-  if (timeLeft <= 300) el.classList.add('danger');
-  else if (timeLeft <= 600) el.classList.add('warning');
+function buildDots(){
+  const c=document.getElementById('dotsEl');c.innerHTML='';
+  QS.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===curQ?' cur':'');d.textContent=i+1;d.onclick=()=>goToQ(i);c.appendChild(d)});
 }
-
-function buildNavDots() {
-  const c = document.getElementById('qNavDots'); c.innerHTML = '';
-  QUESTIONS.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'q-dot' + (i === currentQ ? ' current' : '');
-    d.textContent = i+1; d.onclick = () => goToQ(i);
-    c.appendChild(d);
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d,i)=>{
+    d.className='dot';
+    if(i===curQ)d.classList.add('cur');
+    if(checked[i])d.classList.add(isOk(i)?'cok':'cwrr');
+    else if(answers[i]!==null&&answers[i]!==undefined)d.classList.add('ans');
   });
 }
-
-function updateNavDots() {
-  document.querySelectorAll('.q-dot').forEach((dot, i) => {
-    dot.className = 'q-dot';
-    if (i === currentQ) dot.classList.add('current');
-    if (checked[i]) dot.classList.add(isCorrect(i) ? 'correct-dot' : 'wrong-dot');
-    else if (answers[i] !== null && answers[i] !== undefined) dot.classList.add('answered');
-  });
+function updateProgress(){
+  const n=answers.filter(a=>a!==null&&a!==undefined).length;
+  document.getElementById('pbEl').style.width=(n/30*100)+'%';
+  document.getElementById('plblEl').textContent='السؤال '+(curQ+1)+' من 30 | تم الإجابة على '+n+' سؤال';
 }
 
-function updateProgress() {
-  const ans = answers.filter(a => a !== null && a !== undefined).length;
-  document.getElementById('progressBar').style.width = (ans/30*100) + '%';
-  document.getElementById('progressLabel').textContent = 'السؤال ' + (currentQ+1) + ' من 30 | تم الإجابة على ' + ans + ' سؤال';
-}
+function renderQ(){
+  const q=QS[curQ];
+  const tl={mcq:'اختيار من متعدد',tf:'صح أم خطأ',fill:'ملء الفراغ',match:'مطابقة/توصيل',order:'ترتيب'};
+  const bl={1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
+  let h=`<div class="qcard"><div class="qhdr"><div style="display:flex;align-items:center;gap:8px"><div class="qnum">${q.id}</div><div><div class="tbadge">${tl[q.type]}</div><div class="bbadge">${bl[q.bloom]}</div></div></div></div>
+  <div class="qtxt">${q.text}</div><div class="hint">💡 تلميح: ${q.hint}</div>`;
 
-// ===================== RENDER =====================
-function renderQuestion() {
-  const q = QUESTIONS[currentQ];
-  const bloomLabels = {1:'تذكر وفهم', 2:'تطبيق وتحليل', 3:'تركيب وتقييم'};
-  const typeLabels = {mcq:'اختيار من متعدد', tf:'صح أم خطأ', fill:'ملء الفراغ', match:'مطابقة/توصيل', order:'ترتيب'};
-  let html = `<div class="question-card" id="qCard">
-    <div class="q-header">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="q-num">${q.id}</div>
-        <div><div class="q-type-badge">${typeLabels[q.type]}</div><div class="bloom-badge" style="margin-top:3px">${bloomLabels[q.bloom]}</div></div>
-      </div>
-    </div>
-    <div class="q-text">${q.text}</div>
-    <div class="hint-box">💡 تلميح: ${q.hint}</div>`;
-
-  if (q.type === 'mcq') {
-    html += `<ul class="options-list" id="optList">`;
-    q.options.forEach((opt, i) => {
-      html += `<li id="opt${i}"><label><input type="radio" name="mcq_ans" value="${i}" ${answers[currentQ]===i?'checked':''} ${checked[currentQ]?'disabled':''} onchange="setAnswer(${i})"> ${opt}</label></li>`;
-    });
-    html += `</ul>`;
-  } else if (q.type === 'tf') {
-    html += `<div class="tf-options">
-      <button class="tf-btn ${answers[currentQ]===true?'selected':''}" id="tfTrue" onclick="setTF(true)" ${checked[currentQ]?'disabled':''}>✅ صح</button>
-      <button class="tf-btn ${answers[currentQ]===false?'selected':''}" id="tfFalse" onclick="setTF(false)" ${checked[currentQ]?'disabled':''}>❌ خطأ</button>
+  if(q.type==='mcq'){
+    h+=`<ul class="opts">`;
+    q.opts.forEach((o,i)=>h+=`<li id="opt${i}"><label><input type="radio" name="qans" value="${i}" ${answers[curQ]===i?'checked':''} ${checked[curQ]?'disabled':''} onchange="setAns(${i})"> ${o}</label></li>`);
+    h+=`</ul>`;
+  }else if(q.type==='tf'){
+    h+=`<div class="tfopts">
+      <button class="tfbtn ${answers[curQ]===true?'sel':''}" id="tfT" onclick="setTF(true)" ${checked[curQ]?'disabled':''}>✅ صح</button>
+      <button class="tfbtn ${answers[curQ]===false?'sel':''}" id="tfF" onclick="setTF(false)" ${checked[curQ]?'disabled':''}>❌ خطأ</button>
     </div>`;
-  } else if (q.type === 'fill') {
-    html += `<input class="fill-input" id="fillInput" type="text" placeholder="اكتب إجابتك هنا..." value="${answers[currentQ]||''}" ${checked[currentQ]?'disabled':''} oninput="setAnswer(this.value)">`;
-  } else if (q.type === 'match') {
-    html += `<div class="match-container">`;
-    q.items.forEach((item, i) => {
-      const sv = answers[currentQ] ? answers[currentQ][i] : '';
-      html += `<div class="match-row"><div class="match-label">${i+1}. ${item}</div>
-        <select class="match-select" id="match${i}" ${checked[currentQ]?'disabled':''} onchange="setMatch()">
+  }else if(q.type==='fill'){
+    h+=`<input class="fi" id="fiEl" type="text" placeholder="اكتب إجابتك..." value="${answers[curQ]||''}" ${checked[curQ]?'disabled':''} oninput="setAns(this.value)">`;
+  }else if(q.type==='match'){
+    h+=`<div class="mc">`;
+    q.items.forEach((it,i)=>{
+      const sv=answers[curQ]?answers[curQ][i]:'';
+      h+=`<div class="mr"><div class="ml">${i+1}. ${it}</div>
+        <select class="ms" id="ms${i}" ${checked[curQ]?'disabled':''} onchange="setMatch()">
           <option value="">-- اختر --</option>
-          ${q.options.map((opt,j)=>`<option value="${j}" ${sv==j?'selected':''}>${opt}</option>`).join('')}
+          ${q.opts.map((op,j)=>`<option value="${j}" ${sv==j?'selected':''}>${op}</option>`).join('')}
         </select></div>`;
     });
-    html += `</div>`;
-  } else if (q.type === 'order') {
-    html += `<div class="order-list" id="orderList">`;
-    orderStates[currentQ].forEach((itemIdx, pos) => {
-      const cls2 = checked[currentQ] ? (QUESTIONS[currentQ].correct[pos]===itemIdx?'correct-order':'wrong-order') : '';
-      html += `<div class="order-item ${cls2}" draggable="${!checked[currentQ]}" data-pos="${pos}"
-        ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropItem(event)" ondragleave="dragLeave(event)">
-        <span class="order-handle">☰</span><span class="order-num">${pos+1}</span><span>${q.items[itemIdx]}</span></div>`;
+    h+=`</div>`;
+  }else if(q.type==='order'){
+    h+=`<div class="ol" id="olEl">`;
+    orderStates[curQ].forEach((idx,pos)=>{
+      const cl2=checked[curQ]?(QS[curQ].cor[pos]===idx?'cor':'wrr'):'';
+      h+=`<div class="oi ${cl2}" draggable="${!checked[curQ]}" data-pos="${pos}"
+        ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event)" ondragleave="dl(event)">
+        <span class="oh">☰</span><span class="on">${pos+1}</span><span>${q.items[idx]}</span></div>`;
     });
-    html += `</div>`;
-    if (!checked[currentQ]) answers[currentQ] = [...orderStates[currentQ]];
+    h+=`</div>`;
+    if(!checked[curQ])answers[curQ]=[...orderStates[curQ]];
   }
 
-  html += `<div class="feedback-box ${checked[currentQ]?(isCorrect(currentQ)?'correct':'wrong'):''} ${checked[currentQ]?'show':''}" id="feedbackBox">
-    ${checked[currentQ]?(isCorrect(currentQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.feedback:q.feedback}
+  const fbCls=checked[curQ]?(isOk(curQ)?'rc':'wr'):'';
+  h+=`<div class="fb ${fbCls} ${checked[curQ]?'show':''}" id="fbEl">
+    ${checked[curQ]?(isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb:q.fb}
   </div></div>`;
-  document.getElementById('questionContainer').innerHTML = html;
-  if (checked[currentQ]) applyCheckedVisuals();
-  updateNavDots(); updateProgress();
-  document.getElementById('btnPrev').style.visibility = currentQ > 0 ? 'visible' : 'hidden';
+
+  document.getElementById('qCont').innerHTML=h;
+  if(checked[curQ])applyVisuals();
+  updateDots();updateProgress();
+  document.getElementById('btnPrev').style.visibility=curQ>0?'visible':'hidden';
 }
 
-// ===================== ANSWER SETTERS =====================
-function setAnswer(val) { if (checked[currentQ]) return; answers[currentQ] = val; updateNavDots(); updateProgress(); }
-function setTF(val) {
-  if (checked[currentQ]) return;
-  answers[currentQ] = val;
-  document.getElementById('tfTrue').className = 'tf-btn' + (val===true?' selected':'');
-  document.getElementById('tfFalse').className = 'tf-btn' + (val===false?' selected':'');
+function setAns(v){if(checked[curQ])return;answers[curQ]=v;updateDots();updateProgress()}
+function setTF(v){
+  if(checked[curQ])return;answers[curQ]=v;
+  document.getElementById('tfT').className='tfbtn'+(v===true?' sel':'');
+  document.getElementById('tfF').className='tfbtn'+(v===false?' sel':'');
 }
-function setMatch() {
-  if (checked[currentQ]) return;
-  const q = QUESTIONS[currentQ];
-  answers[currentQ] = q.items.map((_, i) => {
-    const s = document.getElementById('match'+i);
-    return s && s.value !== '' ? parseInt(s.value) : null;
-  });
-  updateNavDots(); updateProgress();
+function setMatch(){
+  if(checked[curQ])return;
+  answers[curQ]=QS[curQ].items.map((_,i)=>{const s=document.getElementById('ms'+i);return s&&s.value!==''?parseInt(s.value):null});
+  updateDots();updateProgress();
 }
-function dragStart(e) { dragSrcPos = parseInt(e.currentTarget.dataset.pos); e.currentTarget.classList.add('dragging'); }
-function dragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-function dragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-function dropItem(e) {
-  e.preventDefault();
-  const tp = parseInt(e.currentTarget.dataset.pos);
-  e.currentTarget.classList.remove('drag-over');
-  if (dragSrcPos === null || dragSrcPos === tp) return;
-  const st = orderStates[currentQ];
-  [st[dragSrcPos], st[tp]] = [st[tp], st[dragSrcPos]];
-  answers[currentQ] = [...st]; dragSrcPos = null; renderQuestion();
+function ds(e){dragSrc=parseInt(e.currentTarget.dataset.pos);e.currentTarget.classList.add('dragging')}
+function dov(e){e.preventDefault();e.currentTarget.classList.add('dov')}
+function dl(e){e.currentTarget.classList.remove('dov')}
+function di(e){
+  e.preventDefault();const tp=parseInt(e.currentTarget.dataset.pos);
+  e.currentTarget.classList.remove('dov');
+  if(dragSrc===null||dragSrc===tp)return;
+  const st=orderStates[curQ];[st[dragSrc],st[tp]]=[st[tp],st[dragSrc]];
+  answers[curQ]=[...st];dragSrc=null;renderQ();
 }
 
-// ===================== CHECK =====================
-function checkCurrent() {
-  const q = QUESTIONS[currentQ];
-  if (answers[currentQ] === null || answers[currentQ] === undefined) { alert('يرجى الإجابة على السؤال أولاً'); return; }
-  if (q.type === 'match' && (!answers[currentQ] || answers[currentQ].some(v => v === null || v === undefined))) { alert('يرجى إكمال جميع الاختيارات في الجدول'); return; }
-  checked[currentQ] = true;
-  applyCheckedVisuals(); updateNavDots();
-  const fb = document.getElementById('feedbackBox');
-  fb.className = 'feedback-box ' + (isCorrect(currentQ)?'correct':'wrong') + ' show';
-  fb.textContent = (isCorrect(currentQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ') + q.feedback;
+function checkCurrent(){
+  const q=QS[curQ];
+  if(answers[curQ]===null||answers[curQ]===undefined){alert('يرجى الإجابة على السؤال أولاً');return}
+  if(q.type==='match'&&(!answers[curQ]||answers[curQ].some(v=>v===null||v===undefined))){alert('يرجى إكمال جميع الاختيارات');return}
+  checked[curQ]=true;applyVisuals();updateDots();
+  const fb=document.getElementById('fbEl');
+  fb.className='fb '+(isOk(curQ)?'rc':'wr')+' show';
+  fb.textContent=(isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb;
 }
 
-function applyCheckedVisuals() {
-  const q = QUESTIONS[currentQ];
-  if (q.type === 'mcq') {
-    q.options.forEach((_, i) => {
-      const li = document.getElementById('opt'+i); if (!li) return;
-      li.className = i === q.correct ? 'reveal-correct' : (i === answers[currentQ] && answers[currentQ] !== q.correct ? 'wrong' : '');
-    });
-  } else if (q.type === 'tf') {
-    const tBtn = document.getElementById('tfTrue'), fBtn = document.getElementById('tfFalse'); if (!tBtn) return;
-    tBtn.className = 'tf-btn'; fBtn.className = 'tf-btn';
-    if (q.correct === true) { tBtn.classList.add('correct'); if (answers[currentQ]===false) fBtn.classList.add('wrong'); }
-    else { fBtn.classList.add('correct'); if (answers[currentQ]===true) tBtn.classList.add('wrong'); }
-  } else if (q.type === 'fill') {
-    const inp = document.getElementById('fillInput'); if (!inp) return;
-    inp.className = 'fill-input ' + (isCorrect(currentQ)?'correct':'wrong');
-  } else if (q.type === 'match') {
-    q.items.forEach((_, i) => {
-      const sel = document.getElementById('match'+i); if (!sel) return;
-      sel.className = 'match-select ' + (answers[currentQ] && answers[currentQ][i] === q.correct[i] ? 'correct' : 'wrong');
-    });
-  } else if (q.type === 'order') { renderQuestion(); }
+function applyVisuals(){
+  const q=QS[curQ];
+  if(q.type==='mcq'){
+    q.opts.forEach((_,i)=>{const li=document.getElementById('opt'+i);if(!li)return;li.className=i===q.cor?'rc':(i===answers[curQ]&&answers[curQ]!==q.cor?'wr':'')});
+  }else if(q.type==='tf'){
+    const t=document.getElementById('tfT'),f=document.getElementById('tfF');if(!t)return;
+    t.className='tfbtn';f.className='tfbtn';
+    if(q.cor===true){t.classList.add('rc');if(answers[curQ]===false)f.classList.add('wr')}
+    else{f.classList.add('rc');if(answers[curQ]===true)t.classList.add('wr')}
+  }else if(q.type==='fill'){
+    const inp=document.getElementById('fiEl');if(!inp)return;
+    inp.className='fi '+(isOk(curQ)?'rc':'wr');
+  }else if(q.type==='match'){
+    q.items.forEach((_,i)=>{const s=document.getElementById('ms'+i);if(!s)return;s.className='ms '+(answers[curQ]&&answers[curQ][i]===q.cor[i]?'rc':'wr')});
+  }else if(q.type==='order'){renderQ()}
 }
 
-function isCorrect(idx) {
-  const q = QUESTIONS[idx], ans = answers[idx];
-  if (ans === null || ans === undefined) return false;
-  if (q.type === 'mcq') return ans === q.correct;
-  if (q.type === 'tf') return ans === q.correct;
-  if (q.type === 'fill') {
-    const u = ans.trim().toLowerCase(), c = q.correct.toLowerCase();
-    if (u === c) return true;
-    return q.altAnswers ? q.altAnswers.some(a => u === a.toLowerCase()) : false;
+function isOk(idx){
+  const q=QS[idx],a=answers[idx];
+  if(a===null||a===undefined)return false;
+  if(q.type==='mcq')return a===q.cor;
+  if(q.type==='tf')return a===q.cor;
+  if(q.type==='fill'){
+    const u=String(a).trim().toLowerCase(),c=q.cor.toLowerCase();
+    if(u===c)return true;
+    return q.alt?q.alt.some(x=>u===x.toLowerCase()):false;
   }
-  if (q.type === 'match') return Array.isArray(ans) && q.correct.every((c, i) => ans[i] === c);
-  if (q.type === 'order') return Array.isArray(ans) && q.correct.every((c, i) => ans[i] === c);
+  if(q.type==='match')return Array.isArray(a)&&q.cor.every((c,i)=>a[i]===c);
+  if(q.type==='order')return Array.isArray(a)&&q.cor.every((c,i)=>a[i]===c);
   return false;
 }
 
-// ===================== NAVIGATION =====================
-function goToQ(idx) { currentQ = idx; renderQuestion(); }
-function nextQ() { if (currentQ < 29) { currentQ++; renderQuestion(); } }
-function prevQ() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
-
-// ===================== SUBMIT =====================
-function confirmSubmit() {
-  const u = answers.filter(a => a === null || a === undefined).length;
-  showModal('تسليم الاختبار', `لديك ${u} سؤال لم تجب عليه. هل تريد تسليم الاختبار الآن؟`, submitQuiz);
-}
-function autoSubmit() { submitQuiz(); }
-
-function submitQuiz() {
-  closeModal(); clearInterval(timerInterval);
-  const elapsed = Math.round((Date.now() - startTime) / 1000);
-  const timeStr = Math.floor(elapsed/60) + ':' + (elapsed%60).toString().padStart(2,'0');
-  let correct=0, bloom1c=0, bloom2c=0, bloom3c=0;
-  QUESTIONS.forEach((q,i) => { if (isCorrect(i)) { correct++; if(q.bloom===1)bloom1c++; if(q.bloom===2)bloom2c++; if(q.bloom===3)bloom3c++; } });
-  const pct = Math.round((correct/30)*100);
-  const r = {
-    student: currentStudent, class: currentClass, correct, wrong: 30-correct, pct, timeStr, elapsed,
-    bloom1: bloom1c, bloom2: bloom2c, bloom3: bloom3c, bloom1t:12, bloom2t:12, bloom3t:6,
-    answers: answers.map(a => a === null ? 'null' : (typeof a === 'object' ? JSON.stringify(a) : String(a))),
-    date: new Date().toLocaleDateString('ar-AE'), timestamp: Date.now()
-  };
-  saveToFirebase(r);
-  showResult(r, pct);
+function goToQ(i){curQ=i;renderQ()}
+function nextQ(){if(curQ<29){curQ++;renderQ()}}
+function prevQ(){if(curQ>0){curQ--;renderQ()}}
+function confirmSubmit(){
+  const u=answers.filter(a=>a===null||a===undefined).length;
+  showModal('تسليم الاختبار',`لديك ${u} سؤال لم تجب عليه. هل تريد التسليم الآن؟`,submitQuiz);
 }
 
-function showResult(r, pct) {
-  const sc = document.getElementById('scoreCircle');
-  sc.className = 'score-circle ' + (pct>=90?'excellent':pct>=70?'good':pct>=50?'pass':'fail');
-  document.getElementById('scorePercent').textContent = pct + '%';
-  document.getElementById('resultStudentInfo').textContent = r.student + ' | الشعبة ' + r.class;
-  const msgs = pct>=90?['ممتاز! 🏆','أداء رائع يستحق الإشادة!']:pct>=70?['جيد جداً! 👍','استمر في المراجعة والتحسين']:pct>=50?['مقبول ✔','تحتاج لمراجعة بعض المواضيع']:['بحاجة لمراجعة ❗','راجع الدروس مع معلمك واطلب المساعدة'];
-  document.getElementById('resultMsg').textContent = msgs[0];
-  document.getElementById('resultSubMsg').textContent = msgs[1];
-  document.getElementById('resCorrect').textContent = r.correct;
-  document.getElementById('resWrong').textContent = r.wrong;
-  document.getElementById('resTime').textContent = r.timeStr;
-  document.getElementById('bloomScore1').textContent = r.bloom1+'/'+r.bloom1t;
-  document.getElementById('bloomScore2').textContent = r.bloom2+'/'+r.bloom2t;
-  document.getElementById('bloomScore3').textContent = r.bloom3+'/'+r.bloom3t;
-  document.getElementById('bloomBar1').style.width = Math.round(r.bloom1/r.bloom1t*100)+'%';
-  document.getElementById('bloomBar2').style.width = Math.round(r.bloom2/r.bloom2t*100)+'%';
-  document.getElementById('bloomBar3').style.width = Math.round(r.bloom3/r.bloom3t*100)+'%';
+function submitQuiz(){
+  closeModal();clearInterval(timerInt);
+  const el=Math.round((Date.now()-startTime)/1000);
+  const ts=Math.floor(el/60)+':'+(el%60).toString().padStart(2,'0');
+  let cor=0,b1=0,b2=0,b3=0;
+  QS.forEach((q,i)=>{if(isOk(i)){cor++;if(q.bloom===1)b1++;if(q.bloom===2)b2++;if(q.bloom===3)b3++}});
+  const pct=Math.round(cor/30*100);
+  const r={student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct,timeStr:ts,elapsed:el,
+    bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,
+    answers:answers.map(a=>a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)),
+    date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
+  saveToFb(r);showResult(r,pct);
+}
+
+function showResult(r,pct){
+  const sc=document.getElementById('scircle');
+  sc.className='scircle '+(pct>=90?'exc':pct>=70?'good':pct>=50?'pass':'fail');
+  document.getElementById('sPct').textContent=pct+'%';
+  document.getElementById('rStudentInfo').textContent=r.student+' | الشعبة '+r.class;
+  const msgs=pct>=90?['ممتاز! 🏆','أداء رائع يستحق الإشادة!']:pct>=70?['جيد جداً! 👍','استمر في المراجعة']:pct>=50?['مقبول ✔','تحتاج مراجعة بعض المواضيع']:['بحاجة لمراجعة ❗','راجع الدروس مع معلمك'];
+  document.getElementById('rMsg').textContent=msgs[0];
+  document.getElementById('rSubMsg').textContent=msgs[1];
+  document.getElementById('rCor').textContent=r.correct;
+  document.getElementById('rWrong').textContent=r.wrong;
+  document.getElementById('rTime').textContent=r.timeStr;
+  document.getElementById('bls1').textContent=r.bloom1+'/'+r.bloom1t;
+  document.getElementById('bls2').textContent=r.bloom2+'/'+r.bloom2t;
+  document.getElementById('bls3').textContent=r.bloom3+'/'+r.bloom3t;
+  document.getElementById('bl1').style.width=Math.round(r.bloom1/r.bloom1t*100)+'%';
+  document.getElementById('bl2').style.width=Math.round(r.bloom2/r.bloom2t*100)+'%';
+  document.getElementById('bl3').style.width=Math.round(r.bloom3/r.bloom3t*100)+'%';
   showScreen('resultScreen');
 }
 
-function retryQuiz() {
-  answers = new Array(30).fill(null);
-  checked = new Array(30).fill(false);
-  orderStates = QUESTIONS.map(q => q.type === 'order' ? [...Array(q.items.length).keys()] : null);
-  currentQ = 0; timeLeft = 3600; startTime = Date.now();
-  buildNavDots(); renderQuestion(); startTimer();
-  showScreen('quizScreen');
+function retryQuiz(){
+  answers=new Array(30).fill(null);checked=new Array(30).fill(false);
+  orderStates=QS.map(q=>q.type==='order'?[...Array(q.items.length).keys()]:null);
+  curQ=0;timeLeft=3600;startTime=Date.now();
+  buildDots();renderQ();startTimer();showScreen('quizScreen');
 }
 
-// ===================== FIREBASE OPERATIONS =====================
-function saveToFirebase(r) {
-  const saveEl = document.getElementById('fbSaveStatus');
-  saveEl.textContent = '⏳ جارٍ الحفظ في Firebase...';
-  const key = db.ref(RESULTS_PATH).push().key;
-  db.ref(RESULTS_PATH + '/' + key).set({ ...r, key })
-    .then(() => { saveEl.textContent = '✅ تم الحفظ في Firebase بنجاح'; })
-    .catch(() => {
-      saveEl.textContent = '⚠️ فشل الحفظ في Firebase، تم الحفظ محلياً';
-      // Fallback to localStorage
-      let local = JSON.parse(localStorage.getItem('science_quiz_local') || '[]');
-      local.push({ ...r, key: Date.now().toString() });
-      localStorage.setItem('science_quiz_local', JSON.stringify(local));
-    });
+// ===== FIREBASE =====
+function saveToFb(r){
+  const el=document.getElementById('fbSaveEl');
+  el.textContent='⏳ جارٍ الحفظ في Firebase...';
+  db.ref(PATH).push({...r}).then(()=>{el.textContent='✅ تم الحفظ في Firebase بنجاح'})
+  .catch(()=>{
+    el.textContent='⚠️ فشل الحفظ في Firebase، تم الحفظ محلياً';
+    let loc=JSON.parse(localStorage.getItem('sq_local')||'[]');
+    loc.push({...r,key:Date.now().toString()});
+    localStorage.setItem('sq_local',JSON.stringify(loc));
+  });
 }
 
-function loadFromFirebase(callback) {
-  showLoading('جارٍ تحميل النتائج من Firebase...');
-  db.ref(RESULTS_PATH).once('value')
-    .then(snap => {
-      const data = snap.val();
-      allResults = data ? Object.entries(data).map(([k, v]) => ({ ...v, fbKey: k })) : [];
-      // Merge local fallback
-      const local = JSON.parse(localStorage.getItem('science_quiz_local') || '[]');
-      allResults = [...allResults, ...local];
-      allResults.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
-      hideLoading();
-      if (callback) callback();
-    })
-    .catch(() => {
-      allResults = JSON.parse(localStorage.getItem('science_quiz_local') || '[]');
-      hideLoading();
-      if (callback) callback();
-    });
+function loadFromFb(cb){
+  showLov('جارٍ تحميل النتائج من Firebase...');
+  db.ref(PATH).once('value').then(s=>{
+    const d=s.val();
+    allResults=d?Object.entries(d).map(([k,v])=>({...v,fbKey:k})):[];
+    const loc=JSON.parse(localStorage.getItem('sq_local')||'[]');
+    allResults=[...allResults,...loc];
+    allResults.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    hideLov();if(cb)cb();
+  }).catch(()=>{
+    allResults=JSON.parse(localStorage.getItem('sq_local')||'[]');
+    hideLov();if(cb)cb();
+  });
 }
 
-function deleteFromFirebase(fbKey, localKey) {
-  if (fbKey) {
-    db.ref(RESULTS_PATH + '/' + fbKey).remove();
-  }
-  // Remove from local fallback too
-  if (localKey) {
-    let local = JSON.parse(localStorage.getItem('science_quiz_local') || '[]');
-    local = local.filter(r => r.key !== localKey);
-    localStorage.setItem('science_quiz_local', JSON.stringify(local));
-  }
+function delFromFb(fbKey,localKey){
+  if(fbKey)db.ref(PATH+'/'+fbKey).remove();
+  if(localKey){let l=JSON.parse(localStorage.getItem('sq_local')||'[]');l=l.filter(r=>r.key!==localKey);localStorage.setItem('sq_local',JSON.stringify(l))}
+}
+function delAllFb(){db.ref(PATH).remove();localStorage.removeItem('sq_local')}
+
+// ===== DASHBOARD =====
+function loadDash(){loadFromFb(()=>{renderSummary();renderTable('all');renderSupport();renderOutcomes()})}
+function refreshDash(){
+  Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
+  loadDash();
 }
 
-function deleteAllFromFirebase() {
-  db.ref(RESULTS_PATH).remove();
-  localStorage.removeItem('science_quiz_local');
+function renderSummary(){
+  const t=allResults.length;
+  const avg=t?Math.round(allResults.reduce((s,r)=>s+r.pct,0)/t):0;
+  const pass=allResults.filter(r=>r.pct>=50).length;
+  const exc=allResults.filter(r=>r.pct>=90).length;
+  const at=t?Math.round(allResults.reduce((s,r)=>s+(r.elapsed||0),0)/t/60):0;
+  document.getElementById('agEl').innerHTML=`
+    <div class="ac"><div class="bn">${t}</div><div class="d">إجمالي المحاولات</div></div>
+    <div class="ac"><div class="bn">${avg}%</div><div class="d">متوسط الدرجات</div></div>
+    <div class="ac"><div class="bn">${pass}</div><div class="d">ناجحون (≥50%)</div></div>
+    <div class="ac"><div class="bn">${exc}</div><div class="d">ممتازون (≥90%)</div></div>
+    <div class="ac"><div class="bn">${at} د</div><div class="d">متوسط وقت الحل</div></div>
+    <div class="ac" style="background:#fde8e6"><div class="bn" style="color:var(--dan)">${t-pass}</div><div class="d">بحاجة دعم (&lt;50%)</div></div>`;
 }
 
-// ===================== DASHBOARD =====================
-function loadDashboard() {
-  loadFromFirebase(() => { renderAnalytics(); renderTable(currentTab); });
+// ===== TABS =====
+function switchTab(tab){
+  document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const idx=['results','charts','support','outcomes'].indexOf(tab);
+  document.querySelectorAll('.mtab')[idx].classList.add('active');
+  if(tab==='charts')setTimeout(renderCharts,80);
+  if(tab==='support')renderSupport();
+  if(tab==='outcomes')renderOutcomes();
 }
 
-function refreshDashboard() { loadDashboard(); }
-
-function showTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['all','1','2','4','5'][i]===tab));
-  renderTable(tab);
+function filterClass(cls,btn){
+  curClass=cls;
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(cls);
 }
 
-function renderAnalytics() {
-  const total = allResults.length;
-  const avgPct = total ? Math.round(allResults.reduce((s,r)=>s+r.pct,0)/total) : 0;
-  const passing = allResults.filter(r=>r.pct>=50).length;
-  const excellent = allResults.filter(r=>r.pct>=90).length;
-  const avgTime = total ? Math.round(allResults.reduce((s,r)=>s+(r.elapsed||0),0)/total/60) : 0;
-  document.getElementById('analyticsCards').innerHTML = `
-    <div class="analytics-card"><div class="big-num">${total}</div><div class="desc">إجمالي المحاولات</div></div>
-    <div class="analytics-card"><div class="big-num">${avgPct}%</div><div class="desc">متوسط الدرجات</div></div>
-    <div class="analytics-card"><div class="big-num">${passing}</div><div class="desc">طلاب ناجحون (≥50%)</div></div>
-    <div class="analytics-card"><div class="big-num">${excellent}</div><div class="desc">طلاب ممتازون (≥90%)</div></div>
-    <div class="analytics-card"><div class="big-num">${avgTime} د</div><div class="desc">متوسط وقت الحل</div></div>
-    <div class="analytics-card"><div class="big-num">${total-passing}</div><div class="desc">بحاجة دعم (&lt;50%)</div></div>`;
-}
-
-function renderTable(tab) {
-  const filtered = tab==='all' ? allResults : allResults.filter(r=>r.class===tab);
-  const tbody = document.getElementById('resultsTable');
-  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:#999;padding:20px">لا توجد نتائج بعد</td></tr>'; return; }
-  tbody.innerHTML = filtered.map((r,i) => {
-    const badge = r.pct>=90?'badge-green':r.pct>=70?'badge-blue':r.pct>=50?'badge-yellow':'badge-red';
-    return `<tr>
-      <td>${i+1}</td><td>${r.student}</td><td>الشعبة ${r.class}</td>
-      <td><span class="badge ${badge}">${r.pct}%</span></td>
+function renderTable(cls){
+  const data=cls==='all'?allResults:allResults.filter(r=>r.class===cls);
+  const tb=document.getElementById('tblBody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="12" style="text-align:center;color:#999;padding:18px">لا توجد نتائج بعد</td></tr>';return}
+  tb.innerHTML=data.map((r,i)=>{
+    const bg=r.pct>=90?'bg':r.pct>=70?'bb':r.pct>=50?'by':'br';
+    return `<tr><td>${i+1}</td><td><strong>${r.student}</strong></td><td>الشعبة ${r.class}</td>
+      <td><span class="badge ${bg}">${r.pct}%</span></td>
       <td>${r.correct}/30</td><td>${r.wrong}/30</td>
       <td>${r.bloom1}/${r.bloom1t}</td><td>${r.bloom2}/${r.bloom2t}</td><td>${r.bloom3}/${r.bloom3t}</td>
       <td>${r.timeStr}</td><td>${r.date}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="confirmDeleteOne('${r.fbKey||''}','${r.key||''}')">حذف</button></td>
-    </tr>`;
+      <td><button class="btn-sm" onclick="confirmDel1('${r.fbKey||''}','${r.key||''}')">حذف</button></td></tr>`;
   }).join('');
 }
 
-// ===================== EXPORT =====================
-function exportClass(cls) {
-  const results = cls==='all' ? allResults : allResults.filter(r=>r.class===cls);
-  if (!results.length) { alert('لا توجد نتائج'); return; }
-  exportToExcel(results, 'نتائج_الشعبة_'+cls);
-}
-function exportAll() { exportToExcel(allResults, 'نتائج_جميع_الشعب'); }
+// ===== CHARTS =====
+function destChart(id){if(charts[id]){try{charts[id].destroy()}catch(e){}delete charts[id]}}
 
-function exportToExcel(results, filename) {
-  const data = results.map((r,i) => ({
-    '#': i+1, 'اسم الطالب': r.student, 'الشعبة': 'الشعبة '+r.class,
-    'الدرجة (%)': r.pct, 'الصحيحة': r.correct, 'الخاطئة': r.wrong,
-    'تذكر وفهم': r.bloom1+'/'+r.bloom1t, 'تطبيق وتحليل': r.bloom2+'/'+r.bloom2t,
-    'تركيب وتقييم': r.bloom3+'/'+r.bloom3t, 'الوقت': r.timeStr, 'التاريخ': r.date,
-    'المستوى': r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'
-  }));
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'النتائج');
-  XLSX.writeFile(wb, filename+'.xlsx');
+function renderCharts(){
+  if(!allResults.length){document.getElementById('tab-charts').innerHTML='<p style="color:#999;text-align:center;padding:30px">لا توجد بيانات كافية لعرض الرسوم البيانية</p>';return}
+  destChart('sc');destChart('bl');destChart('cl');destChart('pa');destChart('qu');
+  // Score distribution
+  const bins=[0,0,0,0,0,0];
+  allResults.forEach(r=>{if(r.pct<50)bins[0]++;else if(r.pct<60)bins[1]++;else if(r.pct<70)bins[2]++;else if(r.pct<80)bins[3]++;else if(r.pct<90)bins[4]++;else bins[5]++});
+  charts['sc']=new Chart(document.getElementById('cScore').getContext('2d'),{
+    type:'bar',data:{labels:['<50%','50-59%','60-69%','70-79%','80-89%','90-100%'],
+    datasets:[{label:'عدد الطلاب',data:bins,backgroundColor:['#e74c3c','#e67e22','#f1c40f','#3498db','#2ecc71','#27ae60'],borderRadius:6}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
+  });
+  // Bloom radar
+  const b1=allResults.reduce((s,r)=>s+r.bloom1,0),n1=allResults.length*12||1;
+  const b2=allResults.reduce((s,r)=>s+r.bloom2,0),n2=allResults.length*12||1;
+  const b3=allResults.reduce((s,r)=>s+r.bloom3,0),n3=allResults.length*6||1;
+  charts['bl']=new Chart(document.getElementById('cBloom').getContext('2d'),{
+    type:'radar',data:{labels:['تذكر وفهم','تطبيق وتحليل','تركيب وتقييم'],
+    datasets:[{label:'متوسط الأداء %',data:[Math.round(b1/n1*100),Math.round(b2/n2*100),Math.round(b3/n3*100)],
+    backgroundColor:'rgba(26,107,60,.2)',borderColor:'rgba(26,107,60,.8)',pointBackgroundColor:'#1a6b3c',pointRadius:5}]},
+    options:{responsive:true,scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:20}}}}
+  });
+  // Class averages
+  const cls=['1','2','4','5'];
+  const avgs=cls.map(c=>{const cr=allResults.filter(r=>r.class===c);return cr.length?Math.round(cr.reduce((s,r)=>s+r.pct,0)/cr.length):0});
+  charts['cl']=new Chart(document.getElementById('cClass').getContext('2d'),{
+    type:'bar',data:{labels:cls.map(c=>'الشعبة '+c),
+    datasets:[{label:'متوسط الدرجة %',data:avgs,backgroundColor:['#3498db','#2ecc71','#f39c12','#9b59b6'],borderRadius:8}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100}}}
+  });
+  // Pass/Fail stacked
+  const pData=cls.map(c=>allResults.filter(r=>r.class===c&&r.pct>=50).length);
+  const fData=cls.map(c=>allResults.filter(r=>r.class===c&&r.pct<50).length);
+  charts['pa']=new Chart(document.getElementById('cPass').getContext('2d'),{
+    type:'bar',data:{labels:cls.map(c=>'الشعبة '+c),
+    datasets:[{label:'ناجح',data:pData,backgroundColor:'#27ae60',borderRadius:4},{label:'بحاجة دعم',data:fData,backgroundColor:'#e74c3c',borderRadius:4}]},
+    options:{responsive:true,scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}
+  });
+  // Question rates
+  const rates=getQRates();
+  charts['qu']=new Chart(document.getElementById('cQues').getContext('2d'),{
+    type:'bar',data:{labels:QS.map((_,i)=>'س'+(i+1)),
+    datasets:[{label:'% الصحيحة',data:rates,backgroundColor:rates.map(r=>r>=70?'#27ae60':r>=50?'#f39c12':'#e74c3c'),borderRadius:3}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}
+  });
 }
 
-function exportAnalysis() {
-  if (!allResults.length) { alert('لا توجد نتائج بعد'); return; }
-  const qAnalysis = QUESTIONS.map((q,i) => {
-    const attempted = allResults.filter(r => r.answers && r.answers[i] !== 'null' && r.answers[i] !== null);
-    const rate = attempted.length ? Math.round(attempted.filter(r => {
-      const savedAnswers = answers;
-      answers = r.answers.map(a => { try { return JSON.parse(a); } catch(e) { return a==='null'?null:(a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))); }});
-      const res = isCorrect(i);
-      answers = savedAnswers;
-      return res;
-    }).length / attempted.length * 100) : 0;
-    return { 'رقم السؤال':i+1, 'نوع السؤال':{mcq:'اختيار',tf:'صح/خطأ',fill:'ملء',match:'توصيل',order:'ترتيب'}[q.type],
+function getQRates(){
+  return QS.map((q,i)=>{
+    if(!allResults.length)return 0;
+    const att=allResults.filter(r=>r.answers&&r.answers[i]!=='null'&&r.answers[i]!==null&&r.answers[i]!==undefined);
+    if(!att.length)return 0;
+    const cor=att.filter(r=>{
+      const sv=answers;
+      answers=r.answers.map(a=>{if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}});
+      const res=isOk(i);answers=sv;return res;
+    });
+    return Math.round(cor.length/att.length*100);
+  });
+}
+
+// ===== SUPPORT TAB =====
+function renderSupport(){
+  const thr=parseInt(document.getElementById('suppThr').value);
+  const cls=document.getElementById('suppCls').value;
+  let data=allResults.filter(r=>r.pct<thr);
+  if(cls!=='all')data=data.filter(r=>r.class===cls);
+  const byCls=['1','2','4','5'].map(c=>({c,n:data.filter(r=>r.class===c).length}));
+  document.getElementById('suppSum').innerHTML=`
+    <div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">${data.length}</div><div style="font-size:.76rem;color:#666">إجمالي المستهدفين</div></div>
+    ${byCls.map(b=>`<div class="suppcard"><div class="bn">${b.n}</div><div style="font-size:.76rem;color:#666">الشعبة ${b.c}</div></div>`).join('')}`;
+  const tb=document.getElementById('suppBody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:#27ae60;padding:18px">✅ لا يوجد طلاب تحت هذه النسبة</td></tr>';return}
+  const rates=getQRates();
+  tb.innerHTML=data.map((r,i)=>{
+    const b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
+    const wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
+    const rec=r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل';
+    // Find wrong questions for this student
+    const wrongQs=[];
+    if(r.answers){
+      const sv=answers;
+      answers=r.answers.map(a=>{if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}});
+      QS.forEach((_,qi)=>{if(!isOk(qi))wrongQs.push('س'+(qi+1))});
+      answers=sv;
+    }
+    const bg=r.pct<30?'br':r.pct<40?'by':'bb';
+    return `<tr><td>${i+1}</td><td><strong>${r.student}</strong></td><td>الشعبة ${r.class}</td>
+      <td><span class="badge ${bg}">${r.pct}%</span></td>
+      <td>${b1p}%</td><td>${b2p}%</td><td>${b3p}%</td>
+      <td><span class="badge br">${wk}</span></td>
+      <td style="font-size:.76rem;color:#555">${wrongQs.slice(0,8).join('، ')}${wrongQs.length>8?'...':''}</td>
+      <td style="font-size:.78rem;color:#444">${rec}</td></tr>`;
+  }).join('');
+}
+
+// ===== OUTCOMES TAB =====
+function renderOutcomes(){
+  const rates=getQRates();
+  const sorted=[...OUTCOMES].map(o=>{
+    const avg=Math.round(o.qs.reduce((s,q)=>s+rates[q-1],0)/o.qs.length);
+    return{...o,avg};
+  }).sort((a,b)=>a.avg-b.avg);
+
+  const wk=sorted.filter(o=>o.avg<50).length;
+  const md=sorted.filter(o=>o.avg>=50&&o.avg<70).length;
+  const gd=sorted.filter(o=>o.avg>=70).length;
+
+  document.getElementById('outSum').innerHTML=`
+    <div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">${wk}</div><div style="font-size:.76rem;color:#666">تدخل عاجل (&lt;50%)</div></div>
+    <div class="suppcard" style="background:#fef9e7;border:1.5px solid #f0a500"><div class="bn" style="color:#b7770d">${md}</div><div style="font-size:.76rem;color:#666">يحتاج تعزيزاً (50-70%)</div></div>
+    <div class="suppcard" style="background:#d5f5e3;border:1.5px solid #27ae60"><div class="bn" style="color:var(--suc)">${gd}</div><div style="font-size:.76rem;color:#666">جيد (&gt;70%)</div></div>`;
+
+  const bl={1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
+  const blc={1:'#0d4f8b',2:'#1a6b3c',3:'#8e44ad'};
+  const recs={
+    wk:{1:'إعادة شرح المفاهيم الأساسية مع بطاقات تلخيص وخرائط ذهنية',2:'تمارين تطبيقية متدرجة مع أمثلة من الحياة اليومية',3:'مهام إبداعية ومشاريع بحثية مبسطة تحت إشراف المعلم'},
+    md:{1:'مراجعة سريعة مع اختبارات قصيرة وألعاب تعليمية',2:'تمارين إضافية ومناقشة حالات دراسية في مجموعات',3:'تحديات تفكير ناقد وأسئلة مفتوحة للمناقشة الصفية'}
+  };
+
+  document.getElementById('outList').innerHTML=sorted.map(o=>{
+    const cls=o.avg<50?'wk':o.avg<70?'md':'gd';
+    const tag=o.avg<50?'<span class="otag otg-wk">⚠️ تدخل عاجل</span>':o.avg<70?'<span class="otag otg-md">📌 يحتاج تعزيز</span>':'<span class="otag otg-gd">✅ جيد</span>';
+    const rec=o.avg<50?recs.wk[o.bloom]:o.avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';
+    return `<div class="outcard" style="border-right:4px solid ${o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)'}">
+      <div class="outhdr">
+        <div><span class="outtitle">${o.title}</span>${tag}<span style="font-size:.68rem;background:#f0f4f8;padding:2px 7px;border-radius:8px;color:${blc[o.bloom]};margin-right:4px">${bl[o.bloom]}</span></div>
+        <div class="outpct" style="color:${o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)'}">${o.avg}%</div>
+      </div>
+      <div class="obg"><div class="ob ${cls}" style="width:${o.avg}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-top:6px">
+        <div style="font-size:.76rem;color:#666">الأسئلة: ${o.qs.map(q=>'س'+q+' ('+rates[q-1]+'%)').join(' | ')}</div>
+        <div style="font-size:.76rem;background:#f8f9fa;border-radius:6px;padding:4px 9px;color:#444;min-width:180px;text-align:right">💡 ${rec}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== EXPORT =====
+function exportClass(cls){
+  const data=allResults.filter(r=>r.class===cls);
+  if(!data.length){alert('لا توجد نتائج للشعبة '+cls);return}
+  doExport(data,'نتائج_الشعبة_'+cls);
+}
+function exportAll(){
+  if(!allResults.length){alert('لا توجد نتائج بعد');return}
+  doExport(allResults,'نتائج_جميع_الشعب');
+}
+function doExport(data,name){
+  const rows=data.map((r,i)=>({'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'النتائج');
+  XLSX.writeFile(wb,name+'.xlsx');
+}
+
+// ===== FULL ANALYSIS EXPORT =====
+function exportFullAnalysis(){
+  if(!allResults.length){alert('لا توجد نتائج بعد');return}
+  const wb=XLSX.utils.book_new();
+  const rates=getQRates();
+
+  // Sheet 1: Summary
+  const total=allResults.length;
+  const avg=Math.round(allResults.reduce((s,r)=>s+r.pct,0)/total);
+  const pass=allResults.filter(r=>r.pct>=50).length;
+  const exc=allResults.filter(r=>r.pct>=90).length;
+  const b1avg=Math.round(allResults.reduce((s,r)=>s+r.bloom1,0)/total/12*100);
+  const b2avg=Math.round(allResults.reduce((s,r)=>s+r.bloom2,0)/total/12*100);
+  const b3avg=Math.round(allResults.reduce((s,r)=>s+r.bloom3,0)/total/6*100);
+  const summaryRows=[
+    {'المؤشر':'إجمالي المحاولات','القيمة':total},
+    {'المؤشر':'متوسط الدرجات (%)','القيمة':avg},
+    {'المؤشر':'عدد الناجحين (≥50%)','القيمة':pass},
+    {'المؤشر':'نسبة النجاح (%)','القيمة':Math.round(pass/total*100)},
+    {'المؤشر':'عدد المتميزين (≥90%)','القيمة':exc},
+    {'المؤشر':'عدد المستهدفين (<50%)','القيمة':total-pass},
+    {'المؤشر':'متوسط أداء التذكر والفهم (%)','القيمة':b1avg},
+    {'المؤشر':'متوسط أداء التطبيق والتحليل (%)','القيمة':b2avg},
+    {'المؤشر':'متوسط أداء التركيب والتقييم (%)','القيمة':b3avg},
+    ...['1','2','4','5'].map(c=>{const cr=allResults.filter(r=>r.class===c);return{'المؤشر':'متوسط الشعبة '+c,'القيمة':cr.length?Math.round(cr.reduce((s,r)=>s+r.pct,0)/cr.length):'-'}})
+  ];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(summaryRows),'ملخص عام');
+
+  // Sheet 2: All results
+  const allRows=allResults.map((r,i)=>({'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(allRows),'جميع النتائج');
+
+  // Sheet 3: Per class
+  ['1','2','4','5'].forEach(c=>{
+    const cr=allResults.filter(r=>r.class===c);
+    if(!cr.length)return;
+    const rows=cr.map((r,i)=>({'#':i+1,'اسم الطالب':r.student,'الدرجة %':r.pct,'الصحيحة':r.correct,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}));
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'الشعبة '+c);
+  });
+
+  // Sheet 4: Question analysis
+  const qRows=QS.map((q,i)=>{
+    const att=allResults.filter(r=>r.answers&&r.answers[i]!=='null');
+    return{
+      'رقم السؤال':i+1,
+      'نوع السؤال':{mcq:'اختيار',tf:'صح/خطأ',fill:'ملء',match:'توصيل',order:'ترتيب'}[q.type],
       'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[q.bloom],
-      'عدد المحاولات':attempted.length, 'نسبة الصحيحة (%)':rate,
-      'التوصية':rate<50?'⚠️ يستدعي التركيز':rate<70?'يحتاج مزيداً من التدريب':'✅ مستوى جيد' };
+      'عدد المحاولات':att.length,
+      'نسبة الإجابة الصحيحة %':rates[i],
+      'مستوى الصعوبة':rates[i]<50?'صعب':rates[i]<70?'متوسط':'سهل',
+      'التوصية':rates[i]<50?'⚠️ يستدعي التركيز والمراجعة العاجلة':rates[i]<70?'يحتاج مزيداً من التدريب':'✅ مستوى جيد',
+      'نص السؤال (مختصر)':q.text.substring(0,60)+'...'
+    };
   });
-  const targets = allResults.filter(r=>r.pct<50).map(r => ({
-    'اسم الطالب':r.student, 'الشعبة':'الشعبة '+r.class, 'الدرجة (%)':r.pct,
-    'تذكر/فهم':r.bloom1+'/'+r.bloom1t, 'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t, 'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,
-    'التوصية':'طالب مستهدف يحتاج خطة علاجية'
-  }));
-  const weakQ = qAnalysis.filter(q=>q['نسبة الصحيحة (%)']<50);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(qAnalysis), 'تحليل الأسئلة');
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(targets.length?targets:[{ملاحظة:'لا يوجد طلاب تحت 50%'}]), 'الطلاب المستهدفون');
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(weakQ.length?weakQ:[{ملاحظة:'لا توجد أسئلة ضعيفة'}]), 'نواتج تعلم للتعزيز');
-  XLSX.writeFile(wb, 'التحليل_العلاجي_الشامل.xlsx');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(qRows),'تحليل الأسئلة');
+
+  // Sheet 5: Targeted students
+  const sv=answers;
+  const tgtRows=allResults.filter(r=>r.pct<50).map((r,i)=>{
+    const b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
+    const wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
+    answers=r.answers?r.answers.map(a=>{if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}}):new Array(30).fill(null);
+    const wrongQs=QS.map((_,qi)=>!isOk(qi)?'س'+(qi+1):null).filter(Boolean);
+    return{
+      '#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,
+      'تذكر/فهم %':b1p,'تطبيق/تحليل %':b2p,'تركيب/تقييم %':b3p,
+      'أضعف مجال':wk,'الأسئلة الخاطئة':wrongQs.join('، '),
+      'التوصية العلاجية':r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل',
+      'الأولوية':r.pct<30?'عالية جداً':r.pct<40?'عالية':'متوسطة'
+    };
+  });
+  answers=sv;
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(tgtRows.length?tgtRows:[{'ملاحظة':'لا يوجد طلاب تحت 50%'}]),'الطلاب المستهدفون');
+
+  // Sheet 6: Learning outcomes
+  const outRows=OUTCOMES.map(o=>{
+    const avg=Math.round(o.qs.reduce((s,q)=>s+rates[q-1],0)/o.qs.length);
+    const recs={wk:{1:'إعادة شرح المفاهيم مع بطاقات تلخيص',2:'تمارين تطبيقية متدرجة',3:'مشاريع إبداعية مبسطة'},md:{1:'مراجعة مع اختبارات قصيرة',2:'تمارين إضافية ومناقشة',3:'تحديات تفكير ناقد'}};
+    const rec=avg<50?recs.wk[o.bloom]:avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';
+    return{
+      'رقم الناتج':o.id,'عنوان ناتج التعلم':o.title,
+      'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[o.bloom],
+      'الأسئلة المرتبطة':o.qs.map(q=>'س'+q).join('، '),
+      'متوسط الأداء %':avg,
+      'الحالة':avg<50?'⚠️ يحتاج تدخلاً عاجلاً':avg<70?'📌 يحتاج تعزيزاً':'✅ مستوى جيد',
+      'التوصية العلاجية':rec,
+      'الأولوية':avg<50?'1 - عالية جداً':avg<70?'2 - متوسطة':'3 - منخفضة'
+    };
+  }).sort((a,b)=>a['متوسط الأداء %']-b['متوسط الأداء %']);
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(outRows),'نواتج التعلم');
+
+  // Sheet 7: Remedial plan
+  const weakOut=outRows.filter(o=>o['متوسط الأداء %']<50);
+  const planRows=weakOut.map((o,i)=>({'الأسبوع':'الأسبوع '+(i+1),'ناتج التعلم':o['عنوان ناتج التعلم'],'مستوى بلوم':o['مستوى بلوم'],'الأسئلة المرتبطة':o['الأسئلة المرتبطة'],'الإجراء العلاجي المقترح':o['التوصية العلاجية'],'المواد المقترحة':'أوراق عمل + فيديو تعليمي + نشاط تطبيقي','معيار النجاح':'تحقيق 70% فأكثر في إعادة التقييم'}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(planRows.length?planRows:[{'ملاحظة':'لا توجد نواتج تحت 50%'}]),'الخطة العلاجية');
+
+  XLSX.writeFile(wb,'تحليل_النتائج_الشامل_'+new Date().toLocaleDateString('ar-AE').replace(/\//g,'-')+'.xlsx');
 }
 
-// ===================== MODAL & DELETE =====================
-function showModal(title, msg, onConfirm) {
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalMsg').textContent = msg;
-  document.getElementById('modalConfirmBtn').onclick = onConfirm;
-  document.getElementById('modalOverlay').classList.add('show');
+// ===== MODAL & DELETE =====
+function showModal(t,m,fn){
+  document.getElementById('mTitle').textContent=t;
+  document.getElementById('mMsg').textContent=m;
+  document.getElementById('mOkBtn').onclick=fn;
+  document.getElementById('mover').classList.add('show');
 }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
-
-function confirmDeleteOne(fbKey, localKey) {
-  showModal('حذف إجابة', 'هل تريد حذف إجابة هذا الطالب؟', () => {
-    closeModal();
-    deleteFromFirebase(fbKey, localKey);
-    setTimeout(loadDashboard, 500);
-  });
-}
-function confirmDeleteAll() {
-  showModal('حذف كل الإجابات', 'هل أنت متأكد من حذف جميع الإجابات؟ لا يمكن التراجع!', () => {
-    closeModal(); deleteAllFromFirebase(); setTimeout(loadDashboard, 500);
-  });
-}
+function closeModal(){document.getElementById('mover').classList.remove('show')}
+function confirmDel1(fbk,lk){showModal('حذف إجابة','هل تريد حذف إجابة هذا الطالب؟',()=>{closeModal();delFromFb(fbk,lk);setTimeout(()=>{loadFromFb(()=>{renderSummary();renderTable(curClass)})},400)})}
+function confirmDelAll(){showModal('حذف كل الإجابات','هل أنت متأكد من حذف جميع الإجابات؟ لا يمكن التراجع!',()=>{closeModal();delAllFb();setTimeout(()=>{allResults=[];renderSummary();renderTable('all');renderSupport();renderOutcomes()},400)})}
 </script>
 </body>
 </html>
