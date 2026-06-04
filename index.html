@@ -639,50 +639,29 @@ function doStartQuiz(cls, st, lkKey) {
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
 }
 
-// ── LOCK ON LEAVE ──
-var _lockTimer = null;
-
-function scheduleLock() {
+// ── LOCK ON LEAVE ── فوري بدون تأخير
+function lockQuizNow() {
   if (!window._quizActive) return;
-  _lockTimer = setTimeout(function() {
-    if (window._quizActive) {
-      savePartialAndLock();
-      showLockedMessage();
-    }
-  }, 1500);
-}
-function cancelLock() {
-  if (_lockTimer) { clearTimeout(_lockTimer); _lockTimer = null; }
+  savePartialAndLock();
+  showLockedMessage();
 }
 
 document.addEventListener('visibilitychange', function() {
-  if (document.hidden) {
-    scheduleLock();
-  } else {
-    // Returned to page
-    if (sessionStorage.getItem('_qLocked') === '1') {
-      window._lockKey = sessionStorage.getItem('_qLockKey');
-      showLockedMessage();
-    } else {
-      cancelLock();
-    }
-  }
+  if (document.hidden) lockQuizNow();
 });
 
-window.addEventListener('blur',  function() { scheduleLock(); });
-window.addEventListener('focus', function() {
-  if (sessionStorage.getItem('_qLocked') === '1') {
-    window._lockKey = sessionStorage.getItem('_qLockKey');
-    showLockedMessage();
-  } else {
-    cancelLock();
-  }
+window.addEventListener('blur', function() {
+  lockQuizNow();
 });
 
-window.addEventListener('beforeunload', function() { if (window._quizActive) savePartialAndLock(); });
-window.addEventListener('pagehide',      function() { if (window._quizActive) savePartialAndLock(); });
+window.addEventListener('beforeunload', function() {
+  if (window._quizActive) savePartialAndLock();
+});
+window.addEventListener('pagehide', function() {
+  if (window._quizActive) savePartialAndLock();
+});
 
-// On page load: check if student was mid-quiz and locked
+// عند إعادة تحميل الصفحة: تحقق إذا كان مغلقاً
 window.addEventListener('load', function() {
   if (sessionStorage.getItem('_qLocked') === '1') {
     window._lockKey = sessionStorage.getItem('_qLockKey');
