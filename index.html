@@ -300,6 +300,14 @@ tr:hover td{background:#f8fafb}
     </div>
   </div>
   <div class="dbody">
+    <!-- Pending Device Banner -->
+    <div id="pendingDeviceBanner" style="display:none;background:#fff3cd;border:2px solid #f0a500;border-radius:10px;padding:12px 18px;margin-bottom:16px;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div style="font-size:.88rem;color:#856404">⚠️ <strong>طلب دخول من جهاز جديد:</strong> جهاز آخر يطلب الوصول للوحة المعلم.</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="approveDevice()" style="padding:7px 14px;background:var(--suc);color:#fff;border:none;border-radius:7px;font-size:.83rem;font-weight:700;cursor:pointer">✅ السماح للجهاز الجديد</button>
+        <button onclick="db.ref(TEACHER_DEVICE_PATH+'/pending').remove()" style="padding:7px 14px;background:var(--dan);color:#fff;border:none;border-radius:7px;font-size:.83rem;font-weight:700;cursor:pointer">❌ رفض</button>
+      </div>
+    </div>
     <div class="ag" id="agEl"></div>
     <div class="xbtns">
       <button class="xbtn green" onclick="exportClass('1')">📊 الشعبة 1</button>
@@ -310,6 +318,7 @@ tr:hover td{background:#f8fafb}
       <button class="xbtn purple" onclick="exportFullAnalysis()">🧠 تحليل النتائج</button>
       <button class="xbtn orange" onclick="refreshDash()">🔄 تحديث</button>
       <button class="xbtn red" onclick="confirmDelAll()">🗑️ حذف الكل</button>
+      <button class="xbtn" style="background:#555" onclick="resetTeacherDevice()">🔧 إعادة ضبط قيد الجهاز</button>
     </div>
     <div class="maintabs">
       <button class="mtab active" onclick="switchTab('results')">📋 النتائج</button>
@@ -381,15 +390,38 @@ tr:hover td{background:#f8fafb}
 // ── SCREEN MANAGER ──
 function SS(id){
   var ids=['homeScreen','loginScreen','teacherLogin','quizScreen','resultScreen','teacherDashboard'];
-  ids.forEach(function(s){
-    var el=document.getElementById(s);
-    if(el) el.style.display='none';
-  });
+  ids.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none'});
   var target=document.getElementById(id);
-  if(target) target.style.display='block';
+  if(target)target.style.display='block';
   window.scrollTo(0,0);
 }
-window.addEventListener('load',function(){ SS('homeScreen'); });
+
+// ── DEVICE ID ──
+function getDeviceId(){
+  var id=localStorage.getItem('device_id');
+  if(!id){id='dev_'+Math.random().toString(36).substr(2,12)+'_'+Date.now();localStorage.setItem('device_id',id)}
+  return id;
+}
+var DEVICE_ID=getDeviceId();
+var TEACHER_DEVICE_PATH='science_quiz_teacher_device';
+var LOCKED_PATH='science_quiz_locked';
+var ATTEMPTS_PATH='science_quiz_attempts';
+
+window.addEventListener('load',function(){
+  SS('homeScreen');
+  // Lock quiz if student leaves mid-quiz
+  window.addEventListener('beforeunload',function(){
+    if(window._quizActive&&window._curStudent&&window._curClass){
+      savePartialAndLock();
+    }
+  });
+  // Also handle visibility change (tab switch / phone lock)
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden&&window._quizActive&&window._curStudent&&window._curClass){
+      savePartialAndLock();
+    }
+  });
+});
 
 // ── FIREBASE ──
 const fbCfg={apiKey:"AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",authDomain:"final-exam-2026-e2777.firebaseapp.com",databaseURL:"https://final-exam-2026-e2777-default-rtdb.firebaseio.com",projectId:"final-exam-2026-e2777",storageBucket:"final-exam-2026-e2777.firebasestorage.app",messagingSenderId:"707186742298",appId:"1:707186742298:web:e1739849c8674842f02da3"};
@@ -486,16 +518,56 @@ function loadStudents(){
   if(cls&&STUDENTS[cls])STUDENTS[cls].forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
 }
 function checkTeacher(){
-  if(document.getElementById('tPwd').value===TPWD){document.getElementById('tPwd').value='';loadDash();SS('teacherDashboard')}
-  else alert('رمز الدخول غير صحيح!');
+  var pwd=document.getElementById('tPwd').value;
+  if(pwd!==TPWD){alert('رمز الدخول غير صحيح!');return}
+  // Check device authorization
+  db.ref(TEACHER_DEVICE_PATH).once('value').then(function(s){
+    var stored=s.val();
+    if(!stored){
+      // First time — register this device
+      db.ref(TEACHER_DEVICE_PATH).set({deviceId:DEVICE_ID,ts:Date.now()});
+      document.getElementById('tPwd').value='';
+      loadDash();SS('teacherDashboard');
+    } else if(stored.deviceId===DEVICE_ID){
+      // Same device — allow
+      document.getElementById('tPwd').value='';
+      loadDash();SS('teacherDashboard');
+    } else {
+      // Different device — show pending request
+      document.getElementById('tPwd').value='';
+      db.ref(TEACHER_DEVICE_PATH+'/pending').set({deviceId:DEVICE_ID,ts:Date.now()});
+      showDevicePendingScreen();
+    }
+  });
 }
 
-// ── QUIZ ──
+// ── QUIZ START WITH LOCK CHECK ──
 function startQuiz(){
   var cls=document.getElementById('selClass').value;
   var st=document.getElementById('selStudent').value;
   if(!cls||!st){alert('يرجى اختيار الشعبة والاسم أولاً');return}
-  window._curStudent=st;window._curClass=cls;
+  var lockKey=cls+'_'+st.replace(/\s/g,'_');
+  // Check if locked
+  db.ref(LOCKED_PATH+'/'+lockKey).once('value').then(function(s){
+    var lockData=s.val();
+    if(lockData&&lockData.locked){
+      alert('⛔ تم إيقاف اختبارك بواسطة المعلم أو غادرت الاختبار. يرجى التواصل مع المعلم لإعادة فتح الاختبار.');
+      return;
+    }
+    // Check if already submitted
+    db.ref(ATTEMPTS_PATH+'/'+lockKey).once('value').then(function(a){
+      var attempt=a.val();
+      if(attempt&&attempt.submitted){
+        alert('✅ لقد قدّمت الاختبار مسبقاً. تواصل مع المعلم إذا أردت إعادة المحاولة.');
+        return;
+      }
+      doStartQuiz(cls,st,lockKey);
+    });
+  });
+}
+
+function doStartQuiz(cls,st,lockKey){
+  window._curStudent=st;window._curClass=cls;window._lockKey=lockKey;window._quizActive=true;
   markStudentActive(st,cls);
   answers=new Array(30).fill(null);checked=new Array(30).fill(false);
   orderStates=QS.map(function(q){return q.type==='order'?[...Array(q.items.length).keys()]:null});
@@ -624,15 +696,34 @@ function confirmSubmit(){
   var u=answers.filter(function(a){return a===null||a===undefined}).length;
   showModal('تسليم الاختبار','لديك '+u+' سؤال لم تجب عليه. هل تريد التسليم الآن؟',submitQuiz);
 }
+function savePartialAndLock(){
+  if(!window._lockKey)return;
+  // Lock the student
+  db.ref(LOCKED_PATH+'/'+window._lockKey).set({locked:true,student:window._curStudent,class:window._curClass,ts:Date.now(),reason:'غادر الاختبار'});
+  // Save partial answers
+  var partial={student:window._curStudent,class:window._curClass,partial:true,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)}),timestamp:Date.now()};
+  db.ref(LOCKED_PATH+'/'+window._lockKey+'/partial').set(partial);
+  window._quizActive=false;
+}
+
 function submitQuiz(){
   closeModal();clearInterval(timerInt);
+  window._quizActive=false;
   var el=Math.round((Date.now()-startTime)/1000);
   var ts=Math.floor(el/60)+':'+(el%60).toString().padStart(2,'0');
   var cor=0,b1=0,b2=0,b3=0;
   QS.forEach(function(q,i){if(isOk(i)){cor++;if(q.bloom===1)b1++;if(q.bloom===2)b2++;if(q.bloom===3)b3++}});
   var pct=Math.round(cor/30*100);
   var r={student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
-  saveToFb(r);markStudentDone(window._curStudent,window._curClass);showResult(r,pct);
+  saveToFb(r);
+  markStudentDone(window._curStudent,window._curClass);
+  // Mark as submitted (prevent re-entry)
+  if(window._lockKey){
+    db.ref(ATTEMPTS_PATH+'/'+window._lockKey).set({submitted:true,student:window._curStudent,class:window._curClass,ts:Date.now()});
+    // Remove any lock
+    db.ref(LOCKED_PATH+'/'+window._lockKey).remove();
+  }
+  showResult(r,pct);
 }
 function showResult(r,pct){
   var sc=document.getElementById('scircle');
@@ -674,10 +765,81 @@ function delFromFb(fbKey,localKey){
 }
 function delAllFb(){db.ref(PATH).remove();localStorage.removeItem('sq_local')}
 
-// ── DASHBOARD ──
-function loadDash(){listenActiveSessions();loadFromFb(function(){renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()})}
+// ── DEVICE PENDING SCREEN ──
+function showDevicePendingScreen(){
+  SS('teacherLogin');
+  document.getElementById('teacherLogin').innerHTML='<div class="fullpage" style="background:linear-gradient(135deg,#0d4f8b,#1a237e)"><div class="card" style="text-align:center"><div style="font-size:3rem;margin-bottom:12px">🔐</div><h2 style="color:var(--dan);margin-bottom:10px">جهاز غير مصرح</h2><p style="color:#555;margin-bottom:16px">لوحة المعلم مقيدة بجهاز آخر.<br>تم إرسال طلب السماح للمعلم.</p><p style="background:#fef9e7;border:1px solid #f0a500;border-radius:8px;padding:12px;font-size:.85rem;color:#7d6608;margin-bottom:18px">⏳ في انتظار موافقة المعلم من جهازه الأصلي...</p><button onclick="checkPendingApproval()" style="width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px">🔄 تحقق من الموافقة</button><div class="tlink"><a onclick="SS(\'homeScreen\')">← العودة للرئيسية</a></div></div></div>';
+}
+
+function checkPendingApproval(){
+  db.ref(TEACHER_DEVICE_PATH).once('value').then(function(s){
+    var d=s.val();
+    if(d&&d.deviceId===DEVICE_ID){
+      loadDash();SS('teacherDashboard');
+    } else {
+      alert('لم تتم الموافقة بعد. انتظر المعلم.');
+    }
+  });
+}
+
+// ── DASHBOARD LOAD ──
+function loadDash(){
+  listenActiveSessions();
+  listenPendingDevice();
+  loadFromFb(function(){renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()});
+}
+
+function listenPendingDevice(){
+  db.ref(TEACHER_DEVICE_PATH+'/pending').on('value',function(s){
+    var pending=s.val();
+    var banner=document.getElementById('pendingDeviceBanner');
+    if(pending&&pending.deviceId&&pending.deviceId!==DEVICE_ID){
+      if(banner){banner.style.display='flex'}
+    } else {
+      if(banner){banner.style.display='none'}
+    }
+  });
+}
+
+function approveDevice(){
+  db.ref(TEACHER_DEVICE_PATH+'/pending').once('value').then(function(s){
+    var p=s.val();
+    if(p&&p.deviceId){
+      db.ref(TEACHER_DEVICE_PATH).set({deviceId:p.deviceId,ts:Date.now()});
+      DEVICE_ID=p.deviceId;
+      alert('✅ تم السماح للجهاز الجديد. سيتمكن المعلم من الدخول الآن.');
+    }
+  });
+}
+
+function resetTeacherDevice(){
+  if(confirm('هل تريد إزالة قيد الجهاز؟ سيتمكن أي شخص يملك الرمز من الدخول مؤقتاً.')){
+    db.ref(TEACHER_DEVICE_PATH).remove();
+    alert('تم إزالة قيد الجهاز. سيتم تسجيل الجهاز الأول الذي يدخل تلقائياً.');
+  }
+}
+// ── UNLOCK / RESET STUDENT ──
+function unlockStudent(lockKey,student,cls){
+  if(confirm('فتح الاختبار للطالب: '+student+'؟')){
+    db.ref(LOCKED_PATH+'/'+lockKey).remove();
+    alert('✅ تم فتح الاختبار للطالب '+student);
+    renderClassStatus();
+  }
+}
+
+function resetStudentAttempt(lockKey,student,cls,fbKey){
+  if(confirm('إعادة محاولة الطالب: '+student+'؟\nسيتم حذف إجابته السابقة وفتح الاختبار له من جديد.')){
+    // Delete previous result
+    if(fbKey) db.ref(PATH+'/'+fbKey).remove();
+    // Remove attempt record
+    db.ref(ATTEMPTS_PATH+'/'+lockKey).remove();
+    // Remove any lock
+    db.ref(LOCKED_PATH+'/'+lockKey).remove();
+    alert('✅ تم فتح الاختبار للطالب '+student+' للمحاولة مرة أخرى.');
+    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus()});
+  }
+}
 function refreshDash(){Object.values(charts).forEach(function(c){try{c.destroy()}catch(e){}});charts={};loadDash()}
-function renderSummary(){
   var t=allResults.length,avg=t?Math.round(allResults.reduce(function(s,r){return s+r.pct},0)/t):0;
   var pass=allResults.filter(function(r){return r.pct>=50}).length,exc=allResults.filter(function(r){return r.pct>=90}).length;
   var at=t?Math.round(allResults.reduce(function(s,r){return s+(r.elapsed||0)},0)/t/60):0;
@@ -709,24 +871,49 @@ function renderTable(cls){
 }
 function renderClassStatus(){
   var grid=document.getElementById('classStatusGrid');if(!grid)return;
-  grid.innerHTML=['1','2','4','5'].map(function(cls){
-    var students=STUDENTS[cls];
-    function getLatest(name){var rs=allResults.filter(function(r){return r.class===cls&&r.student===name});if(!rs.length)return null;return rs.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0)})[0]}
-    function isActive(name){var key=cls+'_'+name.replace(/\s/g,'_');if(!activeSessions[key])return false;return(Date.now()-(activeSessions[key].ts||0))<90*60*1000}
-    var done=students.filter(function(n){return getLatest(n)!==null}).length;
-    var notDone=students.filter(function(n){return!getLatest(n)&&!isActive(n)}).length;
-    var active=students.filter(function(n){return isActive(n)}).length;
-    var fail=students.filter(function(n){var r=getLatest(n);return r&&r.pct<50}).length;
-    var rows=students.map(function(name,i){
-      var r=getLatest(name),act=isActive(name),statusEl,scoreEl='';
-      if(act){statusEl='<span class="stu-status st-active">🟡 في الاختبار</span>'}
-      else if(!r){statusEl='<span class="stu-status st-none">لم يقدم</span>'}
-      else{scoreEl='<span class="stu-score">'+r.pct+'%</span>';statusEl=r.pct>=50?'<span class="stu-status st-done-pass">تقدّم ✓</span>':'<span class="stu-status st-done-fail">تقدّم ✗</span>'}
-      var nc=(r&&r.pct<50&&!act)?'stu-name fail':'stu-name';
-      return'<div class="stu-row"><span style="color:#aaa;font-size:.75rem;margin-left:8px;min-width:18px">'+(i+1)+'</span><span class="'+nc+'">'+name+'</span>'+scoreEl+statusEl+'</div>';
-    }).join('');
-    return'<div class="cls-status-card"><div class="cls-status-header"><span>الشعبة '+cls+' ('+students.length+' طالب)</span><div class="counts"><span class="cnt">✓ '+done+' تقدّم</span><span class="cnt" style="background:rgba(255,193,7,.4)">🟡 '+active+' نشط</span><span class="cnt">✗ '+notDone+' لم يقدم</span>'+(fail?'<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ '+fail+' راسب</span>':'')+' </div></div>'+rows+'</div>';
-  }).join('');
+
+  // Load locked + attempts data then render
+  db.ref(LOCKED_PATH).once('value').then(function(ls){
+    var lockedData=ls.val()||{};
+    db.ref(ATTEMPTS_PATH).once('value').then(function(as){
+      var attemptsData=as.val()||{};
+      grid.innerHTML=['1','2','4','5'].map(function(cls){
+        var students=STUDENTS[cls];
+        function getLockKey(name){return cls+'_'+name.replace(/\s/g,'_')}
+        function getLatest(name){var rs=allResults.filter(function(r){return r.class===cls&&r.student===name});if(!rs.length)return null;return rs.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0)})[0]}
+        function isActive(name){var key=getLockKey(name);if(!activeSessions[key])return false;return(Date.now()-(activeSessions[key].ts||0))<90*60*1000}
+        function isLocked(name){var key=getLockKey(name);return lockedData[key]&&lockedData[key].locked}
+        function isSubmitted(name){var key=getLockKey(name);return attemptsData[key]&&attemptsData[key].submitted}
+        var done=students.filter(function(n){return getLatest(n)!==null}).length;
+        var notDone=students.filter(function(n){return!getLatest(n)&&!isActive(n)&&!isLocked(n)}).length;
+        var active=students.filter(function(n){return isActive(n)}).length;
+        var locked=students.filter(function(n){return isLocked(n)}).length;
+        var fail=students.filter(function(n){var r=getLatest(n);return r&&r.pct<50}).length;
+        var rows=students.map(function(name,i){
+          var r=getLatest(name),act=isActive(name),lk=isLocked(name),sub=isSubmitted(name);
+          var statusEl,scoreEl='',actionBtns='';
+          var lkKey=getLockKey(name);
+          if(lk){
+            statusEl='<span class="stu-status" style="background:#fde8e6;color:#922b21">🔒 موقوف</span>';
+            actionBtns='<button onclick="unlockStudent(\''+lkKey+'\',\''+name+'\',\''+cls+'\')" style="padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;background:var(--suc);color:#fff;cursor:pointer;margin-right:3px">🔓 فتح</button>';
+          } else if(act){
+            statusEl='<span class="stu-status st-active">🟡 في الاختبار</span>';
+          } else if(sub||r){
+            scoreEl=r?'<span class="stu-score">'+r.pct+'%</span>':'';
+            var pctVal=r?r.pct:0;
+            statusEl=pctVal>=50?'<span class="stu-status st-done-pass">تقدّم ✓</span>':'<span class="stu-status st-done-fail">تقدّم ✗</span>';
+            var fbKey=r?r.fbKey||'':'';
+            actionBtns='<button onclick="resetStudentAttempt(\''+lkKey+'\',\''+name+'\',\''+cls+'\',\''+fbKey+'\')" style="padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;background:var(--acc);color:#fff;cursor:pointer;margin-right:3px">🔄 إعادة</button>';
+          } else {
+            statusEl='<span class="stu-status st-none">لم يقدم</span>';
+          }
+          var nc=(r&&r.pct<50&&!act&&!lk)?'stu-name fail':'stu-name';
+          return'<div class="stu-row"><span style="color:#aaa;font-size:.75rem;margin-left:6px;min-width:16px">'+(i+1)+'</span><span class="'+nc+'" style="flex:1">'+name+'</span>'+scoreEl+actionBtns+statusEl+'</div>';
+        }).join('');
+        return'<div class="cls-status-card"><div class="cls-status-header"><span>الشعبة '+cls+' ('+students.length+' طالب)</span><div class="counts"><span class="cnt">✓ '+done+' تقدّم</span><span class="cnt" style="background:rgba(255,193,7,.4)">🟡 '+active+' نشط</span>'+(locked?'<span class="cnt" style="background:rgba(192,57,43,.4)">🔒 '+locked+' موقوف</span>':'')+' <span class="cnt">✗ '+notDone+' لم يقدم</span>'+(fail?'<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ '+fail+' راسب</span>':'')+' </div></div>'+rows+'</div>';
+      }).join('');
+    });
+  });
 }
 
 // ── CHARTS ──
