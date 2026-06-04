@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>اختبار العلوم التدريبي - الصف السابع</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -248,6 +249,29 @@ tr:hover td { background: #f8fafb; }
 .analytics-card .big-num { font-size: 2rem; font-weight: bold; color: var(--primary); }
 .analytics-card .desc { font-size: 0.8rem; color: #666; margin-top: 4px; }
 .btn-sm { padding: 5px 12px; font-size: 0.78rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+.main-tab-content { display: none; }
+.main-tab-content.active { display: block; }
+.sub-tabs { margin-bottom: 14px; }
+.analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px,1fr)); gap: 18px; }
+.chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.chart-card.full-width { grid-column: 1 / -1; }
+.chart-title { font-size: 0.95rem; color: var(--secondary); margin-bottom: 14px; font-weight: 700; }
+.outcome-card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.outcome-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.outcome-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.outcome-rate { font-size: 1.1rem; font-weight: bold; }
+.outcome-bar-bg { background: #e8eceb; border-radius: 6px; height: 12px; margin-bottom: 8px; }
+.outcome-bar { height: 12px; border-radius: 6px; transition: width 0.6s; }
+.outcome-bar.good { background: linear-gradient(90deg, var(--success), #2ecc71); }
+.outcome-bar.medium { background: linear-gradient(90deg, var(--accent), #f39c12); }
+.outcome-bar.weak { background: linear-gradient(90deg, var(--danger), #e74c3c); }
+.outcome-tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; margin-left: 6px; }
+.tag-weak { background: #fde8e6; color: #922b21; }
+.tag-medium { background: #fef9e7; color: #7d6608; }
+.tag-good { background: #d5f5e3; color: #1e8449; }
+.support-card { background: linear-gradient(135deg, #fde8e6, #fff); border: 1.5px solid #f1948a; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+.support-info h4 { font-size: 0.9rem; color: var(--danger); margin-bottom: 4px; }
+.support-info p { font-size: 0.8rem; color: #666; }
 
 /* Firebase status */
 .fb-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; padding: 4px 10px; border-radius: 12px; }
@@ -425,25 +449,100 @@ tr:hover td { background: #f8fafb; }
       <button class="btn btn-info" onclick="refreshDashboard()">🔄 تحديث</button>
       <button class="btn btn-danger" onclick="confirmDeleteAll()">🗑️ حذف كل الإجابات</button>
     </div>
+    <!-- Main Tabs -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('all')">الكل</button>
-      <button class="tab-btn" onclick="showTab('1')">الشعبة 1</button>
-      <button class="tab-btn" onclick="showTab('2')">الشعبة 2</button>
-      <button class="tab-btn" onclick="showTab('4')">الشعبة 4</button>
-      <button class="tab-btn" onclick="showTab('5')">الشعبة 5</button>
+      <button class="tab-btn active" onclick="showMainTab('results')">📋 النتائج</button>
+      <button class="tab-btn" onclick="showMainTab('analysis')">📊 التحليل المتقدم</button>
+      <button class="tab-btn" onclick="showMainTab('support')">🎯 الطلاب المستهدفون</button>
+      <button class="tab-btn" onclick="showMainTab('outcomes')">📚 نواتج التعلم</button>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th>
-            <th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th>
-            <th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>إجراء</th>
-          </tr>
-        </thead>
-        <tbody id="resultsTable"></tbody>
-      </table>
+
+    <!-- TAB: Results -->
+    <div id="tab-results" class="main-tab-content active">
+      <div class="tabs sub-tabs">
+        <button class="tab-btn active" onclick="showTab('all')">الكل</button>
+        <button class="tab-btn" onclick="showTab('1')">الشعبة 1</button>
+        <button class="tab-btn" onclick="showTab('2')">الشعبة 2</button>
+        <button class="tab-btn" onclick="showTab('4')">الشعبة 4</button>
+        <button class="tab-btn" onclick="showTab('5')">الشعبة 5</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th>
+              <th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th>
+              <th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTable"></tbody>
+        </table>
+      </div>
     </div>
+
+    <!-- TAB: Advanced Analysis -->
+    <div id="tab-analysis" class="main-tab-content">
+      <div class="analysis-grid">
+        <!-- Score Distribution -->
+        <div class="chart-card">
+          <h3 class="chart-title">📊 توزيع الدرجات</h3>
+          <canvas id="scoreDistChart" height="220"></canvas>
+        </div>
+        <!-- Bloom Levels -->
+        <div class="chart-card">
+          <h3 class="chart-title">🧠 الأداء حسب مستويات بلوم</h3>
+          <canvas id="bloomChart" height="220"></canvas>
+        </div>
+        <!-- Class Comparison -->
+        <div class="chart-card">
+          <h3 class="chart-title">🏫 مقارنة الشعب</h3>
+          <canvas id="classChart" height="220"></canvas>
+        </div>
+        <!-- Question Difficulty -->
+        <div class="chart-card full-width">
+          <h3 class="chart-title">❓ صعوبة كل سؤال (% الإجابات الصحيحة)</h3>
+          <canvas id="questionChart" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Support Students -->
+    <div id="tab-support" class="main-tab-content">
+      <div class="support-filters" style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <label style="font-weight:600">تصفية حسب:</label>
+        <select id="supportThreshold" onchange="renderSupportTab()" style="padding:6px 12px;border:2px solid var(--border);border-radius:8px;background:white">
+          <option value="50">أقل من 50% (بحاجة دعم)</option>
+          <option value="60">أقل من 60%</option>
+          <option value="70">أقل من 70%</option>
+        </select>
+        <select id="supportClass" onchange="renderSupportTab()" style="padding:6px 12px;border:2px solid var(--border);border-radius:8px;background:white">
+          <option value="all">جميع الشعب</option>
+          <option value="1">الشعبة 1</option>
+          <option value="2">الشعبة 2</option>
+          <option value="4">الشعبة 4</option>
+          <option value="5">الشعبة 5</option>
+        </select>
+      </div>
+      <div id="supportSummary" style="margin-bottom:16px"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th>
+              <th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th>
+              <th>أضعف مجال</th><th>توصية علاجية</th>
+            </tr>
+          </thead>
+          <tbody id="supportTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: Learning Outcomes -->
+    <div id="tab-outcomes" class="main-tab-content">
+      <div id="outcomesContent"></div>
+    </div>
+
   </div>
 </div>
 
