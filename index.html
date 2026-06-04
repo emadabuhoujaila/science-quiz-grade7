@@ -12,18 +12,12 @@
 :root{--primary:#1a6b3c;--pl:#2d9e5f;--sec:#0d4f8b;--acc:#f0a500;--dan:#c0392b;--suc:#27ae60;--bg:#f4f7f6;--txt:#2c3e50;--brd:#dce3e0}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
 body{background:var(--bg);color:var(--txt)}
-
-/* ── SCREENS ── */
 .screen{display:none}
-
-/* TOP BAR */
 .topbar{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .topbar h1{font-size:1rem}.topbar .sub{font-size:.78rem;opacity:.85}
 .timer{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:8px;padding:5px 14px;font-size:1.3rem;font-weight:700;min-width:84px;text-align:center;transition:background .3s}
 .timer.warn{background:rgba(240,165,0,.5)}.timer.danger{background:rgba(192,57,43,.7);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-
-/* CARD */
 .card{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:460px;box-shadow:0 8px 32px rgba(0,0,0,.25)}
 .card .logo{text-align:center;margin-bottom:18px}.card .logo h2{color:var(--primary);font-size:1.3rem;margin-top:6px}.card .logo p{color:#666;font-size:.83rem}
 .fg{margin-bottom:14px}.fg label{display:block;margin-bottom:5px;font-weight:600;font-size:.88rem}
@@ -34,19 +28,15 @@ body{background:var(--bg);color:var(--txt)}
 .tlink{text-align:center;margin-top:12px}.tlink a{color:var(--sec);font-size:.83rem;cursor:pointer;text-decoration:underline}
 .fbst{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;padding:3px 10px;border-radius:10px}
 .fbst.ok{background:#d5f5e3;color:#1e8449}.fbst.err{background:#fde8e6;color:#922b21}.fbst.wait{background:#fef9e7;color:#7d6608}
-
-/* FULL PAGE CENTER */
 .fullpage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-
-/* QUIZ */
 .qbody{max-width:800px;margin:0 auto;padding:18px 14px 40px}
 .sbar{background:#fff;border-radius:10px;padding:9px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.1);font-size:.83rem;color:#555}
 .pbg{background:#e8eceb;border-radius:8px;height:7px;margin-bottom:3px}
 .pb{height:7px;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:8px;transition:width .4s}
 .plbl{font-size:.73rem;color:#777;text-align:center;margin-bottom:14px}
 .qcard{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:14px}
-.qhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.qnum{background:var(--primary);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0}
+.qhdr{display:flex;align-items:flex-start;margin-bottom:12px}
+.qnum{background:var(--primary);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0;margin-left:8px}
 .tbadge{font-size:.7rem;background:#e8f4fd;color:var(--sec);padding:2px 9px;border-radius:10px;font-weight:600}
 .bbadge{font-size:.66rem;background:#fef9e7;color:#b7770d;padding:2px 7px;border-radius:9px;margin-top:2px}
 .qtxt{font-size:.95rem;line-height:1.7;margin-bottom:14px;font-weight:500}
@@ -91,8 +81,6 @@ body{background:var(--bg);color:var(--txt)}
 .dot.cur{border-color:var(--acc);box-shadow:0 0 0 3px rgba(240,165,0,.3)}
 .dot.cok{background:var(--suc);color:#fff;border-color:var(--suc)}
 .dot.cwrr{background:var(--dan);color:#fff;border-color:var(--dan)}
-
-/* RESULT */
 .rbody{max-width:700px;margin:0 auto;padding:22px 14px 40px}
 .rcard{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.1);text-align:center;margin-bottom:18px}
 .scircle{width:130px;height:130px;border-radius:50%;margin:0 auto 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.9rem;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2)}
@@ -109,8 +97,6 @@ body{background:var(--bg);color:var(--txt)}
 .blf{height:9px;border-radius:4px;background:var(--primary);transition:width .6s}
 .rtn{background:var(--primary);color:#fff;padding:11px 26px;border:none;border-radius:10px;font-size:.97rem;font-weight:700;cursor:pointer;margin:5px}
 .rtn:hover{background:var(--pl)}
-
-/* DASHBOARD */
 .dbody{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
 .ag{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
 .ac{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 6px rgba(0,0,0,.07);text-align:center}
@@ -153,18 +139,20 @@ tr:hover td{background:#f8fafb}
 .suppcard{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 5px rgba(0,0,0,.07);text-align:center}
 .cls-status-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
 .cls-status-header{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center}
-.cls-status-header .counts{font-size:.76rem;opacity:.9;display:flex;gap:8px}
+.cls-status-header .counts{font-size:.76rem;opacity:.9;display:flex;gap:6px;flex-wrap:wrap}
 .cls-status-header .cnt{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px}
-.stu-row{display:flex;justify-content:space-between;align-items:center;padding:7px 14px;border-bottom:1px solid #f0f0f0;font-size:.83rem}
+.stu-row{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid #f0f0f0;font-size:.82rem;gap:4px}
 .stu-row:last-child{border-bottom:none}.stu-row:hover{background:#f8fafb}
-.stu-name{flex:1}.stu-name.fail{color:var(--dan);font-weight:600}
-.stu-status{padding:3px 10px;border-radius:10px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.stu-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stu-name.fail{color:var(--dan);font-weight:600}
+.stu-status{padding:2px 8px;border-radius:9px;font-size:.7rem;font-weight:700;white-space:nowrap;flex-shrink:0}
 .st-none{background:#f0f0f0;color:#888}
 .st-active{background:#fff3cd;color:#856404;animation:blink .9s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
 .st-done-pass{background:#d5f5e3;color:#1e8449}
 .st-done-fail{background:#fde8e6;color:#922b21}
-.stu-score{font-size:.78rem;color:#888;margin-right:6px}
+.stu-score{font-size:.76rem;color:#888;flex-shrink:0}
+.act-btn{padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;cursor:pointer;font-weight:600;flex-shrink:0;color:#fff}
 .mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
 .mover.show{display:flex}
 .mbox{background:#fff;border-radius:12px;padding:26px;max-width:380px;width:90%;text-align:center}
@@ -179,7 +167,6 @@ tr:hover td{background:#f8fafb}
 </head>
 <body>
 
-<!-- Loading -->
 <div class="lov" id="lov"><div class="spin"></div><div id="lovMsg" style="color:var(--primary);font-weight:600">جارٍ التحميل...</div></div>
 
 <!-- HOME -->
@@ -201,11 +188,7 @@ tr:hover td{background:#f8fafb}
 <div id="loginScreen" class="screen">
   <div class="fullpage" style="background:linear-gradient(135deg,#1a6b3c,#0d4f8b)">
   <div class="card">
-    <div class="logo">
-      <div style="font-size:2.8rem">🎓</div>
-      <h2>دخول الطالب</h2>
-      <p>مدرسة محمد بن حمد الشرقي للبنين</p>
-    </div>
+    <div class="logo"><div style="font-size:2.8rem">🎓</div><h2>دخول الطالب</h2><p>مدرسة محمد بن حمد الشرقي للبنين</p></div>
     <div class="fg"><label>اختر الشعبة:</label>
       <select id="selClass" onchange="loadStudents()">
         <option value="">-- اختر الشعبة --</option>
@@ -223,11 +206,8 @@ tr:hover td{background:#f8fafb}
 <!-- TEACHER LOGIN -->
 <div id="teacherLogin" class="screen">
   <div class="fullpage" style="background:linear-gradient(135deg,#0d4f8b,#1a237e)">
-  <div class="card">
-    <div class="logo">
-      <div style="font-size:2.8rem">👨‍🏫</div>
-      <h2>لوحة المعلم</h2><p>أدخل رمز الدخول</p>
-    </div>
+  <div class="card" id="teacherLoginCard">
+    <div class="logo"><div style="font-size:2.8rem">👨‍🏫</div><h2>لوحة المعلم</h2><p>أدخل رمز الدخول</p></div>
     <div class="fg"><label>رمز الدخول:</label>
       <input type="password" id="tPwd" placeholder="الرمز السري" onkeydown="if(event.key==='Enter')checkTeacher()"></div>
     <button class="btn-login" onclick="checkTeacher()">دخول</button>
@@ -283,8 +263,7 @@ tr:hover td{background:#f8fafb}
       </div>
       <div id="fbSaveEl" style="margin-top:12px;font-size:.83rem;color:#666"></div>
       <div style="margin-top:18px;display:flex;flex-wrap:wrap;justify-content:center;gap:9px">
-        <button class="rtn" onclick="retryQuiz()">🔄 إعادة الاختبار</button>
-        <button class="rtn" style="background:var(--sec)" onclick="SS('homeScreen')">🏠 الرئيسية</button>
+        <button class="rtn" onclick="SS('homeScreen')">🏠 الرئيسية</button>
       </div>
     </div>
   </div>
@@ -301,11 +280,13 @@ tr:hover td{background:#f8fafb}
   </div>
   <div class="dbody">
     <!-- Pending Device Banner -->
-    <div id="pendingDeviceBanner" style="display:none;background:#fff3cd;border:2px solid #f0a500;border-radius:10px;padding:12px 18px;margin-bottom:16px;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-      <div style="font-size:.88rem;color:#856404">⚠️ <strong>طلب دخول من جهاز جديد:</strong> جهاز آخر يطلب الوصول للوحة المعلم.</div>
-      <div style="display:flex;gap:8px">
-        <button onclick="approveDevice()" style="padding:7px 14px;background:var(--suc);color:#fff;border:none;border-radius:7px;font-size:.83rem;font-weight:700;cursor:pointer">✅ السماح للجهاز الجديد</button>
-        <button onclick="db.ref(TEACHER_DEVICE_PATH+'/pending').remove()" style="padding:7px 14px;background:var(--dan);color:#fff;border:none;border-radius:7px;font-size:.83rem;font-weight:700;cursor:pointer">❌ رفض</button>
+    <div id="pendingBanner" style="display:none;background:#fff3cd;border:2px solid #f0a500;border-radius:10px;padding:12px 18px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <span style="font-size:.88rem;color:#856404">⚠️ <strong>طلب دخول من جهاز جديد</strong> — جهاز آخر يطلب الوصول للوحة المعلم</span>
+        <div style="display:flex;gap:8px">
+          <button onclick="approveDevice()" style="padding:6px 14px;background:var(--suc);color:#fff;border:none;border-radius:7px;font-size:.82rem;font-weight:700;cursor:pointer">✅ السماح</button>
+          <button onclick="rejectDevice()" style="padding:6px 14px;background:var(--dan);color:#fff;border:none;border-radius:7px;font-size:.82rem;font-weight:700;cursor:pointer">❌ رفض</button>
+        </div>
       </div>
     </div>
     <div class="ag" id="agEl"></div>
@@ -340,7 +321,7 @@ tr:hover td{background:#f8fafb}
       </table></div>
       <div style="margin-top:28px">
         <h3 style="color:var(--sec);margin-bottom:16px;font-size:1rem">📋 حال الطلاب حسب الشعب</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px" id="classStatusGrid"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px" id="classStatusGrid"></div>
       </div>
     </div>
     <div class="tabpane" id="tab-charts">
@@ -387,106 +368,102 @@ tr:hover td{background:#f8fafb}
 </div>
 
 <script>
-// ── SCREEN MANAGER ──
-function SS(id){
-  var ids=['homeScreen','loginScreen','teacherLogin','quizScreen','resultScreen','teacherDashboard'];
-  ids.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none'});
-  var target=document.getElementById(id);
-  if(target)target.style.display='block';
-  window.scrollTo(0,0);
-}
-
-// ── DEVICE ID ──
-function getDeviceId(){
-  var id=localStorage.getItem('device_id');
-  if(!id){id='dev_'+Math.random().toString(36).substr(2,12)+'_'+Date.now();localStorage.setItem('device_id',id)}
-  return id;
-}
-var DEVICE_ID=getDeviceId();
-var TEACHER_DEVICE_PATH='science_quiz_teacher_device';
-var LOCKED_PATH='science_quiz_locked';
-var ATTEMPTS_PATH='science_quiz_attempts';
-
-window.addEventListener('load',function(){
-  SS('homeScreen');
-  // Lock quiz if student leaves mid-quiz
-  window.addEventListener('beforeunload',function(){
-    if(window._quizActive&&window._curStudent&&window._curClass){
-      savePartialAndLock();
-    }
+// ═══════════════════════════════════════════
+// SCREEN MANAGER
+// ═══════════════════════════════════════════
+function SS(id) {
+  ['homeScreen','loginScreen','teacherLogin','quizScreen','resultScreen','teacherDashboard'].forEach(function(s) {
+    var el = document.getElementById(s);
+    if (el) el.style.display = 'none';
   });
-  // Also handle visibility change (tab switch / phone lock)
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden&&window._quizActive&&window._curStudent&&window._curClass){
-      savePartialAndLock();
-    }
-  });
+  var t = document.getElementById(id);
+  if (t) t.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+SS('homeScreen');
+
+// ═══════════════════════════════════════════
+// FIREBASE
+// ═══════════════════════════════════════════
+firebase.initializeApp({
+  apiKey:"AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",
+  authDomain:"final-exam-2026-e2777.firebaseapp.com",
+  databaseURL:"https://final-exam-2026-e2777-default-rtdb.firebaseio.com",
+  projectId:"final-exam-2026-e2777",
+  storageBucket:"final-exam-2026-e2777.firebasestorage.app",
+  messagingSenderId:"707186742298",
+  appId:"1:707186742298:web:e1739849c8674842f02da3"
+});
+var db = firebase.database();
+var PATH = 'science_quiz_grade7';
+var ACTIVE_PATH = 'science_quiz_grade7_active';
+var LOCKED_PATH = 'science_quiz_locked';
+var ATTEMPTS_PATH = 'science_quiz_attempts';
+var TEACHER_DEV_PATH = 'science_quiz_teacher_device';
+
+db.ref('.info/connected').on('value', function(s) {
+  var ok = s.val() === true;
+  var html = ok ? '<span class="fbst ok">🟢 متصل بـ Firebase</span>' : '<span class="fbst err">🔴 غير متصل</span>';
+  ['fbst0','fbstDash'].forEach(function(id) { var el = document.getElementById(id); if (el) el.innerHTML = html; });
 });
 
-// ── FIREBASE ──
-const fbCfg={apiKey:"AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",authDomain:"final-exam-2026-e2777.firebaseapp.com",databaseURL:"https://final-exam-2026-e2777-default-rtdb.firebaseio.com",projectId:"final-exam-2026-e2777",storageBucket:"final-exam-2026-e2777.firebasestorage.app",messagingSenderId:"707186742298",appId:"1:707186742298:web:e1739849c8674842f02da3"};
-firebase.initializeApp(fbCfg);
-const db=firebase.database();
-const PATH='science_quiz_grade7';
-const ACTIVE_PATH='science_quiz_grade7_active';
+// ═══════════════════════════════════════════
+// DEVICE ID
+// ═══════════════════════════════════════════
+var DEVICE_ID = localStorage.getItem('device_id');
+if (!DEVICE_ID) {
+  DEVICE_ID = 'dev_' + Math.random().toString(36).substr(2,12) + '_' + Date.now();
+  localStorage.setItem('device_id', DEVICE_ID);
+}
+var TPWD = 'science2025';
 
-db.ref('.info/connected').on('value',function(s){
-  var ok=s.val()===true;
-  ['fbst0','fbstDash'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.innerHTML=ok?'<span class="fbst ok">🟢 متصل بـ Firebase</span>':'<span class="fbst err">🔴 غير متصل</span>';
-  });
-});
-
-// ── STUDENTS ──
-const STUDENTS={
+// ═══════════════════════════════════════════
+// STUDENTS
+// ═══════════════════════════════════════════
+var STUDENTS = {
   '1':['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
   '2':['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
   '4':['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
   '5':['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
 
-// ── ACTIVE SESSIONS ──
-function markStudentActive(student,cls){var key=cls+'_'+student.replace(/\s/g,'_');db.ref(ACTIVE_PATH+'/'+key).set({student,class:cls,ts:Date.now()})}
-function markStudentDone(student,cls){var key=cls+'_'+student.replace(/\s/g,'_');db.ref(ACTIVE_PATH+'/'+key).remove()}
-var activeSessions={};
-function listenActiveSessions(){db.ref(ACTIVE_PATH).on('value',function(s){activeSessions=s.val()||{};renderClassStatus()})}
-
-const TPWD='science2025';
-const QS=[
-  {id:1,bloom:1,type:'mcq',text:'أي من التراكيب الخلوية التالية يظهر محيطاً بالخلية النباتية من الخارج ليمنحها الدعم والصلابة لحمايتها، ولا يوجد في الخلية الحيوانية؟',hint:'ابحث عن التركيب الخارجي السميك المحيط بالخلية النباتية.',opts:['جدار الخلية','غشاء الخلية','الميتوكوندريا','النواة'],cor:0,fb:'جدار الخلية هو تركيب صلب يحيط بالخلية النباتية ليوفر لها الحماية والدعم الهيكلي لعدم قدرتها على الحركة.'},
-  {id:2,bloom:1,type:'mcq',text:'في ظاهرة تعاقب الأجيال في النباتات، ما الاسم العلمي للطور النباتي الذي ينتج خلايا جنسية (أمشاج) أحادية الكروموسومات (n)؟',hint:'هذا الطور مرحلته أحادية الكروموسومات ووظيفته إنتاج الأمشاج.',opts:['الطور المشيجي','الطور البوغي','الطور الجذموري','الطور السباتي'],cor:0,fb:'الطور المشيجي هو المرحلة أحادية الكروموسومات (n) ووظيفتها إنتاج الأمشاج الذكرية والأنثوية عبر الانقسام المتساوي.'},
+// ═══════════════════════════════════════════
+// QUESTIONS
+// ═══════════════════════════════════════════
+var QS=[
+  {id:1,bloom:1,type:'mcq',text:'أي من التراكيب الخلوية التالية يظهر محيطاً بالخلية النباتية من الخارج ليمنحها الدعم والصلابة لحمايتها، ولا يوجد في الخلية الحيوانية؟',hint:'ابحث عن التركيب الخارجي السميك المحيط بالخلية النباتية.',opts:['جدار الخلية','غشاء الخلية','الميتوكوندريا','النواة'],cor:0,fb:'جدار الخلية هو تركيب صلب يحيط بالخلية النباتية ليوفر لها الحماية والدعم الهيكلي.'},
+  {id:2,bloom:1,type:'mcq',text:'في ظاهرة تعاقب الأجيال في النباتات، ما الاسم العلمي للطور النباتي الذي ينتج خلايا جنسية (أمشاج) أحادية الكروموسومات (n)؟',hint:'هذا الطور مرحلته أحادية الكروموسومات ووظيفته إنتاج الأمشاج.',opts:['الطور المشيجي','الطور البوغي','الطور الجذموري','الطور السباتي'],cor:0,fb:'الطور المشيجي هو المرحلة أحادية الكروموسومات (n) ووظيفتها إنتاج الأمشاج الذكرية والأنثوية.'},
   {id:3,bloom:1,type:'fill',text:'تُسمى الفتحات الصغيرة الميكروسكوبية الموجودة على أسطح أوراق النبات والتي تعبر من خلالها الغازات وبخار الماء باسم: ___________',hint:'هذه الفتحات تحيط بها خليتان حارستان للتحكم في فتحها وإغلاقها.',cor:'الثغور',alt:['ثغور','الثغر'],fb:'الثغور هي البوابات الرئيسية التي تسمح للنبات بالقيام بالتبادل الغازي والنتح.'},
-  {id:4,bloom:1,type:'tf',text:'تُعرف استجابة نمو النبات نحو مؤثر بيئي معين (مثل الضوء أو الجاذبية) باسم "الانتحاء".',hint:'الانتحاء حركة نمو اتجاهية تظهرها أجزاء النبات نحو مؤثر خارجي أو بعيداً عنه.',cor:true,fb:'الانتحاء هو حركة نمو اتجاهية تظهرها أجزاء النبات نحو مؤثر خارجي، وقد يكون موجباً (نحو المؤثر) أو سالباً (بعيداً عنه).'},
+  {id:4,bloom:1,type:'tf',text:'تُعرف استجابة نمو النبات نحو مؤثر بيئي معين (مثل الضوء أو الجاذبية) باسم "الانتحاء".',hint:'الانتحاء حركة نمو اتجاهية نحو مؤثر خارجي أو بعيداً عنه.',cor:true,fb:'الانتحاء هو حركة نمو اتجاهية تظهرها أجزاء النبات نحو مؤثر خارجي، وقد يكون موجباً أو سالباً.'},
   {id:5,bloom:1,type:'match',text:'طابق بين الحدث التاريخي في استكشاف الفضاء والعام الذي تم فيه:',hint:'بدأت خطوات عصر الفضاء بإطلاق سبوتنيك 1، ثم تأسيس ناسا، ثم هبوط القمر.',items:['إطلاق سبوتنيك 1 أول قمر صناعي يدور حول الأرض','تأسيس الإدارة الوطنية للملاحة الجوية والفضاء الأمريكية (NASA)','هبوط نيل أرمسترونغ على سطح القمر في رحلة أبولو 11'],opts:['عام 1957','عام 1958','عام 1969'],cor:[0,1,2],fb:'بدأت كبرى خطوات عصر الفضاء بإطلاق سبوتنيك 1 عام 1957، تلاه تأسيس ناسا، ثم الهبوط على القمر عام 1969.'},
-  {id:6,bloom:1,type:'order',text:'رتب طبقات كوكب الأرض من السطح الخارجي باتجاه المركز الداخلي:',hint:'تتكون بنية الأرض من أربع طبقات رئيسية من الخارج للداخل.',items:['الستار (الوشاح)','اللب الداخلي','القشرة الأرضية','اللب الخارجي'],cor:[2,0,3,1],fb:'الترتيب من الخارج للداخل: القشرة الأرضية ← الستار (الوشاح) ← اللب الخارجي ← اللب الداخلي.'},
-  {id:7,bloom:1,type:'mcq',text:'أي من العمليات الجيولوجية التالية تُعرف بأنها عملية تفكيك وتفتيت الصخور على سطح الأرض دون نقلها من مكانها؟',hint:'هذه العملية موضعية تفتت الصخور في مكانها، بخلاف العملية التي تنقلها.',opts:['التجوية','التعرية','الترسيب','الجريان السطحي'],cor:0,fb:'التجوية هي عملية موضعية تؤدي لتفتت الصخور ميكانيكياً أو كيميائياً في مكانها، بينما التعرية تتكفل بنقل هذا الفتات.'},
-  {id:8,bloom:1,type:'mcq',text:'في أي طبقة من طبقات الغلاف الجوي تتركز معظم كتلة الهواء وبخار الماء، وتحدث فيها جميع ظواهر الطقس؟',hint:'هي الطبقة الأولى الملاصقة لسطح الأرض وتحتوي على 75% من غازات الغلاف الجوي.',opts:['الستراتوسفير','التروبوسفير','الميزوسفير','الثرموسفير'],cor:1,fb:'طبقة التروبوسفير هي الطبقة الأولى الملاصقة لسطح الأرض وتحتوي على 75% من غازات الغلاف الجوي وبخار الماء.'},
-  {id:9,bloom:1,type:'fill',text:'يُطلق على السحب التي تكون متفرقة ورقيقة وبيضاء على ارتفاعات شاهقة وتتكون من بلورات ثلجية اسم: ___________',hint:'اسم هذه السحب مستوحى من شكل ريش الطيور الناعم الخفيف.',cor:'السحب الريشية',alt:['ريشية','سحب ريشية','الريشية'],fb:'السحب الريشية تتكون في أعالي السماء الباردة جداً، وتبدو خفيفة تشبه ريش الطيور.'},
-  {id:10,bloom:1,type:'tf',text:'الإعصار القمعي (Tornado) هو عاصفة لولبية عنيفة تبدأ دائماً فوق مياه المحيطات الدافئة فقط.',hint:'تذكر الفرق بين الإعصار القمعي (Tornado) والإعصار المداري (Hurricane).',cor:false,fb:'الإعصار القمعي (Tornado) يتكون فوق اليابسة، أما الإعصار المداري (Hurricane) فهو الذي ينشأ فوق مياه المحيطات الدافئة.'},
+  {id:6,bloom:1,type:'order',text:'رتب طبقات كوكب الأرض من السطح الخارجي باتجاه المركز الداخلي:',hint:'تتكون بنية الأرض من أربع طبقات رئيسية من الخارج للداخل.',items:['الستار (الوشاح)','اللب الداخلي','القشرة الأرضية','اللب الخارجي'],cor:[2,0,3,1],fb:'الترتيب من الخارج للداخل: القشرة الأرضية ← الستار ← اللب الخارجي ← اللب الداخلي.'},
+  {id:7,bloom:1,type:'mcq',text:'أي من العمليات الجيولوجية التالية تُعرف بأنها عملية تفكيك وتفتيت الصخور على سطح الأرض دون نقلها من مكانها؟',hint:'هذه العملية موضعية تفتت الصخور في مكانها.',opts:['التجوية','التعرية','الترسيب','الجريان السطحي'],cor:0,fb:'التجوية عملية موضعية تؤدي لتفتت الصخور ميكانيكياً أو كيميائياً في مكانها.'},
+  {id:8,bloom:1,type:'mcq',text:'في أي طبقة من طبقات الغلاف الجوي تتركز معظم كتلة الهواء وبخار الماء، وتحدث فيها جميع ظواهر الطقس؟',hint:'هي الطبقة الأولى الملاصقة لسطح الأرض وتحتوي على 75% من غازات الغلاف الجوي.',opts:['الستراتوسفير','التروبوسفير','الميزوسفير','الثرموسفير'],cor:1,fb:'طبقة التروبوسفير الملاصقة لسطح الأرض تحتوي على 75% من غازات الغلاف الجوي وبخار الماء.'},
+  {id:9,bloom:1,type:'fill',text:'يُطلق على السحب التي تكون متفرقة ورقيقة وبيضاء على ارتفاعات شاهقة وتتكون من بلورات ثلجية اسم: ___________',hint:'اسم هذه السحب مستوحى من شكل ريش الطيور الناعم الخفيف.',cor:'السحب الريشية',alt:['ريشية','سحب ريشية','الريشية'],fb:'السحب الريشية تتكون في أعالي السماء الباردة جداً وتبدو خفيفة تشبه ريش الطيور.'},
+  {id:10,bloom:1,type:'tf',text:'الإعصار القمعي (Tornado) هو عاصفة لولبية عنيفة تبدأ دائماً فوق مياه المحيطات الدافئة فقط.',hint:'تذكر الفرق بين الإعصار القمعي (Tornado) والإعصار المداري (Hurricane).',cor:false,fb:'الإعصار القمعي (Tornado) يتكون فوق اليابسة، أما الإعصار المداري (Hurricane) فينشأ فوق مياه المحيطات الدافئة.'},
   {id:11,bloom:1,type:'match',text:'طابق بين جهاز الرصد الجوي والكمية الفيزيائية التي يقيسها:',hint:'الباروميتر للضغط، والمرياح للسرعة، والهيجرومايتر للرطوبة.',items:['الباروميتر (Barometer)','المرياح / الأنيموميتر (Anemometer)','الهيجرومايتر (Hygrometer)'],opts:['الضغط الجوي','سرعة الرياح','الرطوبة النسبية في الجو'],cor:[0,1,2],fb:'الباروميتر يقيس الضغط، والمرياح يقيس سرعة الرياح، والهيجرومايتر يقيس رطوبة الهواء.'},
   {id:12,bloom:1,type:'order',text:'رتب الكائنات الحية حسب تاريخ أول رحلة قامت بها للدوران حول الأرض في الفضاء (من الأقدم للأحدث):',hint:'بدأ العلماء بالحيوانات الصغيرة ثم القردة ثم البشر.',items:['القرد "أبل" (Able)','الكلبة "لايكا" (Laika)','رائد الفضاء البشري "يوري غاغارين"'],cor:[1,0,2],fb:'الترتيب: لايكا 1957 ← القرد أبل 1959 ← يوري غاغارين 1961 (أول إنسان في الفضاء).'},
-  {id:13,bloom:2,type:'mcq',text:'إذا فحصت جذور نبات ذرة ستلاحظ جذوراً إضافية تنمو فوق سطح الأرض وتخرج من الساق السفلية. ما التحليل العلمي لوظيفة هذه الجذور؟',hint:'اسم هذا الجذر مشتق من الوظيفة الميكانيكية لمنع انقلاب النبات.',opts:['جذور دعامية؛ لتثبيت السيقان الطويلة ومنع سقوطها','جذور وتدية؛ للتغلغل عميقاً للوصول للمياه الجوفية','أشباه جذور؛ لامتصاص الغذاء خلوياً لغياب الأوعية الناقلة','جذور هوائية؛ للقيام بعملية البناء الضوئي في الظلام'],cor:0,fb:'الجذور الدعامية هي تكيف بنيوي ينمو فوق الأرض من السيقان ليوفر دعامة ميكانيكية إضافية للنباتات ذات السيقان الطويلة كالذرة.'},
-  {id:14,bloom:2,type:'mcq',text:'إذا تعرض نسيج "اللحاء" لتلف كامل وتوقف عن العمل، فما هو العضو النباتي الذي سيتضور جوعاً أولاً؟',hint:'فكر في العضو المدفون في الظلام الذي يعتمد كلياً على الغذاء القادم من الأعلى.',opts:['الجذور','البلاستيدات الخضراء في الأوراق','الثغور السطحية','البتلات الزهرية الملونة'],cor:0,fb:'نسيج اللحاء مسؤول عن نقل السكريات المصنوعة في الأوراق باتجاه الأسفل لتغذية الجذور؛ فقطعه يؤدي لموت الجذر جوعاً.'},
-  {id:15,bloom:2,type:'fill',text:'ترتبط عمليتا البناء الضوئي والتنفس الخلوي بعلاقة عكسية متكاملة؛ تستهلك عملية البناء الضوئي الماء وثاني أكسيد الكربون لإنتاج الجلوكوز والأكسجين، بينما تستهلك عملية التنفس الخلوي الأكسجين والجلوكوز لإنتاج الطاقة والماء و ___________',hint:'فكر في الناتج الغازي الذي تطلقه الخلايا أثناء التنفس الخلوي.',cor:'ثاني أكسيد الكربون',alt:['CO2','ثاني اكسيد الكربون'],fb:'نواتج البناء الضوئي هي نفسها المواد المتفاعلة في التنفس الخلوي، مما يخلق دورة طاقة متوازنة ومستدامة.'},
-  {id:16,bloom:2,type:'tf',text:'وضعت نبتة في نافذة الغرفة فلاحظت أن ساقها انحنى ونما باتجاه ضوء الشمس الخارجي. يعتبر هذا السلوك مثالاً على الانتحاء الضوئي السالب لأن الساق هربت من عتمة الغرفة.',hint:'الانتحاء الموجب يعني النمو نحو المؤثر، والسالب يعني النمو بعيداً عنه.',cor:false,fb:'هذا انتحاء ضوئي موجب؛ لأن الساق نمت وتوجهت نحو مصدر الضوء، والانتحاء الموجب يعني النمو باتجاه المؤثر.'},
-  {id:17,bloom:2,type:'match',text:'حلل حركة حدود الصفائح التكتونية وطابقها بالظاهرة الجيولوجية المترتبة عليها:',hint:'التباعد يصنع قشرة جديدة، والتقارب يرفع الجبال، والانزلاق الجانبي يولد الزلازل.',items:['حدود الصفائح المتباعدة (تتحرك مبتعدة عن بعضها)','حدود الصفائح المتقاربة (تصطدم ببعضها)','حدود الصفائح الجانبية / التحويلية (تنزلق أفقياً)'],opts:['تكون قشرة أرضية جديدة وظهور أودية الخسف وسط المحيطات','تشكل السلاسل الجبلية الضخمة (مثل جبال الهيمالايا) وحدوث مناطق الانضغاط','حدوث زلازل عنيفة على طول خطوط الصدع (مثل صدع سان أندرياس)'],cor:[0,1,2],fb:'التباعد يصنع مساحات وقشرة جديدة، التقارب يضغط الصخور لأعلى لتكوين الجبال، والانزلاق الجانبي يولد احتكاكاً مسبباً الزلازل.'},
-  {id:18,bloom:2,type:'order',text:'رتب المسار الجيولوجي لانتقال الفتات الصخري بفعل عوامل التعرية والترسيب من البداية حتى المصب النهائي:',hint:'تبدأ الدورة بتفتيت الصخور ثم نقلها ثم ترسيبها عند المصب.',items:['ترسيب الفتات الصخري على شكل دلتا عند التقاء النهر بخليج المكسيك','جرف مياه الأمطار وتعرية الصخور المفتتة من منحدرات جبال الأبالاش','نقل الفتات الصخري عبر المجرى المائي لنهر المسيسيبي'],cor:[1,2,0],fb:'تبدأ الدورة بتفتيت الصخور وجرفها الأمطار (تعرية)، ثم تُنقل عبر النهر، وتستقر عند المصب (ترسيب).'},
-  {id:19,bloom:2,type:'mcq',text:'تحتوي طبقة الستراتوسفير على طبقة الأوزون. ما الدور التكيفي البيئي الذي تلعبه هذه الطبقة لحماية الكائنات الحية؟',hint:'فكر في نوع الأشعة الضارة القادمة من الشمس التي توقفها طبقة الأوزون.',opts:['امتصاص وحجب الأشعة فوق البنفسجية الضارة (UV) القادمة من الشمس','حرق الشهب والنيازك الساقطة قبل وصولها للأرض','عكس موجات الراديو والاتصالات اللاسلكية نحو المحطات الأرضية','توليد غاز الأكسجين النقي اللازم لتنفس الكائنات الحية'],cor:0,fb:'جزيئات الأوزون (O₃) في الستراتوسفير تمتص الأشعة فوق البنفسجية عالية الطاقة، وبذلك تمنع وصولها لليابسة.'},
-  {id:20,bloom:2,type:'tf',text:'عندما تنخفض قراءة جهاز الباروميتر بشكل مستمر وسريع، فإن هذا يشير إلى اقتراب كتلة هوائية دافئة مرتفعة الضغط تجلب طقساً مستقراً وصافياً تماماً.',hint:'تذكر: الضغط المرتفع = طقس صافٍ، الضغط المنخفض = طقس عاصف.',cor:false,fb:'انخفاض قراءة الباروميتر يعني اقتراب منخفض جوي الذي يرتبط بالطقس العاصف وتكون الغيوم والهطول.'},
-  {id:21,bloom:2,type:'fill',text:'تُسمى تلك العاصفة البحرية الاستوائية الضخمة التي تتشكل فوق مياه المحيطات الدافئة وتصاحبها رياح عاتية تتجاوز سرعتها 119 كم/ساعة باسم: ___________',hint:'تستمد هذه العاصفة طاقتها الهائلة من تبخر المياه الدافئة في المحيطات الاستوائية.',cor:'الإعصار المداري',alt:['اعصار مداري','إعصار مداري','الاعصار المداري','Hurricane'],fb:'الأعاصير المدارية تستمد طاقتها الهائلة من تبخر المياه الدافئة في المحيطات الاستوائية.'},
-  {id:22,bloom:2,type:'mcq',text:'أطلق الاتحاد السوفيتي عام 1957 أول قمر صناعي سبوتنيك 1. حلل الأثر العلمي والتكنولوجي الذي أحدثه هذا الحدث عالمياً.',hint:'فكر في التنافس الذي اشتعل بين القوى الكبرى في عصر الحرب الباردة.',opts:['إعلان البداية الرسمية لعصر سباق الفضاء واشتعال التنافس العلمي بين القوى العظمى','هبوط أول بشر على سطح كوكب المريخ لالتقاط عينات صخرية','إثبات أن الأرض مسطحة الشكل وليست كروية عبر التصوير الفضائي','ابتكار أول تلسكوب بصري لرصد النجوم خارج مجرة درب التبانة'],cor:0,fb:'نجاح إطلاق سبوتنيك 1 أشعل سباق الفضاء بين الاتحاد السوفيتي والولايات المتحدة، مما أدى لتسريع الابتكارات وتأسيس ناسا.'},
-  {id:23,bloom:2,type:'match',text:'حلل نمط التجوية الميكانيكية والكيميائية وطابقها بالمثال التطبيقي المناسب:',hint:'التجوية الميكانيكية تغير الحجم فقط، بينما الكيميائية تغير التركيب المعدني للصخر.',items:['وتد الصقيع / تجميد الماء (تجوية ميكانيكية)','التحلل الحمضي والأمطار الحمضية (تجوية كيميائية)','الفعل الحيوي الجسدي (تجوية ميكانيكية حيوية)'],opts:['تغلغل الماء في شقوق الصخور ثم تجمده وتمدده مما يكسر الصخر','ذوبان CO₂ في مطر الماء وتفاعله مع صخور الحجر الجيري مسبباً تآكلها وتكون الكهوف','نمو جذور الأشجار وتغلغلها داخل شقوق أرصفة الشوارع أو الصخور مؤدياً لرفعها'],cor:[0,1,2],fb:'التجوية الميكانيكية تغير حجم وشكل الصخر فقط (وتد الصقيع والجذور)، بينما التجوية الكيميائية تغير التركيب المعدني الداخلي.'},
-  {id:24,bloom:2,type:'order',text:'رتب خطوات تكون العاصفة الرعدية (Thunderstorm) من البداية حتى مرحلة التلاشي:',hint:'تمر العاصفة الرعدية بثلاث مراحل: الركام، ثم النضج، ثم التلاشي.',items:['تكثف بخار الماء الساخن لتتشكل سحب المزن الركامية الضخمة في السماء الباردة','صعود الهواء الدافئ والرطب لأعلى بفعل تيارات الحمل الحراري الصاعدة','حدوث الهطول الغزير مصحوباً بالبرق والرعد وبدء التيارات الهوائية الهابطة','انقطاع تدفق التيارات الصاعدة الدافئة مما يؤدي لتلاشي العاصفة وتبدد السحب'],cor:[1,0,2,3],fb:'تمر العاصفة بمرحلة الركام (صعود الهواء وتكثفه)، النضج (هطول وبرق ورعد)، التلاشي (سيطرة التيارات الهابطة).'},
-  {id:25,bloom:3,type:'mcq',text:'صمم باحث زراعي تجربة لزيادة طول سيقان نباتات الظل داخل صوبة مغلقة عبر التحكم في الهرمونات النباتية. أي الاستراتيجيات التالية ستنجح في تحفيز الخلايا لزيادة الطول؟',hint:'هرمون الأوكسين هو المسؤول المباشر عن استطالة الخلايا النباتية.',opts:['رش النباتات بهرمون الأوكسين (Auxin) ووضع مصدر ضوئي أحادي جانبي لتسريع استطالة الخلايا في الجانب المظلل','غمر التربة بمحاليل ملحية مركزة لتعطيل عمل هرمون الجبريلين','إزالة القمم النامية للنباتات تماماً لقطع إمداد الأوكسينات','رش أوراق النبات بمسحوق السيليكا الصلب لغلق الثغور'],cor:0,fb:'هرمون الأوكسين يتركز في الجانب المظلل مما يجعل هذا الجانب ينمو بشكل أسرع مؤدياً لانحناء النبات نحو الضوء.'},
-  {id:26,bloom:3,type:'mcq',text:'في عام 1912 قدم ألفريد فيجنر فرضية الانجراف القاري وقوبلت بالرفض الشديد. قيّم علمياً السبب الرئيسي وراء رفض العلماء لفرضيته.',hint:'على الرغم من صحة أدلته، إلا أنه عجز عن تفسير شيء جوهري حول آلية الحركة.',opts:['لأن فيجنر لم يستطع تقديم آلية فيزيائية مقنعة تشرح القوة الهائلة القادرة على تحريك القارات الضخمة','لأن أدلته القائمة على تشابه حواف القارات والأحافير كانت خاطئة ومزيفة تماماً','لأن العلماء أثبتوا أن الأرض لا تحتوي على طبقة ستار شبه سائلة','لأن القارات لم تكن أبداً متصلة قديماً وتكونت بشكل منفصل منذ البداية'],cor:0,fb:'على الرغم من صحة أدلة فيجنر، إلا أنه عجز عن شرح القوة المحركة للقارات؛ ولم تُقبل فكرته إلا في الستينيات بعد اكتشاف تيارات الحمل الحراري في الستار.'},
-  {id:27,bloom:3,type:'fill',text:'عند تصميم تطبيق للتنبؤ بالطقس، يجب ربط التغير الحراري بين طبقات الغلاف الجوي؛ حيث تتميز طبقة التروبوسفير بأن درجة الحرارة تنخفض كلما ارتفعنا، بينما في طبقة الستراتوسفير فإن درجة الحرارة ترتفع كلما ارتفعنا نتيجة وجود غاز ___________',hint:'هذا الغاز يمتص الأشعة فوق البنفسجية الشمسية ويوجد في الستراتوسفير.',cor:'الأوزون',alt:['اوزون','الاوزون','O3','O₃'],fb:'التروبوسفير تسخن من الأرض، والستراتوسفير تسخن من أعلى بواسطة حزام الأوزون.'},
-  {id:28,bloom:3,type:'tf',text:'تعرضت منطقة جبلية لانهيارات طينية متكررة بفعل التعرية. اقترح مهندس زراعي زراعة منحدرات الجبل بنباتات عشبية ذات جذور ليفية عريضة وتصميم مصاطب زراعية. تقييم هذا الحل يظهر أنه حل علمي مميز؛ لأن الجذور الليفية المتشابكة ستعمل كشبكة تماسك طبيعية تثبت حبيبات التربة وتمنع التعرية المائية من جرفها.',hint:'فكر في كيفية تأثير الجذور الليفية على تماسك التربة ضد الجريان المائي.',cor:true,fb:'زراعة الغطاء النباتي وتصميم المدرجات يعتبران من أقوى الوسائل لمكافحة التعرية؛ فالأوراق تخفف حدة ارتطام المطر، والجذور تمسك التربة.'},
-  {id:29,bloom:3,type:'match',text:'ركّب الروابط المنطقية بين قراءات أجهزة الأرصاد والتدبير الفوري المناسب لإدارة الأزمة:',hint:'الضغط المنخفض مع الرياح اللولبية = إعصار قمعي، والرطوبة العالية مع الكتل المتضادة = رعد وبرد.',items:['انخفاض قياسي في الباروميتر مع دوران عنيف لأكواب الأنيموميتر وسحب مزن ركامية تدور فوق اليابسة','ارتفاع شديد في الرطوبة (الهيجرومايتر) وتدفق تيار هوائي ساخن يلتقي جبهة باردة فوق السهول','ارتفاع مؤشر الأشعة فوق البنفسجية (UV Index) بشكل مفرط وخطير في منتصف النهار مع سماء صافية'],opts:['إطلاق صافرات الإنذار لتوجيه السكان للاحتماء بالملاجئ الأرضية هرباً من إعصار قمعي (Tornado)','إصدار تحذير باحتمال هبوب عواصف رعدية مصحوبة بحبات البرد الكبيرة وسيول جارفة في الأودية','بث نصائح تلزم السكان بارتداء قبعات واقية واستخدام واقي الشمس وتجنب التعرض المباشر للشمس'],cor:[0,1,2],fb:'الفهم المتكامل لبيانات الأرصاد يربط الأسباب بالنتائج؛ فالضغط المنخفض مع الرياح اللولبية ينذر بالتورنيدو.'},
+  {id:13,bloom:2,type:'mcq',text:'إذا فحصت جذور نبات ذرة ستلاحظ جذوراً إضافية تنمو فوق سطح الأرض وتخرج من الساق السفلية. ما التحليل العلمي لوظيفة هذه الجذور؟',hint:'اسم هذا الجذر مشتق من الوظيفة الميكانيكية لمنع انقلاب النبات.',opts:['جذور دعامية؛ لتثبيت السيقان الطويلة ومنع سقوطها','جذور وتدية؛ للتغلغل عميقاً للوصول للمياه الجوفية','أشباه جذور؛ لامتصاص الغذاء خلوياً','جذور هوائية؛ للقيام بعملية البناء الضوئي في الظلام'],cor:0,fb:'الجذور الدعامية تنمو فوق الأرض من السيقان لتوفير دعامة ميكانيكية إضافية للنباتات ذات السيقان الطويلة كالذرة.'},
+  {id:14,bloom:2,type:'mcq',text:'إذا تعرض نسيج "اللحاء" لتلف كامل وتوقف عن العمل، فما هو العضو النباتي الذي سيتضور جوعاً أولاً؟',hint:'فكر في العضو المدفون في الظلام الذي يعتمد كلياً على الغذاء القادم من الأعلى.',opts:['الجذور','البلاستيدات الخضراء في الأوراق','الثغور السطحية','البتلات الزهرية الملونة'],cor:0,fb:'نسيج اللحاء ينقل السكريات المصنوعة في الأوراق إلى الجذور؛ فتلفه يقطع الإمداد الغذائي عن الجذر.'},
+  {id:15,bloom:2,type:'fill',text:'ترتبط عمليتا البناء الضوئي والتنفس الخلوي بعلاقة عكسية؛ تستهلك عملية البناء الضوئي الماء وثاني أكسيد الكربون لإنتاج الجلوكوز والأكسجين، بينما تستهلك عملية التنفس الخلوي الأكسجين والجلوكوز لإنتاج الطاقة والماء و ___________',hint:'فكر في الناتج الغازي الذي تطلقه الخلايا أثناء التنفس الخلوي.',cor:'ثاني أكسيد الكربون',alt:['CO2','ثاني اكسيد الكربون'],fb:'نواتج البناء الضوئي هي نفسها المواد المتفاعلة في التنفس الخلوي مما يخلق دورة طاقة متوازنة.'},
+  {id:16,bloom:2,type:'tf',text:'وضعت نبتة في نافذة الغرفة فلاحظت أن ساقها انحنى ونما باتجاه ضوء الشمس. يعتبر هذا السلوك مثالاً على الانتحاء الضوئي السالب لأن الساق هربت من عتمة الغرفة.',hint:'الانتحاء الموجب يعني النمو نحو المؤثر، والسالب يعني النمو بعيداً عنه.',cor:false,fb:'هذا انتحاء ضوئي موجب؛ لأن الساق نمت وتوجهت نحو مصدر الضوء وليس بعيداً عنه.'},
+  {id:17,bloom:2,type:'match',text:'حلل حركة حدود الصفائح التكتونية وطابقها بالظاهرة الجيولوجية المترتبة عليها:',hint:'التباعد يصنع قشرة جديدة، والتقارب يرفع الجبال، والانزلاق الجانبي يولد الزلازل.',items:['حدود الصفائح المتباعدة (تتحرك مبتعدة عن بعضها)','حدود الصفائح المتقاربة (تصطدم ببعضها)','حدود الصفائح الجانبية (تنزلق أفقياً)'],opts:['تكون قشرة أرضية جديدة وظهور أودية الخسف وسط المحيطات','تشكل السلاسل الجبلية الضخمة كجبال الهيمالايا','حدوث زلازل عنيفة على طول خطوط الصدع كصدع سان أندرياس'],cor:[0,1,2],fb:'التباعد يصنع قشرة جديدة، التقارب يضغط الصخور لأعلى لتكوين الجبال، والانزلاق الجانبي يولد الزلازل.'},
+  {id:18,bloom:2,type:'order',text:'رتب المسار الجيولوجي لانتقال الفتات الصخري بفعل عوامل التعرية والترسيب من البداية حتى المصب النهائي:',hint:'تبدأ الدورة بتفتيت الصخور ثم نقلها ثم ترسيبها عند المصب.',items:['ترسيب الفتات الصخري على شكل دلتا عند التقاء النهر بخليج المكسيك','جرف مياه الأمطار وتعرية الصخور المفتتة من منحدرات جبال الأبالاش','نقل الفتات الصخري عبر المجرى المائي لنهر المسيسيبي'],cor:[1,2,0],fb:'تبدأ الدورة بتفتيت الصخور وجرفها (تعرية)، ثم تُنقل عبر النهر، وتستقر عند المصب (ترسيب).'},
+  {id:19,bloom:2,type:'mcq',text:'تحتوي طبقة الستراتوسفير على طبقة الأوزون. ما الدور التكيفي البيئي الذي تلعبه هذه الطبقة لحماية الكائنات الحية؟',hint:'فكر في نوع الأشعة الضارة القادمة من الشمس التي توقفها طبقة الأوزون.',opts:['امتصاص وحجب الأشعة فوق البنفسجية الضارة (UV) القادمة من الشمس','حرق الشهب والنيازك الساقطة قبل وصولها للأرض','عكس موجات الراديو نحو المحطات الأرضية','توليد غاز الأكسجين النقي اللازم لتنفس الكائنات الحية'],cor:0,fb:'جزيئات الأوزون في الستراتوسفير تمتص الأشعة فوق البنفسجية عالية الطاقة وتمنع وصولها لليابسة.'},
+  {id:20,bloom:2,type:'tf',text:'عندما تنخفض قراءة جهاز الباروميتر بشكل مستمر وسريع، فإن هذا يشير إلى اقتراب كتلة هوائية دافئة مرتفعة الضغط تجلب طقساً مستقراً وصافياً تماماً.',hint:'تذكر: الضغط المرتفع = طقس صافٍ، الضغط المنخفض = طقس عاصف.',cor:false,fb:'انخفاض قراءة الباروميتر يعني اقتراب منخفض جوي يرتبط بالطقس العاصف وتكون الغيوم والهطول.'},
+  {id:21,bloom:2,type:'fill',text:'تُسمى تلك العاصفة البحرية الاستوائية الضخمة التي تتشكل فوق مياه المحيطات الدافئة وتصاحبها رياح عاتية تتجاوز سرعتها 119 كم/ساعة باسم: ___________',hint:'تستمد هذه العاصفة طاقتها الهائلة من تبخر المياه الدافئة في المحيطات الاستوائية.',cor:'الإعصار المداري',alt:['اعصار مداري','إعصار مداري','الاعصار المداري','Hurricane'],fb:'الأعاصير المدارية تستمد طاقتها من تبخر المياه الدافئة في المحيطات الاستوائية.'},
+  {id:22,bloom:2,type:'mcq',text:'أطلق الاتحاد السوفيتي عام 1957 أول قمر صناعي سبوتنيك 1. حلل الأثر العلمي والتكنولوجي الذي أحدثه هذا الحدث عالمياً.',hint:'فكر في التنافس الذي اشتعل بين القوى الكبرى في عصر الحرب الباردة.',opts:['إعلان البداية الرسمية لعصر سباق الفضاء واشتعال التنافس العلمي بين القوى العظمى','هبوط أول بشر على سطح كوكب المريخ','إثبات أن الأرض مسطحة الشكل عبر التصوير الفضائي','ابتكار أول تلسكوب بصري لرصد النجوم'],cor:0,fb:'نجاح إطلاق سبوتنيك 1 أشعل سباق الفضاء بين الاتحاد السوفيتي والولايات المتحدة مما أدى لتأسيس ناسا.'},
+  {id:23,bloom:2,type:'match',text:'حلل نمط التجوية الميكانيكية والكيميائية وطابقها بالمثال التطبيقي المناسب:',hint:'التجوية الميكانيكية تغير الحجم فقط، بينما الكيميائية تغير التركيب المعدني للصخر.',items:['وتد الصقيع / تجميد الماء (تجوية ميكانيكية)','التحلل الحمضي والأمطار الحمضية (تجوية كيميائية)','الفعل الحيوي الجسدي (تجوية ميكانيكية حيوية)'],opts:['تغلغل الماء في شقوق الصخور ثم تجمده وتمدده مما يكسر الصخر','ذوبان CO₂ في مطر الماء وتفاعله مع صخور الحجر الجيري مسبباً تآكلها','نمو جذور الأشجار وتغلغلها داخل شقوق الأرصفة مؤدياً لرفعها'],cor:[0,1,2],fb:'التجوية الميكانيكية تغير حجم الصخر فقط، بينما الكيميائية تغير التركيب المعدني الداخلي.'},
+  {id:24,bloom:2,type:'order',text:'رتب خطوات تكون العاصفة الرعدية (Thunderstorm) من البداية حتى مرحلة التلاشي:',hint:'تمر العاصفة الرعدية بثلاث مراحل: الركام، ثم النضج، ثم التلاشي.',items:['تكثف بخار الماء الساخن لتتشكل سحب المزن الركامية الضخمة','صعود الهواء الدافئ والرطب لأعلى بفعل تيارات الحمل الحراري','حدوث الهطول الغزير مصحوباً بالبرق والرعد وبدء التيارات الهوائية الهابطة','انقطاع تدفق التيارات الصاعدة مما يؤدي لتلاشي العاصفة وتبدد السحب'],cor:[1,0,2,3],fb:'تمر العاصفة بمرحلة الركام (صعود الهواء وتكثفه)، النضج (هطول وبرق ورعد)، التلاشي.'},
+  {id:25,bloom:3,type:'mcq',text:'صمم باحث زراعي تجربة لزيادة طول سيقان نباتات الظل داخل صوبة مغلقة عبر التحكم في الهرمونات النباتية. أي الاستراتيجيات التالية ستنجح في تحفيز الخلايا لزيادة الطول؟',hint:'هرمون الأوكسين هو المسؤول المباشر عن استطالة الخلايا النباتية.',opts:['رش النباتات بهرمون الأوكسين (Auxin) ووضع مصدر ضوئي أحادي جانبي لتسريع استطالة الخلايا في الجانب المظلل','غمر التربة بمحاليل ملحية مركزة لتعطيل هرمون الجبريلين','إزالة القمم النامية للنباتات تماماً لقطع إمداد الأوكسينات','رش أوراق النبات بمسحوق السيليكا الصلب لغلق الثغور'],cor:0,fb:'هرمون الأوكسين يتركز في الجانب المظلل مما يجعله ينمو بشكل أسرع مؤدياً لانحناء النبات نحو الضوء.'},
+  {id:26,bloom:3,type:'mcq',text:'في عام 1912 قدم ألفريد فيجنر فرضية الانجراف القاري وقوبلت بالرفض الشديد. قيّم علمياً السبب الرئيسي وراء رفض العلماء لفرضيته.',hint:'على الرغم من صحة أدلته، إلا أنه عجز عن تفسير شيء جوهري حول آلية الحركة.',opts:['لأن فيجنر لم يستطع تقديم آلية فيزيائية مقنعة تشرح القوة الهائلة القادرة على تحريك القارات','لأن أدلته القائمة على تشابه حواف القارات والأحافير كانت خاطئة تماماً','لأن العلماء أثبتوا أن الأرض لا تحتوي على طبقة ستار شبه سائلة','لأن القارات لم تكن أبداً متصلة قديماً'],cor:0,fb:'على الرغم من صحة أدلة فيجنر إلا أنه عجز عن شرح القوة المحركة للقارات؛ ولم تُقبل فكرته إلا في الستينيات.'},
+  {id:27,bloom:3,type:'fill',text:'عند تصميم تطبيق للتنبؤ بالطقس يجب ربط التغير الحراري بين طبقات الغلاف الجوي؛ تتميز طبقة التروبوسفير بأن درجة الحرارة تنخفض كلما ارتفعنا، بينما في طبقة الستراتوسفير فإن درجة الحرارة ترتفع كلما ارتفعنا نتيجة وجود غاز ___________',hint:'هذا الغاز يمتص الأشعة فوق البنفسجية الشمسية ويوجد في الستراتوسفير.',cor:'الأوزون',alt:['اوزون','الاوزون','O3','O₃'],fb:'التروبوسفير تسخن من الأرض، والستراتوسفير تسخن من أعلى بواسطة حزام الأوزون.'},
+  {id:28,bloom:3,type:'tf',text:'تعرضت منطقة جبلية لانهيارات طينية متكررة بفعل التعرية. اقترح مهندس زراعي زراعة منحدرات الجبل بنباتات عشبية ذات جذور ليفية وتصميم مصاطب زراعية. تقييم هذا الحل يظهر أنه حل علمي مميز؛ لأن الجذور الليفية المتشابكة ستعمل كشبكة تماسك طبيعية تثبت حبيبات التربة وتمنع التعرية المائية من جرفها.',hint:'فكر في كيفية تأثير الجذور الليفية على تماسك التربة ضد الجريان المائي.',cor:true,fb:'زراعة الغطاء النباتي وتصميم المدرجات يعتبران من أقوى الوسائل لمكافحة التعرية؛ فالجذور تمسك التربة.'},
+  {id:29,bloom:3,type:'match',text:'ركّب الروابط المنطقية بين قراءات أجهزة الأرصاد والتدبير الفوري المناسب لإدارة الأزمة:',hint:'الضغط المنخفض مع الرياح اللولبية = إعصار قمعي، والرطوبة العالية مع الكتل المتضادة = رعد وبرد.',items:['انخفاض قياسي في الباروميتر مع دوران عنيف لأكواب الأنيموميتر وسحب مزن ركامية تدور فوق اليابسة','ارتفاع شديد في الرطوبة (الهيجرومايتر) وتدفق تيار هوائي ساخن يلتقي جبهة باردة فوق السهول','ارتفاع مؤشر الأشعة فوق البنفسجية (UV Index) بشكل مفرط وخطير في منتصف النهار مع سماء صافية'],opts:['إطلاق صافرات الإنذار لتوجيه السكان للاحتماء بالملاجئ الأرضية هرباً من إعصار قمعي','إصدار تحذير باحتمال هبوب عواصف رعدية مصحوبة بحبات البرد الكبيرة وسيول جارفة','بث نصائح تلزم السكان بارتداء قبعات واقية واستخدام واقي الشمس وتجنب التعرض المباشر للشمس'],cor:[0,1,2],fb:'الفهم المتكامل لبيانات الأرصاد يربط الأسباب بالنتائج؛ الضغط المنخفض مع الرياح اللولبية ينذر بالتورنيدو.'},
   {id:30,bloom:3,type:'order',text:'طُلب منك بصفتك مديراً لوكالة فضاء وضع خطة استراتيجية لتصميم وإطلاق مهمة فضائية مأهولة لاستكشاف كوكب جديد. رتب خطوات بناء هذه المهمة:',hint:'تحاكي الخطوات التاريخ الحقيقي لاستكشاف الفضاء: أقمار ← حيوانات ← تحليل ← بشر.',items:['إطلاق كبسولة اختبار تجريبية غير مأهولة تحتوي على كائنات حية لدراسة مدى تحمل الخلايا للجاذبية','تصميم وإطلاق قمر صناعي تجريبي يدور حول الكوكب الجديد لالتقاط الصور وجمع البيانات','إطلاق المركبة الفضائية المأهولة برواد الفضاء البشر وتفعيل نظام الهبوط الآمن والعودة','تحليل البيانات الرقمية المستلمة لتصميم بدلات فضاء مخصصة وأنظمة دعم حياة متكاملة'],cor:[1,0,3,2],fb:'تحاكي المهام الفضائية التاريخ الحقيقي: أقمار صناعية ← كائنات حيوانية ← تحليل البيانات ← إرسال البشر.'}
 ];
 
-const OUTCOMES=[
+var OUTCOMES=[
   {id:1,title:'التراكيب الخلوية - الخلية النباتية والحيوانية',qs:[1],bloom:1},
   {id:2,title:'تصنيف النباتات - الوعائية واللاوعائية',qs:[2,10],bloom:1},
   {id:3,title:'الثغور والعمليات النباتية',qs:[3,9],bloom:1},
@@ -503,478 +480,594 @@ const OUTCOMES=[
   {id:14,title:'حل المشكلات البيئية والفضائية',qs:[25,27,30],bloom:3}
 ];
 
-// ── STATE ──
-var curQ=0,answers=new Array(30).fill(null),checked=new Array(30).fill(false);
-var orderStates=[],timerInt=null,timeLeft=3600,startTime=null;
-var allResults=[],curClass='all',dragSrc=null,charts={};
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+var curQ=0, answers=new Array(30).fill(null), checked=new Array(30).fill(false);
+var orderStates=[], timerInt=null, timeLeft=3600, startTime=null;
+var allResults=[], curClass='all', dragSrc=null, charts={};
+var activeSessions={};
 
-// ── HELPERS ──
-function showLov(msg){document.getElementById('lovMsg').textContent=msg||'جارٍ التحميل...';document.getElementById('lov').classList.add('show')}
-function hideLov(){document.getElementById('lov').classList.remove('show')}
-function loadStudents(){
-  var cls=document.getElementById('selClass').value;
-  var sel=document.getElementById('selStudent');
-  sel.innerHTML='<option value="">-- اختر اسمك --</option>';
-  if(cls&&STUDENTS[cls])STUDENTS[cls].forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
+// ═══════════════════════════════════════════
+// ACTIVE SESSION TRACKING
+// ═══════════════════════════════════════════
+function markStudentActive(st,cls) {
+  var key = cls+'_'+st.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH+'/'+key).set({student:st,class:cls,ts:Date.now()});
 }
-function checkTeacher(){
-  var pwd=document.getElementById('tPwd').value;
-  if(pwd!==TPWD){alert('رمز الدخول غير صحيح!');return}
-  // Check device authorization
-  db.ref(TEACHER_DEVICE_PATH).once('value').then(function(s){
-    var stored=s.val();
-    if(!stored){
-      // First time — register this device
-      db.ref(TEACHER_DEVICE_PATH).set({deviceId:DEVICE_ID,ts:Date.now()});
-      document.getElementById('tPwd').value='';
-      loadDash();SS('teacherDashboard');
-    } else if(stored.deviceId===DEVICE_ID){
-      // Same device — allow
-      document.getElementById('tPwd').value='';
-      loadDash();SS('teacherDashboard');
+function markStudentDone(st,cls) {
+  var key = cls+'_'+st.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH+'/'+key).remove();
+}
+function listenActiveSessions() {
+  db.ref(ACTIVE_PATH).on('value', function(s) {
+    activeSessions = s.val() || {};
+    renderClassStatus();
+  });
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function showLov(msg) { document.getElementById('lovMsg').textContent = msg||'جارٍ التحميل...'; document.getElementById('lov').classList.add('show'); }
+function hideLov() { document.getElementById('lov').classList.remove('show'); }
+function loadStudents() {
+  var cls = document.getElementById('selClass').value;
+  var sel = document.getElementById('selStudent');
+  sel.innerHTML = '<option value="">-- اختر اسمك --</option>';
+  if (cls && STUDENTS[cls]) {
+    STUDENTS[cls].forEach(function(n) {
+      var o = document.createElement('option');
+      o.value = n; o.textContent = n; sel.appendChild(o);
+    });
+  }
+}
+
+// ═══════════════════════════════════════════
+// TEACHER LOGIN + DEVICE CHECK
+// ═══════════════════════════════════════════
+function checkTeacher() {
+  var pwd = document.getElementById('tPwd').value;
+  if (pwd !== TPWD) { alert('رمز الدخول غير صحيح!'); return; }
+  document.getElementById('tPwd').value = '';
+  db.ref(TEACHER_DEV_PATH).once('value').then(function(s) {
+    var stored = s.val();
+    if (!stored) {
+      db.ref(TEACHER_DEV_PATH).set({deviceId:DEVICE_ID, ts:Date.now()});
+      loadDash(); SS('teacherDashboard');
+    } else if (stored.deviceId === DEVICE_ID) {
+      loadDash(); SS('teacherDashboard');
     } else {
-      // Different device — show pending request
-      document.getElementById('tPwd').value='';
-      db.ref(TEACHER_DEVICE_PATH+'/pending').set({deviceId:DEVICE_ID,ts:Date.now()});
-      showDevicePendingScreen();
+      // different device — send pending request
+      db.ref(TEACHER_DEV_PATH+'/pending').set({deviceId:DEVICE_ID, ts:Date.now()});
+      showPendingScreen();
     }
   });
 }
 
-// ── QUIZ START WITH LOCK CHECK ──
-function startQuiz(){
-  var cls=document.getElementById('selClass').value;
-  var st=document.getElementById('selStudent').value;
-  if(!cls||!st){alert('يرجى اختيار الشعبة والاسم أولاً');return}
-  var lockKey=cls+'_'+st.replace(/\s/g,'_');
-  // Check if locked
-  db.ref(LOCKED_PATH+'/'+lockKey).once('value').then(function(s){
-    var lockData=s.val();
-    if(lockData&&lockData.locked){
-      alert('⛔ تم إيقاف اختبارك بواسطة المعلم أو غادرت الاختبار. يرجى التواصل مع المعلم لإعادة فتح الاختبار.');
-      return;
-    }
-    // Check if already submitted
-    db.ref(ATTEMPTS_PATH+'/'+lockKey).once('value').then(function(a){
-      var attempt=a.val();
-      if(attempt&&attempt.submitted){
-        alert('✅ لقد قدّمت الاختبار مسبقاً. تواصل مع المعلم إذا أردت إعادة المحاولة.');
-        return;
-      }
-      doStartQuiz(cls,st,lockKey);
-    });
-  });
-}
-
-function doStartQuiz(cls,st,lockKey){
-  window._curStudent=st;window._curClass=cls;window._lockKey=lockKey;window._quizActive=true;
-  markStudentActive(st,cls);
-  answers=new Array(30).fill(null);checked=new Array(30).fill(false);
-  orderStates=QS.map(function(q){return q.type==='order'?[...Array(q.items.length).keys()]:null});
-  curQ=0;timeLeft=3600;startTime=Date.now();
-  document.getElementById('sNameBar').textContent=st;
-  document.getElementById('sClassBar').textContent='الشعبة '+cls;
-  buildDots();renderQ();startTimer();SS('quizScreen');
-}
-function startTimer(){
-  clearInterval(timerInt);
-  timerInt=setInterval(function(){timeLeft--;updateTimer();if(timeLeft<=0){clearInterval(timerInt);submitQuiz()}},1000);
-}
-function updateTimer(){
-  var m=Math.floor(timeLeft/60).toString().padStart(2,'0');
-  var s=(timeLeft%60).toString().padStart(2,'0');
-  var el=document.getElementById('timerEl');
-  el.textContent=m+':'+s;el.className='timer';
-  if(timeLeft<=300)el.classList.add('danger');else if(timeLeft<=600)el.classList.add('warn');
-}
-function buildDots(){
-  var c=document.getElementById('dotsEl');c.innerHTML='';
-  QS.forEach(function(_,i){var d=document.createElement('div');d.className='dot'+(i===curQ?' cur':'');d.textContent=i+1;d.onclick=function(){goToQ(i)};c.appendChild(d)});
-}
-function updateDots(){
-  document.querySelectorAll('.dot').forEach(function(d,i){
-    d.className='dot';
-    if(i===curQ)d.classList.add('cur');
-    if(checked[i])d.classList.add(isOk(i)?'cok':'cwrr');
-    else if(answers[i]!==null&&answers[i]!==undefined)d.classList.add('ans');
-  });
-}
-function updateProgress(){
-  var n=answers.filter(function(a){return a!==null&&a!==undefined}).length;
-  document.getElementById('pbEl').style.width=(n/30*100)+'%';
-  document.getElementById('plblEl').textContent='السؤال '+(curQ+1)+' من 30 | تم الإجابة على '+n+' سؤال';
-}
-function renderQ(){
-  var q=QS[curQ];
-  var tl={mcq:'اختيار من متعدد',tf:'صح أم خطأ',fill:'ملء الفراغ',match:'مطابقة/توصيل',order:'ترتيب'};
-  var bl={1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
-  var h='<div class="qcard"><div class="qhdr"><div style="display:flex;align-items:center;gap:8px"><div class="qnum">'+q.id+'</div><div><div class="tbadge">'+tl[q.type]+'</div><div class="bbadge">'+bl[q.bloom]+'</div></div></div></div><div class="qtxt">'+q.text+'</div><div class="hint">💡 تلميح: '+q.hint+'</div>';
-  if(q.type==='mcq'){
-    h+='<ul class="opts">';
-    q.opts.forEach(function(o,i){h+='<li id="opt'+i+'"><label><input type="radio" name="qans" value="'+i+'" '+(answers[curQ]===i?'checked':'')+' '+(checked[curQ]?'disabled':'')+' onchange="setAns('+i+')"> '+o+'</label></li>'});
-    h+='</ul>';
-  }else if(q.type==='tf'){
-    h+='<div class="tfopts"><button class="tfbtn '+(answers[curQ]===true?'sel':'')+'" id="tfT" onclick="setTF(true)" '+(checked[curQ]?'disabled':'')+'>✅ صح</button><button class="tfbtn '+(answers[curQ]===false?'sel':'')+'" id="tfF" onclick="setTF(false)" '+(checked[curQ]?'disabled':'')+'>❌ خطأ</button></div>';
-  }else if(q.type==='fill'){
-    h+='<input class="fi" id="fiEl" type="text" placeholder="اكتب إجابتك..." value="'+(answers[curQ]||'')+'" '+(checked[curQ]?'disabled':'')+' oninput="setAns(this.value)">';
-  }else if(q.type==='match'){
-    h+='<div class="mc">';
-    q.items.forEach(function(it,i){
-      var sv=answers[curQ]?answers[curQ][i]:'';
-      h+='<div class="mr"><div class="ml">'+(i+1)+'. '+it+'</div><select class="ms" id="ms'+i+'" '+(checked[curQ]?'disabled':'')+' onchange="setMatch()"><option value="">-- اختر --</option>'+q.opts.map(function(op,j){return'<option value="'+j+'" '+(sv==j?'selected':'')+'>'+op+'</option>'}).join('')+'</select></div>';
-    });
-    h+='</div>';
-  }else if(q.type==='order'){
-    h+='<div class="ol" id="olEl">';
-    orderStates[curQ].forEach(function(idx,pos){
-      var cl2=checked[curQ]?(QS[curQ].cor[pos]===idx?'cor':'wrr'):'';
-      h+='<div class="oi '+cl2+'" draggable="'+(checked[curQ]?'false':'true')+'" data-pos="'+pos+'" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event)" ondragleave="dl(event)"><span class="oh">☰</span><span class="on">'+(pos+1)+'</span><span>'+q.items[idx]+'</span></div>';
-    });
-    h+='</div>';
-    if(!checked[curQ])answers[curQ]=[...orderStates[curQ]];
-  }
-  var fbCls=checked[curQ]?(isOk(curQ)?'rc':'wr'):'';
-  h+='<div class="fb '+fbCls+' '+(checked[curQ]?'show':'')+'" id="fbEl">'+(checked[curQ]?(isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb:q.fb)+'</div></div>';
-  document.getElementById('qCont').innerHTML=h;
-  if(checked[curQ])applyVisuals();
-  updateDots();updateProgress();
-  document.getElementById('btnPrev').style.visibility=curQ>0?'visible':'hidden';
-  document.getElementById('btnNext').style.visibility=curQ<29?'visible':'hidden';
-}
-function setAns(v){if(checked[curQ])return;answers[curQ]=v;updateDots();updateProgress()}
-function setTF(v){
-  if(checked[curQ])return;answers[curQ]=v;
-  document.getElementById('tfT').className='tfbtn'+(v===true?' sel':'');
-  document.getElementById('tfF').className='tfbtn'+(v===false?' sel':'');
-}
-function setMatch(){
-  if(checked[curQ])return;
-  answers[curQ]=QS[curQ].items.map(function(_,i){var s=document.getElementById('ms'+i);return s&&s.value!==''?parseInt(s.value):null});
-  updateDots();updateProgress();
-}
-function ds(e){dragSrc=parseInt(e.currentTarget.dataset.pos);e.currentTarget.classList.add('dragging')}
-function dov(e){e.preventDefault();e.currentTarget.classList.add('dov')}
-function dl(e){e.currentTarget.classList.remove('dov')}
-function di(e){
-  e.preventDefault();var tp=parseInt(e.currentTarget.dataset.pos);
-  e.currentTarget.classList.remove('dov');
-  if(dragSrc===null||dragSrc===tp)return;
-  var st=orderStates[curQ];var tmp=st[dragSrc];st[dragSrc]=st[tp];st[tp]=tmp;
-  answers[curQ]=[...st];dragSrc=null;renderQ();
-}
-function checkCurrent(){
-  var q=QS[curQ];
-  if(answers[curQ]===null||answers[curQ]===undefined){alert('يرجى الإجابة على السؤال أولاً');return}
-  if(q.type==='match'&&(!answers[curQ]||answers[curQ].some(function(v){return v===null||v===undefined}))){alert('يرجى إكمال جميع الاختيارات');return}
-  checked[curQ]=true;applyVisuals();updateDots();
-  var fb=document.getElementById('fbEl');
-  fb.className='fb '+(isOk(curQ)?'rc':'wr')+' show';
-  fb.textContent=(isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb;
-}
-function applyVisuals(){
-  var q=QS[curQ];
-  if(q.type==='mcq'){q.opts.forEach(function(_,i){var li=document.getElementById('opt'+i);if(!li)return;li.className=i===q.cor?'rc':(i===answers[curQ]&&answers[curQ]!==q.cor?'wr':'')});}
-  else if(q.type==='tf'){var t=document.getElementById('tfT'),f=document.getElementById('tfF');if(!t)return;t.className='tfbtn';f.className='tfbtn';if(q.cor===true){t.classList.add('rc');if(answers[curQ]===false)f.classList.add('wr')}else{f.classList.add('rc');if(answers[curQ]===true)t.classList.add('wr')}}
-  else if(q.type==='fill'){var inp=document.getElementById('fiEl');if(!inp)return;inp.className='fi '+(isOk(curQ)?'rc':'wr')}
-  else if(q.type==='match'){q.items.forEach(function(_,i){var s=document.getElementById('ms'+i);if(!s)return;s.className='ms '+(answers[curQ]&&answers[curQ][i]===q.cor[i]?'rc':'wr')})}
-  else if(q.type==='order'){renderQ()}
-}
-function isOk(idx){
-  var q=QS[idx],a=answers[idx];
-  if(a===null||a===undefined)return false;
-  if(q.type==='mcq')return a===q.cor;
-  if(q.type==='tf')return a===q.cor;
-  if(q.type==='fill'){var u=String(a).trim().toLowerCase(),c=q.cor.toLowerCase();if(u===c)return true;return q.alt?q.alt.some(function(x){return u===x.toLowerCase()}):false}
-  if(q.type==='match')return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c});
-  if(q.type==='order')return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c});
-  return false;
-}
-function goToQ(i){curQ=i;renderQ()}
-function nextQ(){if(curQ<29){curQ++;renderQ()}}
-function prevQ(){if(curQ>0){curQ--;renderQ()}}
-function confirmSubmit(){
-  var u=answers.filter(function(a){return a===null||a===undefined}).length;
-  showModal('تسليم الاختبار','لديك '+u+' سؤال لم تجب عليه. هل تريد التسليم الآن؟',submitQuiz);
-}
-function savePartialAndLock(){
-  if(!window._lockKey)return;
-  // Lock the student
-  db.ref(LOCKED_PATH+'/'+window._lockKey).set({locked:true,student:window._curStudent,class:window._curClass,ts:Date.now(),reason:'غادر الاختبار'});
-  // Save partial answers
-  var partial={student:window._curStudent,class:window._curClass,partial:true,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)}),timestamp:Date.now()};
-  db.ref(LOCKED_PATH+'/'+window._lockKey+'/partial').set(partial);
-  window._quizActive=false;
-}
-
-function submitQuiz(){
-  closeModal();clearInterval(timerInt);
-  window._quizActive=false;
-  var el=Math.round((Date.now()-startTime)/1000);
-  var ts=Math.floor(el/60)+':'+(el%60).toString().padStart(2,'0');
-  var cor=0,b1=0,b2=0,b3=0;
-  QS.forEach(function(q,i){if(isOk(i)){cor++;if(q.bloom===1)b1++;if(q.bloom===2)b2++;if(q.bloom===3)b3++}});
-  var pct=Math.round(cor/30*100);
-  var r={student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
-  saveToFb(r);
-  markStudentDone(window._curStudent,window._curClass);
-  // Mark as submitted (prevent re-entry)
-  if(window._lockKey){
-    db.ref(ATTEMPTS_PATH+'/'+window._lockKey).set({submitted:true,student:window._curStudent,class:window._curClass,ts:Date.now()});
-    // Remove any lock
-    db.ref(LOCKED_PATH+'/'+window._lockKey).remove();
-  }
-  showResult(r,pct);
-}
-function showResult(r,pct){
-  var sc=document.getElementById('scircle');
-  sc.className='scircle '+(pct>=90?'exc':pct>=70?'good':pct>=50?'pass':'fail');
-  document.getElementById('sPct').textContent=pct+'%';
-  document.getElementById('rStudentInfo').textContent=r.student+' | الشعبة '+r.class;
-  var msgs=pct>=90?['ممتاز! 🏆','أداء رائع يستحق الإشادة!']:pct>=70?['جيد جداً! 👍','استمر في المراجعة']:pct>=50?['مقبول ✔','تحتاج مراجعة بعض المواضيع']:['بحاجة لمراجعة ❗','راجع الدروس مع معلمك'];
-  document.getElementById('rMsg').textContent=msgs[0];document.getElementById('rSubMsg').textContent=msgs[1];
-  document.getElementById('rCor').textContent=r.correct;document.getElementById('rWrong').textContent=r.wrong;document.getElementById('rTime').textContent=r.timeStr;
-  document.getElementById('bls1').textContent=r.bloom1+'/'+r.bloom1t;document.getElementById('bls2').textContent=r.bloom2+'/'+r.bloom2t;document.getElementById('bls3').textContent=r.bloom3+'/'+r.bloom3t;
-  document.getElementById('bl1').style.width=Math.round(r.bloom1/r.bloom1t*100)+'%';document.getElementById('bl2').style.width=Math.round(r.bloom2/r.bloom2t*100)+'%';document.getElementById('bl3').style.width=Math.round(r.bloom3/r.bloom3t*100)+'%';
-  SS('resultScreen');
-}
-function retryQuiz(){
-  answers=new Array(30).fill(null);checked=new Array(30).fill(false);
-  orderStates=QS.map(function(q){return q.type==='order'?[...Array(q.items.length).keys()]:null});
-  curQ=0;timeLeft=3600;startTime=Date.now();buildDots();renderQ();startTimer();SS('quizScreen');
-}
-
-// ── FIREBASE ──
-function saveToFb(r){
-  var el=document.getElementById('fbSaveEl');el.textContent='⏳ جارٍ الحفظ في Firebase...';
-  db.ref(PATH).push(r).then(function(){el.textContent='✅ تم الحفظ في Firebase بنجاح'}).catch(function(){
-    el.textContent='⚠️ فشل الحفظ في Firebase، تم الحفظ محلياً';
-    var loc=JSON.parse(localStorage.getItem('sq_local')||'[]');loc.push(Object.assign({},r,{key:Date.now().toString()}));localStorage.setItem('sq_local',JSON.stringify(loc));
-  });
-}
-function loadFromFb(cb){
-  showLov('جارٍ تحميل النتائج من Firebase...');
-  db.ref(PATH).once('value').then(function(s){
-    var d=s.val();allResults=d?Object.entries(d).map(function(e){return Object.assign({},e[1],{fbKey:e[0]})}):[];
-    var loc=JSON.parse(localStorage.getItem('sq_local')||'[]');allResults=allResults.concat(loc);
-    allResults.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0)});hideLov();if(cb)cb();
-  }).catch(function(){allResults=JSON.parse(localStorage.getItem('sq_local')||'[]');hideLov();if(cb)cb()});
-}
-function delFromFb(fbKey,localKey){
-  if(fbKey)db.ref(PATH+'/'+fbKey).remove();
-  if(localKey){var l=JSON.parse(localStorage.getItem('sq_local')||'[]');l=l.filter(function(r){return r.key!==localKey});localStorage.setItem('sq_local',JSON.stringify(l))}
-}
-function delAllFb(){db.ref(PATH).remove();localStorage.removeItem('sq_local')}
-
-// ── DEVICE PENDING SCREEN ──
-function showDevicePendingScreen(){
+function showPendingScreen() {
   SS('teacherLogin');
-  document.getElementById('teacherLogin').innerHTML='<div class="fullpage" style="background:linear-gradient(135deg,#0d4f8b,#1a237e)"><div class="card" style="text-align:center"><div style="font-size:3rem;margin-bottom:12px">🔐</div><h2 style="color:var(--dan);margin-bottom:10px">جهاز غير مصرح</h2><p style="color:#555;margin-bottom:16px">لوحة المعلم مقيدة بجهاز آخر.<br>تم إرسال طلب السماح للمعلم.</p><p style="background:#fef9e7;border:1px solid #f0a500;border-radius:8px;padding:12px;font-size:.85rem;color:#7d6608;margin-bottom:18px">⏳ في انتظار موافقة المعلم من جهازه الأصلي...</p><button onclick="checkPendingApproval()" style="width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px">🔄 تحقق من الموافقة</button><div class="tlink"><a onclick="SS(\'homeScreen\')">← العودة للرئيسية</a></div></div></div>';
+  document.getElementById('teacherLoginCard').innerHTML =
+    '<div style="text-align:center">' +
+    '<div style="font-size:3rem;margin-bottom:12px">🔐</div>' +
+    '<h2 style="color:var(--dan);margin-bottom:10px">جهاز غير مصرح</h2>' +
+    '<p style="color:#555;margin-bottom:14px">لوحة المعلم مقيدة بجهاز آخر.<br>تم إرسال طلب السماح للمعلم.</p>' +
+    '<div style="background:#fef9e7;border:1px solid #f0a500;border-radius:8px;padding:12px;font-size:.85rem;color:#7d6608;margin-bottom:18px">⏳ في انتظار موافقة المعلم من جهازه الأصلي...</div>' +
+    '<button onclick="checkPendingApproval()" style="width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px">🔄 تحقق من الموافقة</button>' +
+    '<div class="tlink"><a onclick="SS(\'homeScreen\')">← العودة للرئيسية</a></div>' +
+    '</div>';
 }
 
-function checkPendingApproval(){
-  db.ref(TEACHER_DEVICE_PATH).once('value').then(function(s){
-    var d=s.val();
-    if(d&&d.deviceId===DEVICE_ID){
-      loadDash();SS('teacherDashboard');
+function checkPendingApproval() {
+  db.ref(TEACHER_DEV_PATH).once('value').then(function(s) {
+    var d = s.val();
+    if (d && d.deviceId === DEVICE_ID) {
+      loadDash(); SS('teacherDashboard');
     } else {
       alert('لم تتم الموافقة بعد. انتظر المعلم.');
     }
   });
 }
 
-// ── DASHBOARD LOAD ──
-function loadDash(){
+function approveDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').once('value').then(function(s) {
+    var p = s.val();
+    if (p && p.deviceId) {
+      db.ref(TEACHER_DEV_PATH).set({deviceId:p.deviceId, ts:Date.now()});
+      db.ref(TEACHER_DEV_PATH+'/pending').remove();
+      alert('✅ تم السماح للجهاز الجديد.');
+    }
+  });
+}
+
+function rejectDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').remove();
+  document.getElementById('pendingBanner').style.display = 'none';
+}
+
+function resetTeacherDevice() {
+  if (confirm('هل تريد إزالة قيد الجهاز؟ سيتم تسجيل الجهاز الأول الذي يدخل تلقائياً.')) {
+    db.ref(TEACHER_DEV_PATH).remove();
+    alert('تم إزالة قيد الجهاز.');
+  }
+}
+
+// ═══════════════════════════════════════════
+// QUIZ START
+// ═══════════════════════════════════════════
+function startQuiz() {
+  var cls = document.getElementById('selClass').value;
+  var st = document.getElementById('selStudent').value;
+  if (!cls || !st) { alert('يرجى اختيار الشعبة والاسم أولاً'); return; }
+  var lkKey = cls+'_'+st.replace(/\s/g,'_');
+  showLov('جارٍ التحقق...');
+  db.ref(LOCKED_PATH+'/'+lkKey).once('value').then(function(s) {
+    var lockData = s.val();
+    if (lockData && lockData.locked) {
+      hideLov();
+      alert('⛔ تم إيقاف اختبارك. يرجى التواصل مع المعلم لإعادة فتح الاختبار.');
+      return;
+    }
+    db.ref(ATTEMPTS_PATH+'/'+lkKey).once('value').then(function(a) {
+      hideLov();
+      var attempt = a.val();
+      if (attempt && attempt.submitted) {
+        alert('✅ لقد قدّمت الاختبار مسبقاً. تواصل مع المعلم إذا أردت إعادة المحاولة.');
+        return;
+      }
+      doStartQuiz(cls, st, lkKey);
+    });
+  });
+}
+
+function doStartQuiz(cls, st, lkKey) {
+  window._curStudent = st; window._curClass = cls; window._lockKey = lkKey; window._quizActive = true;
+  markStudentActive(st, cls);
+  answers = new Array(30).fill(null); checked = new Array(30).fill(false);
+  orderStates = QS.map(function(q) { return q.type==='order' ? [...Array(q.items.length).keys()] : null; });
+  curQ = 0; timeLeft = 3600; startTime = Date.now();
+  document.getElementById('sNameBar').textContent = st;
+  document.getElementById('sClassBar').textContent = 'الشعبة '+cls;
+  buildDots(); renderQ(); startTimer(); SS('quizScreen');
+}
+
+// Lock on exit
+window.addEventListener('beforeunload', function() {
+  if (window._quizActive && window._curStudent && window._curClass) {
+    savePartialAndLock();
+  }
+});
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden && window._quizActive && window._curStudent && window._curClass) {
+    savePartialAndLock();
+  }
+});
+
+function savePartialAndLock() {
+  if (!window._lockKey) return;
+  db.ref(LOCKED_PATH+'/'+window._lockKey).set({locked:true, student:window._curStudent, class:window._curClass, ts:Date.now(), reason:'غادر الاختبار'});
+  window._quizActive = false;
+}
+
+// ═══════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════
+function startTimer() {
+  clearInterval(timerInt);
+  timerInt = setInterval(function() {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) { clearInterval(timerInt); submitQuiz(); }
+  }, 1000);
+}
+function updateTimer() {
+  var m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  var s = (timeLeft%60).toString().padStart(2,'0');
+  var el = document.getElementById('timerEl');
+  el.textContent = m+':'+s; el.className = 'timer';
+  if (timeLeft <= 300) el.classList.add('danger');
+  else if (timeLeft <= 600) el.classList.add('warn');
+}
+
+// ═══════════════════════════════════════════
+// DOTS & PROGRESS
+// ═══════════════════════════════════════════
+function buildDots() {
+  var c = document.getElementById('dotsEl'); c.innerHTML = '';
+  QS.forEach(function(_,i) {
+    var d = document.createElement('div');
+    d.className = 'dot'+(i===curQ?' cur':'');
+    d.textContent = i+1;
+    d.onclick = function() { goToQ(i); };
+    c.appendChild(d);
+  });
+}
+function updateDots() {
+  document.querySelectorAll('.dot').forEach(function(d,i) {
+    d.className = 'dot';
+    if (i===curQ) d.classList.add('cur');
+    if (checked[i]) d.classList.add(isOk(i)?'cok':'cwrr');
+    else if (answers[i]!==null&&answers[i]!==undefined) d.classList.add('ans');
+  });
+}
+function updateProgress() {
+  var n = answers.filter(function(a) { return a!==null&&a!==undefined; }).length;
+  document.getElementById('pbEl').style.width = (n/30*100)+'%';
+  document.getElementById('plblEl').textContent = 'السؤال '+(curQ+1)+' من 30 | تم الإجابة على '+n+' سؤال';
+}
+
+// ═══════════════════════════════════════════
+// RENDER QUESTION
+// ═══════════════════════════════════════════
+function renderQ() {
+  var q = QS[curQ];
+  var tl = {mcq:'اختيار من متعدد',tf:'صح أم خطأ',fill:'ملء الفراغ',match:'مطابقة/توصيل',order:'ترتيب'};
+  var bl = {1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
+  var h = '<div class="qcard"><div class="qhdr"><div class="qnum">'+q.id+'</div><div><div class="tbadge">'+tl[q.type]+'</div><div class="bbadge">'+bl[q.bloom]+'</div></div></div><div class="qtxt">'+q.text+'</div><div class="hint">💡 تلميح: '+q.hint+'</div>';
+  if (q.type==='mcq') {
+    h += '<ul class="opts">';
+    q.opts.forEach(function(o,i) { h += '<li id="opt'+i+'"><label><input type="radio" name="qans" value="'+i+'" '+(answers[curQ]===i?'checked':'')+' '+(checked[curQ]?'disabled':'')+' onchange="setAns('+i+')"> '+o+'</label></li>'; });
+    h += '</ul>';
+  } else if (q.type==='tf') {
+    h += '<div class="tfopts"><button class="tfbtn '+(answers[curQ]===true?'sel':'')+'" id="tfT" onclick="setTF(true)" '+(checked[curQ]?'disabled':'')+'>✅ صح</button><button class="tfbtn '+(answers[curQ]===false?'sel':'')+'" id="tfF" onclick="setTF(false)" '+(checked[curQ]?'disabled':'')+'>❌ خطأ</button></div>';
+  } else if (q.type==='fill') {
+    h += '<input class="fi" id="fiEl" type="text" placeholder="اكتب إجابتك..." value="'+(answers[curQ]||'')+'" '+(checked[curQ]?'disabled':'')+' oninput="setAns(this.value)">';
+  } else if (q.type==='match') {
+    h += '<div class="mc">';
+    q.items.forEach(function(it,i) {
+      var sv = answers[curQ] ? answers[curQ][i] : '';
+      h += '<div class="mr"><div class="ml">'+(i+1)+'. '+it+'</div><select class="ms" id="ms'+i+'" '+(checked[curQ]?'disabled':'')+' onchange="setMatch()"><option value="">-- اختر --</option>'+q.opts.map(function(op,j){return'<option value="'+j+'" '+(sv==j?'selected':'')+'>'+op+'</option>'}).join('')+'</select></div>';
+    });
+    h += '</div>';
+  } else if (q.type==='order') {
+    h += '<div class="ol" id="olEl">';
+    orderStates[curQ].forEach(function(idx,pos) {
+      var cl2 = checked[curQ] ? (QS[curQ].cor[pos]===idx?'cor':'wrr') : '';
+      h += '<div class="oi '+cl2+'" draggable="'+(checked[curQ]?'false':'true')+'" data-pos="'+pos+'" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event)" ondragleave="dl(event)"><span class="oh">☰</span><span class="on">'+(pos+1)+'</span><span>'+q.items[idx]+'</span></div>';
+    });
+    h += '</div>';
+    if (!checked[curQ]) answers[curQ] = [...orderStates[curQ]];
+  }
+  var fbCls = checked[curQ] ? (isOk(curQ)?'rc':'wr') : '';
+  h += '<div class="fb '+fbCls+' '+(checked[curQ]?'show':'')+'" id="fbEl">'+(checked[curQ]?(isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb:q.fb)+'</div></div>';
+  document.getElementById('qCont').innerHTML = h;
+  if (checked[curQ]) applyVisuals();
+  updateDots(); updateProgress();
+  document.getElementById('btnPrev').style.visibility = curQ>0 ? 'visible' : 'hidden';
+  document.getElementById('btnNext').style.visibility = curQ<29 ? 'visible' : 'hidden';
+}
+
+// ═══════════════════════════════════════════
+// ANSWER HANDLERS
+// ═══════════════════════════════════════════
+function setAns(v) { if(checked[curQ])return; answers[curQ]=v; updateDots(); updateProgress(); }
+function setTF(v) {
+  if(checked[curQ])return; answers[curQ]=v;
+  document.getElementById('tfT').className='tfbtn'+(v===true?' sel':'');
+  document.getElementById('tfF').className='tfbtn'+(v===false?' sel':'');
+}
+function setMatch() {
+  if(checked[curQ])return;
+  answers[curQ] = QS[curQ].items.map(function(_,i) { var s=document.getElementById('ms'+i); return s&&s.value!==''?parseInt(s.value):null; });
+  updateDots(); updateProgress();
+}
+function ds(e) { dragSrc=parseInt(e.currentTarget.dataset.pos); e.currentTarget.classList.add('dragging'); }
+function dov(e) { e.preventDefault(); e.currentTarget.classList.add('dov'); }
+function dl(e) { e.currentTarget.classList.remove('dov'); }
+function di(e) {
+  e.preventDefault();
+  var tp = parseInt(e.currentTarget.dataset.pos);
+  e.currentTarget.classList.remove('dov');
+  if (dragSrc===null||dragSrc===tp) return;
+  var st = orderStates[curQ]; var tmp=st[dragSrc]; st[dragSrc]=st[tp]; st[tp]=tmp;
+  answers[curQ]=[...st]; dragSrc=null; renderQ();
+}
+
+function checkCurrent() {
+  var q = QS[curQ];
+  if (answers[curQ]===null||answers[curQ]===undefined) { alert('يرجى الإجابة على السؤال أولاً'); return; }
+  if (q.type==='match'&&(!answers[curQ]||answers[curQ].some(function(v){return v===null||v===undefined;}))) { alert('يرجى إكمال جميع الاختيارات'); return; }
+  checked[curQ]=true; applyVisuals(); updateDots();
+  var fb = document.getElementById('fbEl');
+  fb.className = 'fb '+(isOk(curQ)?'rc':'wr')+' show';
+  fb.textContent = (isOk(curQ)?'✅ إجابة صحيحة! ':'❌ إجابة خاطئة! ')+q.fb;
+}
+
+function applyVisuals() {
+  var q = QS[curQ];
+  if (q.type==='mcq') { q.opts.forEach(function(_,i){var li=document.getElementById('opt'+i);if(!li)return;li.className=i===q.cor?'rc':(i===answers[curQ]&&answers[curQ]!==q.cor?'wr':'');}); }
+  else if (q.type==='tf') { var t=document.getElementById('tfT'),f=document.getElementById('tfF');if(!t)return;t.className='tfbtn';f.className='tfbtn';if(q.cor===true){t.classList.add('rc');if(answers[curQ]===false)f.classList.add('wr')}else{f.classList.add('rc');if(answers[curQ]===true)t.classList.add('wr');} }
+  else if (q.type==='fill') { var inp=document.getElementById('fiEl');if(!inp)return;inp.className='fi '+(isOk(curQ)?'rc':'wr'); }
+  else if (q.type==='match') { q.items.forEach(function(_,i){var s=document.getElementById('ms'+i);if(!s)return;s.className='ms '+(answers[curQ]&&answers[curQ][i]===q.cor[i]?'rc':'wr');}); }
+  else if (q.type==='order') { renderQ(); }
+}
+
+function isOk(idx) {
+  var q=QS[idx], a=answers[idx];
+  if (a===null||a===undefined) return false;
+  if (q.type==='mcq') return a===q.cor;
+  if (q.type==='tf') return a===q.cor;
+  if (q.type==='fill') { var u=String(a).trim().toLowerCase(),c=q.cor.toLowerCase(); if(u===c)return true; return q.alt?q.alt.some(function(x){return u===x.toLowerCase();}):false; }
+  if (q.type==='match') return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c;});
+  if (q.type==='order') return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c;});
+  return false;
+}
+
+function goToQ(i) { curQ=i; renderQ(); }
+function nextQ() { if(curQ<29){curQ++;renderQ();} }
+function prevQ() { if(curQ>0){curQ--;renderQ();} }
+
+function confirmSubmit() {
+  var u = answers.filter(function(a){return a===null||a===undefined;}).length;
+  showModal('تسليم الاختبار','لديك '+u+' سؤال لم تجب عليه. هل تريد التسليم الآن؟', submitQuiz);
+}
+
+function submitQuiz() {
+  closeModal(); clearInterval(timerInt);
+  window._quizActive = false;
+  var el = Math.round((Date.now()-startTime)/1000);
+  var ts = Math.floor(el/60)+':'+(el%60).toString().padStart(2,'0');
+  var cor=0,b1=0,b2=0,b3=0;
+  QS.forEach(function(q,i){if(isOk(i)){cor++;if(q.bloom===1)b1++;if(q.bloom===2)b2++;if(q.bloom===3)b3++;}});
+  var pct = Math.round(cor/30*100);
+  var r = {student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a);}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
+  saveToFb(r);
+  markStudentDone(window._curStudent, window._curClass);
+  if (window._lockKey) {
+    db.ref(ATTEMPTS_PATH+'/'+window._lockKey).set({submitted:true,student:window._curStudent,class:window._curClass,ts:Date.now()});
+    db.ref(LOCKED_PATH+'/'+window._lockKey).remove();
+  }
+  showResult(r, pct);
+}
+
+function showResult(r, pct) {
+  var sc = document.getElementById('scircle');
+  sc.className = 'scircle '+(pct>=90?'exc':pct>=70?'good':pct>=50?'pass':'fail');
+  document.getElementById('sPct').textContent = pct+'%';
+  document.getElementById('rStudentInfo').textContent = r.student+' | الشعبة '+r.class;
+  var msgs = pct>=90?['ممتاز! 🏆','أداء رائع يستحق الإشادة!']:pct>=70?['جيد جداً! 👍','استمر في المراجعة']:pct>=50?['مقبول ✔','تحتاج مراجعة بعض المواضيع']:['بحاجة لمراجعة ❗','راجع الدروس مع معلمك'];
+  document.getElementById('rMsg').textContent = msgs[0];
+  document.getElementById('rSubMsg').textContent = msgs[1];
+  document.getElementById('rCor').textContent = r.correct;
+  document.getElementById('rWrong').textContent = r.wrong;
+  document.getElementById('rTime').textContent = r.timeStr;
+  document.getElementById('bls1').textContent = r.bloom1+'/'+r.bloom1t;
+  document.getElementById('bls2').textContent = r.bloom2+'/'+r.bloom2t;
+  document.getElementById('bls3').textContent = r.bloom3+'/'+r.bloom3t;
+  document.getElementById('bl1').style.width = Math.round(r.bloom1/r.bloom1t*100)+'%';
+  document.getElementById('bl2').style.width = Math.round(r.bloom2/r.bloom2t*100)+'%';
+  document.getElementById('bl3').style.width = Math.round(r.bloom3/r.bloom3t*100)+'%';
+  SS('resultScreen');
+}
+
+// ═══════════════════════════════════════════
+// FIREBASE OPERATIONS
+// ═══════════════════════════════════════════
+function saveToFb(r) {
+  var el = document.getElementById('fbSaveEl');
+  el.textContent = '⏳ جارٍ الحفظ في Firebase...';
+  db.ref(PATH).push(r).then(function(){ el.textContent='✅ تم الحفظ في Firebase بنجاح'; }).catch(function(){
+    el.textContent='⚠️ فشل الحفظ في Firebase، تم الحفظ محلياً';
+    var loc=JSON.parse(localStorage.getItem('sq_local')||'[]');
+    loc.push(Object.assign({},r,{key:Date.now().toString()}));
+    localStorage.setItem('sq_local',JSON.stringify(loc));
+  });
+}
+
+function loadFromFb(cb) {
+  showLov('جارٍ تحميل النتائج من Firebase...');
+  db.ref(PATH).once('value').then(function(s) {
+    var d = s.val();
+    allResults = d ? Object.entries(d).map(function(e){return Object.assign({},e[1],{fbKey:e[0]});}) : [];
+    var loc = JSON.parse(localStorage.getItem('sq_local')||'[]');
+    allResults = allResults.concat(loc);
+    allResults.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0);});
+    hideLov(); if(cb) cb();
+  }).catch(function(){
+    allResults = JSON.parse(localStorage.getItem('sq_local')||'[]');
+    hideLov(); if(cb) cb();
+  });
+}
+
+function delFromFb(fbKey,localKey) {
+  if(fbKey) db.ref(PATH+'/'+fbKey).remove();
+  if(localKey){ var l=JSON.parse(localStorage.getItem('sq_local')||'[]'); l=l.filter(function(r){return r.key!==localKey;}); localStorage.setItem('sq_local',JSON.stringify(l)); }
+}
+function delAllFb() { db.ref(PATH).remove(); localStorage.removeItem('sq_local'); }
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+function loadDash() {
   listenActiveSessions();
   listenPendingDevice();
-  loadFromFb(function(){renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()});
+  loadFromFb(function(){ renderSummary(); renderTable('all'); renderClassStatus(); renderSupport(); renderOutcomes(); });
 }
 
-function listenPendingDevice(){
-  db.ref(TEACHER_DEVICE_PATH+'/pending').on('value',function(s){
-    var pending=s.val();
-    var banner=document.getElementById('pendingDeviceBanner');
-    if(pending&&pending.deviceId&&pending.deviceId!==DEVICE_ID){
-      if(banner){banner.style.display='flex'}
-    } else {
-      if(banner){banner.style.display='none'}
-    }
+function refreshDash() {
+  Object.values(charts).forEach(function(c){try{c.destroy();}catch(e){}});
+  charts={};
+  loadDash();
+}
+
+function listenPendingDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').on('value', function(s) {
+    var p = s.val();
+    var banner = document.getElementById('pendingBanner');
+    if (banner) banner.style.display = (p && p.deviceId && p.deviceId!==DEVICE_ID) ? 'block' : 'none';
   });
 }
 
-function approveDevice(){
-  db.ref(TEACHER_DEVICE_PATH+'/pending').once('value').then(function(s){
-    var p=s.val();
-    if(p&&p.deviceId){
-      db.ref(TEACHER_DEVICE_PATH).set({deviceId:p.deviceId,ts:Date.now()});
-      DEVICE_ID=p.deviceId;
-      alert('✅ تم السماح للجهاز الجديد. سيتمكن المعلم من الدخول الآن.');
-    }
-  });
-}
-
-function resetTeacherDevice(){
-  if(confirm('هل تريد إزالة قيد الجهاز؟ سيتمكن أي شخص يملك الرمز من الدخول مؤقتاً.')){
-    db.ref(TEACHER_DEVICE_PATH).remove();
-    alert('تم إزالة قيد الجهاز. سيتم تسجيل الجهاز الأول الذي يدخل تلقائياً.');
-  }
-}
-// ── UNLOCK / RESET STUDENT ──
-function unlockStudent(lockKey,student,cls){
-  if(confirm('فتح الاختبار للطالب: '+student+'؟')){
-    db.ref(LOCKED_PATH+'/'+lockKey).remove();
-    alert('✅ تم فتح الاختبار للطالب '+student);
-    renderClassStatus();
-  }
-}
-
-function resetStudentAttempt(lockKey,student,cls,fbKey){
-  if(confirm('إعادة محاولة الطالب: '+student+'؟\nسيتم حذف إجابته السابقة وفتح الاختبار له من جديد.')){
-    // Delete previous result
-    if(fbKey) db.ref(PATH+'/'+fbKey).remove();
-    // Remove attempt record
-    db.ref(ATTEMPTS_PATH+'/'+lockKey).remove();
-    // Remove any lock
-    db.ref(LOCKED_PATH+'/'+lockKey).remove();
-    alert('✅ تم فتح الاختبار للطالب '+student+' للمحاولة مرة أخرى.');
-    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus()});
-  }
-}
-function refreshDash(){Object.values(charts).forEach(function(c){try{c.destroy()}catch(e){}});charts={};loadDash()}
-  var t=allResults.length,avg=t?Math.round(allResults.reduce(function(s,r){return s+r.pct},0)/t):0;
-  var pass=allResults.filter(function(r){return r.pct>=50}).length,exc=allResults.filter(function(r){return r.pct>=90}).length;
-  var at=t?Math.round(allResults.reduce(function(s,r){return s+(r.elapsed||0)},0)/t/60):0;
+function renderSummary() {
+  var t=allResults.length, avg=t?Math.round(allResults.reduce(function(s,r){return s+r.pct;},0)/t):0;
+  var pass=allResults.filter(function(r){return r.pct>=50;}).length, exc=allResults.filter(function(r){return r.pct>=90;}).length;
+  var at=t?Math.round(allResults.reduce(function(s,r){return s+(r.elapsed||0);},0)/t/60):0;
   document.getElementById('agEl').innerHTML='<div class="ac"><div class="bn">'+t+'</div><div class="d">إجمالي المحاولات</div></div><div class="ac"><div class="bn">'+avg+'%</div><div class="d">متوسط الدرجات</div></div><div class="ac"><div class="bn">'+pass+'</div><div class="d">ناجحون (≥50%)</div></div><div class="ac"><div class="bn">'+exc+'</div><div class="d">ممتازون (≥90%)</div></div><div class="ac"><div class="bn">'+at+' د</div><div class="d">متوسط وقت الحل</div></div><div class="ac" style="background:#fde8e6"><div class="bn" style="color:var(--dan)">'+(t-pass)+'</div><div class="d">بحاجة دعم (&lt;50%)</div></div>';
 }
-function switchTab(tab){
-  document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('active')});
-  document.querySelectorAll('.mtab').forEach(function(b){b.classList.remove('active')});
+
+function switchTab(tab) {
+  document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.mtab').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab-'+tab).classList.add('active');
   var idx=['results','charts','support','outcomes'].indexOf(tab);
   document.querySelectorAll('.mtab')[idx].classList.add('active');
-  if(tab==='charts')setTimeout(renderCharts,80);
-  if(tab==='support')renderSupport();
-  if(tab==='outcomes')renderOutcomes();
+  if(tab==='charts') setTimeout(renderCharts,80);
+  if(tab==='support') renderSupport();
+  if(tab==='outcomes') renderOutcomes();
 }
-function filterClass(cls,btn){
+
+function filterClass(cls,btn) {
   curClass=cls;
-  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active')});
-  btn.classList.add('active');renderTable(cls);
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderTable(cls);
 }
-function renderTable(cls){
-  var data=cls==='all'?allResults:allResults.filter(function(r){return r.class===cls});
-  var tb=document.getElementById('tblBody');
-  if(!data.length){tb.innerHTML='<tr><td colspan="12" style="text-align:center;color:#999;padding:18px">لا توجد نتائج بعد</td></tr>';return}
-  tb.innerHTML=data.map(function(r,i){
-    var bg=r.pct>=90?'bg':r.pct>=70?'bb':r.pct>=50?'by':'br';
-    return'<tr><td>'+(i+1)+'</td><td><strong>'+r.student+'</strong></td><td>الشعبة '+r.class+'</td><td><span class="badge '+bg+'">'+r.pct+'%</span></td><td>'+r.correct+'/30</td><td>'+r.wrong+'/30</td><td>'+r.bloom1+'/'+r.bloom1t+'</td><td>'+r.bloom2+'/'+r.bloom2t+'</td><td>'+r.bloom3+'/'+r.bloom3t+'</td><td>'+r.timeStr+'</td><td>'+r.date+'</td><td><button class="btn-sm" onclick="confirmDel1(\''+( r.fbKey||'')+'\',\''+(r.key||'')+'\')">حذف</button></td></tr>';
+
+function renderTable(cls) {
+  var data = cls==='all' ? allResults : allResults.filter(function(r){return r.class===cls;});
+  var tb = document.getElementById('tblBody');
+  if (!data.length) { tb.innerHTML='<tr><td colspan="12" style="text-align:center;color:#999;padding:18px">لا توجد نتائج بعد</td></tr>'; return; }
+  tb.innerHTML = data.map(function(r,i) {
+    var bg = r.pct>=90?'bg':r.pct>=70?'bb':r.pct>=50?'by':'br';
+    return '<tr><td>'+(i+1)+'</td><td><strong>'+r.student+'</strong></td><td>الشعبة '+r.class+'</td><td><span class="badge '+bg+'">'+r.pct+'%</span></td><td>'+r.correct+'/30</td><td>'+r.wrong+'/30</td><td>'+r.bloom1+'/'+r.bloom1t+'</td><td>'+r.bloom2+'/'+r.bloom2t+'</td><td>'+r.bloom3+'/'+r.bloom3t+'</td><td>'+r.timeStr+'</td><td>'+r.date+'</td><td><button class="btn-sm" onclick="confirmDel1(\''+( r.fbKey||'')+'\',\''+(r.key||'')+'\')">حذف</button></td></tr>';
   }).join('');
 }
-function renderClassStatus(){
-  var grid=document.getElementById('classStatusGrid');if(!grid)return;
 
-  // Load locked + attempts data then render
-  db.ref(LOCKED_PATH).once('value').then(function(ls){
-    var lockedData=ls.val()||{};
-    db.ref(ATTEMPTS_PATH).once('value').then(function(as){
-      var attemptsData=as.val()||{};
-      grid.innerHTML=['1','2','4','5'].map(function(cls){
-        var students=STUDENTS[cls];
-        function getLockKey(name){return cls+'_'+name.replace(/\s/g,'_')}
-        function getLatest(name){var rs=allResults.filter(function(r){return r.class===cls&&r.student===name});if(!rs.length)return null;return rs.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0)})[0]}
-        function isActive(name){var key=getLockKey(name);if(!activeSessions[key])return false;return(Date.now()-(activeSessions[key].ts||0))<90*60*1000}
-        function isLocked(name){var key=getLockKey(name);return lockedData[key]&&lockedData[key].locked}
-        function isSubmitted(name){var key=getLockKey(name);return attemptsData[key]&&attemptsData[key].submitted}
-        var done=students.filter(function(n){return getLatest(n)!==null}).length;
-        var notDone=students.filter(function(n){return!getLatest(n)&&!isActive(n)&&!isLocked(n)}).length;
-        var active=students.filter(function(n){return isActive(n)}).length;
-        var locked=students.filter(function(n){return isLocked(n)}).length;
-        var fail=students.filter(function(n){var r=getLatest(n);return r&&r.pct<50}).length;
-        var rows=students.map(function(name,i){
-          var r=getLatest(name),act=isActive(name),lk=isLocked(name),sub=isSubmitted(name);
-          var statusEl,scoreEl='',actionBtns='';
-          var lkKey=getLockKey(name);
-          if(lk){
-            statusEl='<span class="stu-status" style="background:#fde8e6;color:#922b21">🔒 موقوف</span>';
-            actionBtns='<button onclick="unlockStudent(\''+lkKey+'\',\''+name+'\',\''+cls+'\')" style="padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;background:var(--suc);color:#fff;cursor:pointer;margin-right:3px">🔓 فتح</button>';
-          } else if(act){
-            statusEl='<span class="stu-status st-active">🟡 في الاختبار</span>';
-          } else if(sub||r){
-            scoreEl=r?'<span class="stu-score">'+r.pct+'%</span>':'';
-            var pctVal=r?r.pct:0;
-            statusEl=pctVal>=50?'<span class="stu-status st-done-pass">تقدّم ✓</span>':'<span class="stu-status st-done-fail">تقدّم ✗</span>';
-            var fbKey=r?r.fbKey||'':'';
-            actionBtns='<button onclick="resetStudentAttempt(\''+lkKey+'\',\''+name+'\',\''+cls+'\',\''+fbKey+'\')" style="padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;background:var(--acc);color:#fff;cursor:pointer;margin-right:3px">🔄 إعادة</button>';
+// ═══════════════════════════════════════════
+// CLASS STATUS WITH LOCK/RESET BUTTONS
+// ═══════════════════════════════════════════
+function renderClassStatus() {
+  var grid = document.getElementById('classStatusGrid');
+  if (!grid) return;
+  db.ref(LOCKED_PATH).once('value').then(function(ls) {
+    var lockedData = ls.val() || {};
+    db.ref(ATTEMPTS_PATH).once('value').then(function(as) {
+      var attemptsData = as.val() || {};
+      grid.innerHTML = ['1','2','4','5'].map(function(cls) {
+        var students = STUDENTS[cls];
+        function lkKey(n) { return cls+'_'+n.replace(/\s/g,'_'); }
+        function getLatest(n) { var rs=allResults.filter(function(r){return r.class===cls&&r.student===n;}); if(!rs.length)return null; return rs.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0);})[0]; }
+        function isActive(n) { var k=lkKey(n); if(!activeSessions[k])return false; return (Date.now()-(activeSessions[k].ts||0))<90*60*1000; }
+        function isLocked(n) { var k=lkKey(n); return lockedData[k]&&lockedData[k].locked; }
+        function isSubmitted(n) { var k=lkKey(n); return attemptsData[k]&&attemptsData[k].submitted; }
+        var done=students.filter(function(n){return getLatest(n)!==null;}).length;
+        var active=students.filter(function(n){return isActive(n);}).length;
+        var locked=students.filter(function(n){return isLocked(n);}).length;
+        var notDone=students.filter(function(n){return!getLatest(n)&&!isActive(n)&&!isLocked(n);}).length;
+        var fail=students.filter(function(n){var r=getLatest(n);return r&&r.pct<50;}).length;
+        var rows = students.map(function(name,i) {
+          var r=getLatest(name), act=isActive(name), lk=isLocked(name), sub=isSubmitted(name);
+          var statusEl='', scoreEl='', btnHtml='';
+          var k = lkKey(name);
+          if (lk) {
+            statusEl = '<span class="stu-status" style="background:#fde8e6;color:#922b21">🔒 موقوف</span>';
+            btnHtml = '<button class="act-btn" style="background:var(--suc)" onclick="unlockStudent(\''+k+'\',\''+name+'\')">🔓 فتح</button>';
+          } else if (act) {
+            statusEl = '<span class="stu-status st-active">🟡 في الاختبار</span>';
+          } else if (sub || r) {
+            var pv = r ? r.pct : 0;
+            scoreEl = r ? '<span class="stu-score">'+r.pct+'%</span>' : '';
+            statusEl = pv>=50 ? '<span class="stu-status st-done-pass">تقدّم ✓</span>' : '<span class="stu-status st-done-fail">تقدّم ✗</span>';
+            var fk = r ? (r.fbKey||'') : '';
+            btnHtml = '<button class="act-btn" style="background:var(--acc)" onclick="resetStudentAttempt(\''+k+'\',\''+name+'\',\''+cls+'\',\''+fk+'\')">🔄 إعادة</button>';
           } else {
-            statusEl='<span class="stu-status st-none">لم يقدم</span>';
+            statusEl = '<span class="stu-status st-none">لم يقدم</span>';
           }
-          var nc=(r&&r.pct<50&&!act&&!lk)?'stu-name fail':'stu-name';
-          return'<div class="stu-row"><span style="color:#aaa;font-size:.75rem;margin-left:6px;min-width:16px">'+(i+1)+'</span><span class="'+nc+'" style="flex:1">'+name+'</span>'+scoreEl+actionBtns+statusEl+'</div>';
+          var nc = (r&&r.pct<50&&!act&&!lk) ? 'stu-name fail' : 'stu-name';
+          return '<div class="stu-row"><span style="color:#aaa;font-size:.73rem;margin-left:6px;min-width:16px">'+(i+1)+'</span><span class="'+nc+'">'+name+'</span>'+scoreEl+btnHtml+statusEl+'</div>';
         }).join('');
-        return'<div class="cls-status-card"><div class="cls-status-header"><span>الشعبة '+cls+' ('+students.length+' طالب)</span><div class="counts"><span class="cnt">✓ '+done+' تقدّم</span><span class="cnt" style="background:rgba(255,193,7,.4)">🟡 '+active+' نشط</span>'+(locked?'<span class="cnt" style="background:rgba(192,57,43,.4)">🔒 '+locked+' موقوف</span>':'')+' <span class="cnt">✗ '+notDone+' لم يقدم</span>'+(fail?'<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ '+fail+' راسب</span>':'')+' </div></div>'+rows+'</div>';
+        return '<div class="cls-status-card"><div class="cls-status-header"><span>الشعبة '+cls+' ('+students.length+' طالب)</span><div class="counts"><span class="cnt">✓ '+done+' تقدّم</span><span class="cnt" style="background:rgba(255,193,7,.4)">🟡 '+active+' نشط</span>'+(locked?'<span class="cnt" style="background:rgba(192,57,43,.4)">🔒 '+locked+' موقوف</span>':'')+' <span class="cnt">✗ '+notDone+' لم يقدم</span>'+(fail?'<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ '+fail+' راسب</span>':'')+' </div></div>'+rows+'</div>';
       }).join('');
     });
   });
 }
 
-// ── CHARTS ──
-function destChart(id){if(charts[id]){try{charts[id].destroy()}catch(e){}delete charts[id]}}
-function renderCharts(){
-  if(!allResults.length){document.getElementById('tab-charts').innerHTML='<p style="color:#999;text-align:center;padding:30px">لا توجد بيانات كافية</p>';return}
+function unlockStudent(k, name) {
+  if (confirm('فتح الاختبار للطالب: '+name+'؟')) {
+    db.ref(LOCKED_PATH+'/'+k).remove();
+    alert('✅ تم فتح الاختبار للطالب '+name);
+    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+  }
+}
+
+function resetStudentAttempt(k, name, cls, fbKey) {
+  if (confirm('إعادة محاولة الطالب: '+name+'؟\nسيتم حذف إجابته السابقة وفتح الاختبار له من جديد.')) {
+    if (fbKey) db.ref(PATH+'/'+fbKey).remove();
+    db.ref(ATTEMPTS_PATH+'/'+k).remove();
+    db.ref(LOCKED_PATH+'/'+k).remove();
+    alert('✅ تم فتح الاختبار للطالب '+name+' للمحاولة مرة أخرى.');
+    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+  }
+}
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+function destChart(id){if(charts[id]){try{charts[id].destroy();}catch(e){}delete charts[id];}}
+function renderCharts() {
+  if(!allResults.length){document.getElementById('tab-charts').innerHTML='<p style="color:#999;text-align:center;padding:30px">لا توجد بيانات كافية</p>';return;}
   destChart('sc');destChart('bl');destChart('cl');destChart('pa');destChart('qu');
-  var bins=[0,0,0,0,0,0];allResults.forEach(function(r){if(r.pct<50)bins[0]++;else if(r.pct<60)bins[1]++;else if(r.pct<70)bins[2]++;else if(r.pct<80)bins[3]++;else if(r.pct<90)bins[4]++;else bins[5]++});
+  var bins=[0,0,0,0,0,0];
+  allResults.forEach(function(r){if(r.pct<50)bins[0]++;else if(r.pct<60)bins[1]++;else if(r.pct<70)bins[2]++;else if(r.pct<80)bins[3]++;else if(r.pct<90)bins[4]++;else bins[5]++;});
   charts['sc']=new Chart(document.getElementById('cScore').getContext('2d'),{type:'bar',data:{labels:['<50%','50-59%','60-69%','70-79%','80-89%','90-100%'],datasets:[{label:'عدد الطلاب',data:bins,backgroundColor:['#e74c3c','#e67e22','#f1c40f','#3498db','#2ecc71','#27ae60'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
-  var b1=allResults.reduce(function(s,r){return s+r.bloom1},0),n1=allResults.length*12||1;
-  var b2=allResults.reduce(function(s,r){return s+r.bloom2},0),n2=allResults.length*12||1;
-  var b3=allResults.reduce(function(s,r){return s+r.bloom3},0),n3=allResults.length*6||1;
+  var b1=allResults.reduce(function(s,r){return s+r.bloom1;},0),n1=allResults.length*12||1;
+  var b2=allResults.reduce(function(s,r){return s+r.bloom2;},0),n2=allResults.length*12||1;
+  var b3=allResults.reduce(function(s,r){return s+r.bloom3;},0),n3=allResults.length*6||1;
   charts['bl']=new Chart(document.getElementById('cBloom').getContext('2d'),{type:'radar',data:{labels:['تذكر وفهم','تطبيق وتحليل','تركيب وتقييم'],datasets:[{label:'متوسط الأداء %',data:[Math.round(b1/n1*100),Math.round(b2/n2*100),Math.round(b3/n3*100)],backgroundColor:'rgba(26,107,60,.2)',borderColor:'rgba(26,107,60,.8)',pointBackgroundColor:'#1a6b3c',pointRadius:5}]},options:{responsive:true,scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:20}}}}});
   var cls=['1','2','4','5'];
-  var avgs=cls.map(function(c){var cr=allResults.filter(function(r){return r.class===c});return cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct},0)/cr.length):0});
-  charts['cl']=new Chart(document.getElementById('cClass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الشعبة '+c}),datasets:[{label:'متوسط الدرجة %',data:avgs,backgroundColor:['#3498db','#2ecc71','#f39c12','#9b59b6'],borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100}}}});
-  var pData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct>=50}).length});
-  var fData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct<50}).length});
-  charts['pa']=new Chart(document.getElementById('cPass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الشعبة '+c}),datasets:[{label:'ناجح',data:pData,backgroundColor:'#27ae60',borderRadius:4},{label:'بحاجة دعم',data:fData,backgroundColor:'#e74c3c',borderRadius:4}]},options:{responsive:true,scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
+  var avgs=cls.map(function(c){var cr=allResults.filter(function(r){return r.class===c;});return cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct;},0)/cr.length):0;});
+  charts['cl']=new Chart(document.getElementById('cClass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الشعبة '+c;}),datasets:[{label:'متوسط الدرجة %',data:avgs,backgroundColor:['#3498db','#2ecc71','#f39c12','#9b59b6'],borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100}}}});
+  var pData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct>=50;}).length;});
+  var fData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct<50;}).length;});
+  charts['pa']=new Chart(document.getElementById('cPass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الشعبة '+c;}),datasets:[{label:'ناجح',data:pData,backgroundColor:'#27ae60',borderRadius:4},{label:'بحاجة دعم',data:fData,backgroundColor:'#e74c3c',borderRadius:4}]},options:{responsive:true,scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
   var rates=getQRates();
-  charts['qu']=new Chart(document.getElementById('cQues').getContext('2d'),{type:'bar',data:{labels:QS.map(function(_,i){return'س'+(i+1)}),datasets:[{label:'% الصحيحة',data:rates,backgroundColor:rates.map(function(r){return r>=70?'#27ae60':r>=50?'#f39c12':'#e74c3c'}),borderRadius:3}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:function(v){return v+'%'}}}}}});
+  charts['qu']=new Chart(document.getElementById('cQues').getContext('2d'),{type:'bar',data:{labels:QS.map(function(_,i){return'س'+(i+1);}),datasets:[{label:'% الصحيحة',data:rates,backgroundColor:rates.map(function(r){return r>=70?'#27ae60':r>=50?'#f39c12':'#e74c3c';}),borderRadius:3}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:function(v){return v+'%';}}}}}});
 }
-function getQRates(){
-  return QS.map(function(q,i){
+
+function getQRates() {
+  return QS.map(function(q,i) {
     if(!allResults.length)return 0;
-    var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null'&&r.answers[i]!==null&&r.answers[i]!==undefined});
+    var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null'&&r.answers[i]!==null&&r.answers[i]!==undefined;});
     if(!att.length)return 0;
     var cor=att.filter(function(r){
-      var sv=answers;answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}});
+      var sv=answers;
+      answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}});
       var res=isOk(i);answers=sv;return res;
     });
     return Math.round(cor.length/att.length*100);
   });
 }
 
-// ── SUPPORT ──
-function renderSupport(){
+// ═══════════════════════════════════════════
+// SUPPORT TAB
+// ═══════════════════════════════════════════
+function renderSupport() {
   var thr=parseInt(document.getElementById('suppThr').value);
   var cls=document.getElementById('suppCls').value;
-  var data=allResults.filter(function(r){return r.pct<thr});
-  if(cls!=='all')data=data.filter(function(r){return r.class===cls});
-  var byCls=['1','2','4','5'].map(function(c){return{c:c,n:data.filter(function(r){return r.class===c}).length}});
-  document.getElementById('suppSum').innerHTML='<div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">'+data.length+'</div><div style="font-size:.76rem;color:#666">إجمالي المستهدفين</div></div>'+byCls.map(function(b){return'<div class="suppcard"><div class="bn">'+b.n+'</div><div style="font-size:.76rem;color:#666">الشعبة '+b.c+'</div></div>'}).join('');
+  var data=allResults.filter(function(r){return r.pct<thr;});
+  if(cls!=='all')data=data.filter(function(r){return r.class===cls;});
+  var byCls=['1','2','4','5'].map(function(c){return{c:c,n:data.filter(function(r){return r.class===c;}).length};});
+  document.getElementById('suppSum').innerHTML='<div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">'+data.length+'</div><div style="font-size:.76rem;color:#666">إجمالي المستهدفين</div></div>'+byCls.map(function(b){return'<div class="suppcard"><div class="bn">'+b.n+'</div><div style="font-size:.76rem;color:#666">الشعبة '+b.c+'</div></div>';}).join('');
   var tb=document.getElementById('suppBody');
-  if(!data.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:#27ae60;padding:18px">✅ لا يوجد طلاب تحت هذه النسبة</td></tr>';return}
+  if(!data.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:#27ae60;padding:18px">✅ لا يوجد طلاب تحت هذه النسبة</td></tr>';return;}
   tb.innerHTML=data.map(function(r,i){
     var b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
     var wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
     var rec=r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل';
     var wrongQs=[];
-    if(r.answers){var sv=answers;answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}});QS.forEach(function(_,qi){if(!isOk(qi))wrongQs.push('س'+(qi+1))});answers=sv}
+    if(r.answers){var sv=answers;answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}});QS.forEach(function(_,qi){if(!isOk(qi))wrongQs.push('س'+(qi+1));});answers=sv;}
     var bg=r.pct<30?'br':r.pct<40?'by':'bb';
     return'<tr><td>'+(i+1)+'</td><td><strong>'+r.student+'</strong></td><td>الشعبة '+r.class+'</td><td><span class="badge '+bg+'">'+r.pct+'%</span></td><td>'+b1p+'%</td><td>'+b2p+'%</td><td>'+b3p+'%</td><td><span class="badge br">'+wk+'</span></td><td style="font-size:.76rem;color:#555">'+wrongQs.slice(0,8).join('، ')+(wrongQs.length>8?'...':'')+'</td><td style="font-size:.78rem;color:#444">'+rec+'</td></tr>';
   }).join('');
 }
 
-// ── OUTCOMES ──
-function renderOutcomes(){
+// ═══════════════════════════════════════════
+// OUTCOMES TAB
+// ═══════════════════════════════════════════
+function renderOutcomes() {
   var rates=getQRates();
-  var sorted=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1]},0)/o.qs.length);return Object.assign({},o,{avg:avg})}).sort(function(a,b){return a.avg-b.avg});
-  var wk=sorted.filter(function(o){return o.avg<50}).length,md=sorted.filter(function(o){return o.avg>=50&&o.avg<70}).length,gd=sorted.filter(function(o){return o.avg>=70}).length;
+  var sorted=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1];},0)/o.qs.length);return Object.assign({},o,{avg:avg});}).sort(function(a,b){return a.avg-b.avg;});
+  var wk=sorted.filter(function(o){return o.avg<50;}).length, md=sorted.filter(function(o){return o.avg>=50&&o.avg<70;}).length, gd=sorted.filter(function(o){return o.avg>=70;}).length;
   document.getElementById('outSum').innerHTML='<div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">'+wk+'</div><div style="font-size:.76rem;color:#666">تدخل عاجل (&lt;50%)</div></div><div class="suppcard" style="background:#fef9e7;border:1.5px solid #f0a500"><div class="bn" style="color:#b7770d">'+md+'</div><div style="font-size:.76rem;color:#666">يحتاج تعزيزاً (50-70%)</div></div><div class="suppcard" style="background:#d5f5e3;border:1.5px solid #27ae60"><div class="bn" style="color:var(--suc)">'+gd+'</div><div style="font-size:.76rem;color:#666">جيد (&gt;70%)</div></div>';
   var bl={1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
   var blc={1:'#0d4f8b',2:'#1a6b3c',3:'#8e44ad'};
@@ -983,53 +1076,58 @@ function renderOutcomes(){
     var cls=o.avg<50?'wk':o.avg<70?'md':'gd';
     var tag=o.avg<50?'<span class="otag otg-wk">⚠️ تدخل عاجل</span>':o.avg<70?'<span class="otag otg-md">📌 يحتاج تعزيز</span>':'<span class="otag otg-gd">✅ جيد</span>';
     var rec=o.avg<50?recs.wk[o.bloom]:o.avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';
-    return'<div class="outcard" style="border-right:4px solid '+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'"><div class="outhdr"><div><span class="outtitle">'+o.title+'</span>'+tag+'<span style="font-size:.68rem;background:#f0f4f8;padding:2px 7px;border-radius:8px;color:'+blc[o.bloom]+';margin-right:4px">'+bl[o.bloom]+'</span></div><div class="outpct" style="color:'+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'">'+o.avg+'%</div></div><div class="obg"><div class="ob '+cls+'" style="width:'+o.avg+'%"></div></div><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-top:6px"><div style="font-size:.76rem;color:#666">الأسئلة: '+o.qs.map(function(q){return'س'+q+' ('+rates[q-1]+'%)'}).join(' | ')+'</div><div style="font-size:.76rem;background:#f8f9fa;border-radius:6px;padding:4px 9px;color:#444;min-width:180px;text-align:right">💡 '+rec+'</div></div></div>';
+    return'<div class="outcard" style="border-right:4px solid '+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'"><div class="outhdr"><div><span class="outtitle">'+o.title+'</span>'+tag+'<span style="font-size:.68rem;background:#f0f4f8;padding:2px 7px;border-radius:8px;color:'+blc[o.bloom]+';margin-right:4px">'+bl[o.bloom]+'</span></div><div class="outpct" style="color:'+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'">'+o.avg+'%</div></div><div class="obg"><div class="ob '+cls+'" style="width:'+o.avg+'%"></div></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:6px"><div style="font-size:.76rem;color:#666">الأسئلة: '+o.qs.map(function(q){return'س'+q+' ('+rates[q-1]+'%)';}).join(' | ')+'</div><div style="font-size:.76rem;background:#f8f9fa;border-radius:6px;padding:4px 9px;color:#444;min-width:180px;text-align:right">💡 '+rec+'</div></div></div>';
   }).join('');
 }
 
-// ── EXPORT ──
-function exportClass(cls){var data=allResults.filter(function(r){return r.class===cls});if(!data.length){alert('لا توجد نتائج للشعبة '+cls);return}doExport(data,'نتائج_الشعبة_'+cls)}
-function exportAll(){if(!allResults.length){alert('لا توجد نتائج بعد');return}doExport(allResults,'نتائج_جميع_الشعب')}
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+function exportClass(cls){var data=allResults.filter(function(r){return r.class===cls;});if(!data.length){alert('لا توجد نتائج للشعبة '+cls);return;}doExport(data,'نتائج_الشعبة_'+cls);}
+function exportAll(){if(!allResults.length){alert('لا توجد نتائج بعد');return;}doExport(allResults,'نتائج_جميع_الشعب');}
 function doExport(data,name){
-  var rows=data.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}});
+  var rows=data.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});
   var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'النتائج');XLSX.writeFile(wb,name+'.xlsx');
 }
+
 function exportFullAnalysis(){
-  if(!allResults.length){alert('لا توجد نتائج بعد');return}
+  if(!allResults.length){alert('لا توجد نتائج بعد');return;}
   var wb=XLSX.utils.book_new();var rates=getQRates();var total=allResults.length;
-  var avg=Math.round(allResults.reduce(function(s,r){return s+r.pct},0)/total);
-  var pass=allResults.filter(function(r){return r.pct>=50}).length;
-  var exc=allResults.filter(function(r){return r.pct>=90}).length;
-  var summaryRows=[{'المؤشر':'إجمالي المحاولات','القيمة':total},{'المؤشر':'متوسط الدرجات (%)','القيمة':avg},{'المؤشر':'عدد الناجحين (≥50%)','القيمة':pass},{'المؤشر':'نسبة النجاح (%)','القيمة':Math.round(pass/total*100)},{'المؤشر':'عدد المتميزين (≥90%)','القيمة':exc},{'المؤشر':'عدد المستهدفين (<50%)','القيمة':total-pass}].concat(['1','2','4','5'].map(function(c){var cr=allResults.filter(function(r){return r.class===c});return{'المؤشر':'متوسط الشعبة '+c,'القيمة':cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct},0)/cr.length):'-'}}));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(summaryRows),'ملخص عام');
-  var allRows=allResults.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}});
+  var avg=Math.round(allResults.reduce(function(s,r){return s+r.pct;},0)/total);
+  var pass=allResults.filter(function(r){return r.pct>=50;}).length;
+  var exc=allResults.filter(function(r){return r.pct>=90;}).length;
+  var sumRows=[{'المؤشر':'إجمالي المحاولات','القيمة':total},{'المؤشر':'متوسط الدرجات (%)','القيمة':avg},{'المؤشر':'عدد الناجحين (≥50%)','القيمة':pass},{'المؤشر':'نسبة النجاح (%)','القيمة':Math.round(pass/total*100)},{'المؤشر':'عدد المتميزين (≥90%)','القيمة':exc},{'المؤشر':'عدد المستهدفين (<50%)','القيمة':total-pass}].concat(['1','2','4','5'].map(function(c){var cr=allResults.filter(function(r){return r.class===c;});return{'المؤشر':'متوسط الشعبة '+c,'القيمة':cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct;},0)/cr.length):'-'};}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(sumRows),'ملخص عام');
+  var allRows=allResults.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(allRows),'جميع النتائج');
-  ['1','2','4','5'].forEach(function(c){var cr=allResults.filter(function(r){return r.class===c});if(!cr.length)return;var rows=cr.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الدرجة %':r.pct,'الصحيحة':r.correct,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'}});XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'الشعبة '+c)});
-  var qRows=QS.map(function(q,i){var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null'});return{'رقم السؤال':i+1,'نوع السؤال':{mcq:'اختيار',tf:'صح/خطأ',fill:'ملء',match:'توصيل',order:'ترتيب'}[q.type],'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[q.bloom],'عدد المحاولات':att.length,'نسبة الإجابة الصحيحة %':rates[i],'مستوى الصعوبة':rates[i]<50?'صعب':rates[i]<70?'متوسط':'سهل','التوصية':rates[i]<50?'⚠️ يستدعي المراجعة العاجلة':rates[i]<70?'يحتاج مزيداً من التدريب':'✅ مستوى جيد','نص السؤال':q.text.substring(0,60)+'...'}});
+  ['1','2','4','5'].forEach(function(c){var cr=allResults.filter(function(r){return r.class===c;});if(!cr.length)return;var rows=cr.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الدرجة %':r.pct,'الصحيحة':r.correct,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'الشعبة '+c);});
+  var qRows=QS.map(function(q,i){var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null';});return{'رقم السؤال':i+1,'نوع السؤال':{mcq:'اختيار',tf:'صح/خطأ',fill:'ملء',match:'توصيل',order:'ترتيب'}[q.type],'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[q.bloom],'عدد المحاولات':att.length,'نسبة الإجابة الصحيحة %':rates[i],'مستوى الصعوبة':rates[i]<50?'صعب':rates[i]<70?'متوسط':'سهل','التوصية':rates[i]<50?'⚠️ يستدعي المراجعة العاجلة':rates[i]<70?'يحتاج مزيداً من التدريب':'✅ مستوى جيد','نص السؤال':q.text.substring(0,60)+'...'};});
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(qRows),'تحليل الأسئلة');
   var sv=answers;
-  var tgtRows=allResults.filter(function(r){return r.pct<50}).map(function(r,i){
+  var tgtRows=allResults.filter(function(r){return r.pct<50;}).map(function(r,i){
     var b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
     var wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
-    answers=r.answers?r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a)}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a))}}):new Array(30).fill(null);
-    var wrongQs=QS.map(function(_,qi){return!isOk(qi)?'س'+(qi+1):null}).filter(Boolean);
+    answers=r.answers?r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}}):new Array(30).fill(null);
+    var wrongQs=QS.map(function(_,qi){return!isOk(qi)?'س'+(qi+1):null;}).filter(Boolean);
     return{'#':i+1,'اسم الطالب':r.student,'الشعبة':'الشعبة '+r.class,'الدرجة %':r.pct,'تذكر/فهم %':b1p,'تطبيق/تحليل %':b2p,'تركيب/تقييم %':b3p,'أضعف مجال':wk,'الأسئلة الخاطئة':wrongQs.join('، '),'التوصية العلاجية':r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل','الأولوية':r.pct<30?'عالية جداً':r.pct<40?'عالية':'متوسطة'};
   });
   answers=sv;
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(tgtRows.length?tgtRows:[{'ملاحظة':'لا يوجد طلاب تحت 50%'}]),'الطلاب المستهدفون');
-  var outRows=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1]},0)/o.qs.length);var recs={wk:{1:'إعادة شرح المفاهيم مع بطاقات تلخيص',2:'تمارين تطبيقية متدرجة',3:'مشاريع إبداعية مبسطة'},md:{1:'مراجعة مع اختبارات قصيرة',2:'تمارين إضافية ومناقشة',3:'تحديات تفكير ناقد'}};var rec=avg<50?recs.wk[o.bloom]:avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';return{'رقم الناتج':o.id,'عنوان ناتج التعلم':o.title,'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[o.bloom],'الأسئلة المرتبطة':o.qs.map(function(q){return'س'+q}).join('، '),'متوسط الأداء %':avg,'الحالة':avg<50?'⚠️ يحتاج تدخلاً عاجلاً':avg<70?'📌 يحتاج تعزيزاً':'✅ مستوى جيد','التوصية العلاجية':rec,'الأولوية':avg<50?'1 - عالية جداً':avg<70?'2 - متوسطة':'3 - منخفضة'}}).sort(function(a,b){return a['متوسط الأداء %']-b['متوسط الأداء %']});
+  var outRows=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1];},0)/o.qs.length);var recs={wk:{1:'إعادة شرح المفاهيم مع بطاقات تلخيص',2:'تمارين تطبيقية متدرجة',3:'مشاريع إبداعية مبسطة'},md:{1:'مراجعة مع اختبارات قصيرة',2:'تمارين إضافية ومناقشة',3:'تحديات تفكير ناقد'}};var rec=avg<50?recs.wk[o.bloom]:avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';return{'رقم الناتج':o.id,'عنوان ناتج التعلم':o.title,'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[o.bloom],'الأسئلة المرتبطة':o.qs.map(function(q){return'س'+q;}).join('، '),'متوسط الأداء %':avg,'الحالة':avg<50?'⚠️ يحتاج تدخلاً عاجلاً':avg<70?'📌 يحتاج تعزيزاً':'✅ مستوى جيد','التوصية العلاجية':rec,'الأولوية':avg<50?'1 - عالية جداً':avg<70?'2 - متوسطة':'3 - منخفضة'};}).sort(function(a,b){return a['متوسط الأداء %']-b['متوسط الأداء %'];});
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(outRows),'نواتج التعلم');
-  var weakOut=outRows.filter(function(o){return o['متوسط الأداء %']<50});
-  var planRows=weakOut.map(function(o,i){return{'الأسبوع':'الأسبوع '+(i+1),'ناتج التعلم':o['عنوان ناتج التعلم'],'مستوى بلوم':o['مستوى بلوم'],'الأسئلة المرتبطة':o['الأسئلة المرتبطة'],'الإجراء العلاجي':o['التوصية العلاجية'],'المواد المقترحة':'أوراق عمل + فيديو تعليمي + نشاط تطبيقي','معيار النجاح':'تحقيق 70% فأكثر في إعادة التقييم'}});
+  var weakOut=outRows.filter(function(o){return o['متوسط الأداء %']<50;});
+  var planRows=weakOut.map(function(o,i){return{'الأسبوع':'الأسبوع '+(i+1),'ناتج التعلم':o['عنوان ناتج التعلم'],'مستوى بلوم':o['مستوى بلوم'],'الأسئلة المرتبطة':o['الأسئلة المرتبطة'],'الإجراء العلاجي':o['التوصية العلاجية'],'المواد المقترحة':'أوراق عمل + فيديو تعليمي + نشاط تطبيقي','معيار النجاح':'تحقيق 70% فأكثر في إعادة التقييم'};});
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(planRows.length?planRows:[{'ملاحظة':'لا توجد نواتج تحت 50%'}]),'الخطة العلاجية');
   XLSX.writeFile(wb,'تحليل_النتائج_الشامل_'+new Date().toLocaleDateString('ar-AE').replace(/\//g,'-')+'.xlsx');
 }
 
-// ── MODAL & DELETE ──
-function showModal(t,m,fn){document.getElementById('mTitle').textContent=t;document.getElementById('mMsg').textContent=m;document.getElementById('mOkBtn').onclick=fn;document.getElementById('mover').classList.add('show')}
-function closeModal(){document.getElementById('mover').classList.remove('show')}
-function confirmDel1(fbk,lk){showModal('حذف إجابة','هل تريد حذف إجابة هذا الطالب؟',function(){closeModal();delFromFb(fbk,lk);setTimeout(function(){loadFromFb(function(){renderSummary();renderTable(curClass)})},400)})}
-function confirmDelAll(){showModal('حذف كل الإجابات','هل أنت متأكد من حذف جميع الإجابات؟ لا يمكن التراجع!',function(){closeModal();delAllFb();setTimeout(function(){allResults=[];renderSummary();renderTable('all');renderSupport();renderOutcomes()},400)})}
+// ═══════════════════════════════════════════
+// MODAL & DELETE
+// ═══════════════════════════════════════════
+function showModal(t,m,fn){document.getElementById('mTitle').textContent=t;document.getElementById('mMsg').textContent=m;document.getElementById('mOkBtn').onclick=fn;document.getElementById('mover').classList.add('show');}
+function closeModal(){document.getElementById('mover').classList.remove('show');}
+function confirmDel1(fbk,lk){showModal('حذف إجابة','هل تريد حذف إجابة هذا الطالب؟',function(){closeModal();delFromFb(fbk,lk);setTimeout(function(){loadFromFb(function(){renderSummary();renderTable(curClass);});},400);});}
+function confirmDelAll(){showModal('حذف كل الإجابات','هل أنت متأكد من حذف جميع الإجابات؟ لا يمكن التراجع!',function(){closeModal();delAllFb();setTimeout(function(){allResults=[];renderSummary();renderTable('all');renderSupport();renderOutcomes();},400);});}
 </script>
 </body>
 </html>
