@@ -628,7 +628,21 @@ function doStartQuiz(cls, st, lkKey) {
   curQ = 0; timeLeft = 3600; startTime = Date.now();
   document.getElementById('sNameBar').textContent = st;
   document.getElementById('sClassBar').textContent = 'الشعبة '+cls;
+  // Show nav buttons in case they were hidden
+  var nav = document.querySelector('.navbtns');
+  if (nav) nav.style.display = 'flex';
+  var sub = document.querySelector('[onclick="confirmSubmit()"]');
+  if (sub) sub.style.display = '';
+  var chk = document.querySelector('.btn-chk');
+  if (chk) chk.style.display = '';
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
+  // Listen for lock from Firebase (in case teacher locks or blur triggers)
+  db.ref(LOCKED_PATH+'/'+lkKey).on('value', function(s) {
+    var d = s.val();
+    if (d && d.locked && window._lockKey === lkKey) {
+      showLockedMessage();
+    }
+  });
 }
 
 // ── LOCK ON LEAVE ──
