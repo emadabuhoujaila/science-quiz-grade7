@@ -206,17 +206,17 @@ tr:hover td{background:#f8fafb}
 <!-- HOME -->
 <div id="homeScreen" class="screen active">
   <div style="min-height:100vh;background:linear-gradient(135deg,#1a6b3c,#0d4f8b);display:flex;align-items:center;justify-content:center;padding:20px">
-    <div class="card" style="text-align:center;max-width:480px">
-      <div style="font-size:3.5rem;margin-bottom:10px">🔬</div>
-      <h2 style="color:var(--primary);font-size:1.4rem;margin-bottom:6px">اختبار العلوم التدريبي</h2>
-      <p style="color:#555;font-size:.88rem">مدرسة محمد بن حمد الشرقي للبنين - حلقة ثانية</p>
-      <p style="color:#888;font-size:.82rem;margin-bottom:6px">المعلم: عماد أبو حجيلة | الصف السابع</p>
-      <div style="margin-bottom:24px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <button class="btn-login" style="font-size:1.05rem;padding:14px;background:linear-gradient(135deg,var(--primary),#2d9e5f)" onclick="showScreen('loginScreen')">
+    <div style="background:#fff;border-radius:18px;padding:36px 30px;width:100%;max-width:440px;box-shadow:0 8px 32px rgba(0,0,0,.25);text-align:center">
+      <div style="font-size:3.2rem;margin-bottom:10px">🔬</div>
+      <h2 style="color:var(--primary);font-size:1.35rem;margin-bottom:6px;font-weight:700">اختبار العلوم التدريبي</h2>
+      <p style="color:#555;font-size:.86rem;margin-bottom:2px">مدرسة محمد بن حمد الشرقي للبنين - حلقة ثانية</p>
+      <p style="color:#888;font-size:.8rem;margin-bottom:14px">المعلم: عماد أبو حجيلة | الصف السابع</p>
+      <div style="margin-bottom:22px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <button onclick="showScreen('loginScreen')" style="width:100%;padding:13px;background:linear-gradient(135deg,#1a6b3c,#2d9e5f);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">
           🎓 دخول الطالب
         </button>
-        <button class="btn-login" style="font-size:1.05rem;padding:14px;background:linear-gradient(135deg,#0d4f8b,#1a237e)" onclick="showScreen('teacherLogin')">
+        <button onclick="showScreen('teacherLogin')" style="width:100%;padding:13px;background:linear-gradient(135deg,#0d4f8b,#1a237e);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">
           👨‍🏫 لوحة المعلم
         </button>
       </div>
