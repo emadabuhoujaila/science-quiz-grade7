@@ -622,47 +622,120 @@ function startQuiz() {
 
 function doStartQuiz(cls, st, lkKey) {
   window._curStudent = st; window._curClass = cls; window._lockKey = lkKey; window._quizActive = true;
-  // Save quiz state to sessionStorage so it survives tab switches
   sessionStorage.setItem('_qActive','1');
   sessionStorage.setItem('_qStudent', st);
   sessionStorage.setItem('_qClass', cls);
   sessionStorage.setItem('_qLockKey', lkKey);
+  sessionStorage.removeItem('_qLocked');
   markStudentActive(st, cls);
   answers = new Array(30).fill(null); checked = new Array(30).fill(false);
-  orderStates = QS.map(function(q) { return q.type==='order' ? [...Array(q.items.length).keys()] : null; });
-  curQ = 0; timeLeft = 3600; startTime = Date.now();
+  orderStates = QS.map(function(q){ return q.type==='order'?[...Array(q.items.length).keys()]:null; });
+  curQ=0; timeLeft=3600; startTime=Date.now();
   document.getElementById('sNameBar').textContent = st;
   document.getElementById('sClassBar').textContent = 'الشعبة '+cls;
-  var nav = document.querySelector('.navbtns'); if (nav) nav.style.display = 'flex';
-  var sub = document.querySelector('[onclick="confirmSubmit()"]'); if (sub) sub.style.display = '';
-  var chk = document.querySelector('.btn-chk'); if (chk) chk.style.display = '';
+  // Restore controls visibility
+  document.querySelectorAll('.navbtns,.pbg').forEach(function(e){ e.style.display=''; });
+  document.querySelectorAll('[onclick="confirmSubmit()"]').forEach(function(e){ e.style.display=''; });
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
 }
 
-// ── LOCK ON LEAVE ── فوري بدون تأخير
-function lockQuizNow() {
+// ══════════════════════════════════════════
+// ANTI-CHEAT: LOCK ON LEAVE
+// ══════════════════════════════════════════
+
+function lockQuizNow(reason) {
   if (!window._quizActive) return;
-  savePartialAndLock();
+  window._quizActive = false;
+  clearInterval(timerInt);
+
+  // Save to Firebase
+  var lkKey = window._lockKey;
+  var st    = window._curStudent;
+  var cls   = window._curClass;
+  if (lkKey) {
+    db.ref(LOCKED_PATH+'/'+lkKey).set({
+      locked:true, student:st, class:cls,
+      ts:Date.now(), reason: reason||'غادر الاختبار'
+    });
+  }
+
+  // Save to sessionStorage as backup
+  sessionStorage.setItem('_qLocked','1');
+  sessionStorage.setItem('_qLockKey', lkKey||'');
+
+  // Show message immediately
   showLockedMessage();
 }
 
+function showLockedMessage() {
+  window._quizActive = false;
+  clearInterval(timerInt);
+
+  // Force show quiz screen
+  document.querySelectorAll('.screen').forEach(function(s){ s.style.display='none'; });
+  var qs = document.getElementById('quizScreen');
+  qs.style.display = 'block';
+
+  // Hide all quiz controls
+  var hide = ['dotsEl','plblEl','sNameBar'];
+  hide.forEach(function(id){ var e=document.getElementById(id); if(e) e.style.display='none'; });
+  document.querySelectorAll('.navbtns,.pbg,.plbl,.sbar,[onclick="confirmSubmit()"]').forEach(function(e){ e.style.display='none'; });
+
+  // Override timer display
+  var t = document.getElementById('timerEl');
+  if (t) { t.textContent='🔒'; t.style.background='rgba(192,57,43,.8)'; }
+
+  // Show lock message
+  document.getElementById('qCont').innerHTML =
+    '<div style="text-align:center;padding:48px 24px 40px;background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.12);margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto">' +
+    '<div style="font-size:5rem;margin-bottom:16px">🔒</div>' +
+    '<h2 style="color:#c0392b;margin-bottom:14px;font-size:1.5rem">تم إيقاف اختبارك</h2>' +
+    '<p style="color:#555;font-size:.97rem;line-height:2;margin-bottom:22px">' +
+    'لقد غادرت شاشة الاختبار.<br>' +
+    'تم إغلاق اختبارك تلقائياً للحفاظ على نزاهة الامتحان.' +
+    '</p>' +
+    '<div style="background:#fef9e7;border:2px solid #f0a500;border-radius:12px;padding:16px 24px;margin-bottom:28px">' +
+    '<p style="color:#7d6608;font-size:.95rem;font-weight:700;margin:0">' +
+    '⚠️ يرجى التواصل مع المعلم لإعادة فتح الاختبار' +
+    '</p>' +
+    '</div>' +
+    '<button onclick="clearLockAndGoHome()" style="padding:13px 36px;background:#0d4f8b;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">🏠 العودة للرئيسية</button>' +
+    '</div>';
+}
+
+function clearLockAndGoHome() {
+  sessionStorage.removeItem('_qLocked');
+  sessionStorage.removeItem('_qLockKey');
+  // Reset hidden controls for next use
+  document.querySelectorAll('.navbtns,.pbg,.plbl,.sbar').forEach(function(e){ e.style.display=''; });
+  var t = document.getElementById('timerEl');
+  if (t) { t.style.background=''; }
+  SS('homeScreen');
+}
+
+// ── Event Listeners ──
+
+// 1. Page Visibility (most reliable: tab switch, phone app switch, screen off)
 document.addEventListener('visibilitychange', function() {
-  if (document.hidden) lockQuizNow();
+  if (document.visibilityState === 'hidden' && window._quizActive) {
+    lockQuizNow('visibilitychange: hidden');
+  }
 });
 
+// 2. Window blur (open another app, file manager, another window)
 window.addEventListener('blur', function() {
-  lockQuizNow();
+  if (window._quizActive) {
+    lockQuizNow('window blur');
+  }
 });
 
+// 3. Page unload / close / navigate away
 window.addEventListener('beforeunload', function() {
-  if (window._quizActive) savePartialAndLock();
-});
-window.addEventListener('pagehide', function() {
-  if (window._quizActive) savePartialAndLock();
+  if (window._quizActive) lockQuizNow('beforeunload');
 });
 
-// عند إعادة تحميل الصفحة: تحقق إذا كان مغلقاً
-window.addEventListener('load', function() {
+// 4. On page reload: if session says locked, show message
+document.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem('_qLocked') === '1') {
     window._lockKey = sessionStorage.getItem('_qLockKey');
     showLockedMessage();
@@ -839,7 +912,7 @@ function submitQuiz() {
   var r = {student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a);}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
   saveToFb(r);
   markStudentDone(window._curStudent, window._curClass);
-  // Clear session so lock message doesn't appear after submit
+  window._quizActive = false;
   sessionStorage.removeItem('_qActive');
   sessionStorage.removeItem('_qLocked');
   sessionStorage.removeItem('_qLockKey');
