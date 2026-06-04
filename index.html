@@ -622,27 +622,21 @@ function startQuiz() {
 
 function doStartQuiz(cls, st, lkKey) {
   window._curStudent = st; window._curClass = cls; window._lockKey = lkKey; window._quizActive = true;
+  // Save quiz state to sessionStorage so it survives tab switches
+  sessionStorage.setItem('_qActive','1');
+  sessionStorage.setItem('_qStudent', st);
+  sessionStorage.setItem('_qClass', cls);
+  sessionStorage.setItem('_qLockKey', lkKey);
   markStudentActive(st, cls);
   answers = new Array(30).fill(null); checked = new Array(30).fill(false);
   orderStates = QS.map(function(q) { return q.type==='order' ? [...Array(q.items.length).keys()] : null; });
   curQ = 0; timeLeft = 3600; startTime = Date.now();
   document.getElementById('sNameBar').textContent = st;
   document.getElementById('sClassBar').textContent = 'الشعبة '+cls;
-  // Show nav buttons in case they were hidden
-  var nav = document.querySelector('.navbtns');
-  if (nav) nav.style.display = 'flex';
-  var sub = document.querySelector('[onclick="confirmSubmit()"]');
-  if (sub) sub.style.display = '';
-  var chk = document.querySelector('.btn-chk');
-  if (chk) chk.style.display = '';
+  var nav = document.querySelector('.navbtns'); if (nav) nav.style.display = 'flex';
+  var sub = document.querySelector('[onclick="confirmSubmit()"]'); if (sub) sub.style.display = '';
+  var chk = document.querySelector('.btn-chk'); if (chk) chk.style.display = '';
   buildDots(); renderQ(); startTimer(); SS('quizScreen');
-  // Listen for lock from Firebase (in case teacher locks or blur triggers)
-  db.ref(LOCKED_PATH+'/'+lkKey).on('value', function(s) {
-    var d = s.val();
-    if (d && d.locked && window._lockKey === lkKey) {
-      showLockedMessage();
-    }
-  });
 }
 
 // ── LOCK ON LEAVE ──
@@ -657,7 +651,6 @@ function scheduleLock() {
     }
   }, 1500);
 }
-
 function cancelLock() {
   if (_lockTimer) { clearTimeout(_lockTimer); _lockTimer = null; }
 }
@@ -666,8 +659,9 @@ document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
     scheduleLock();
   } else {
-    // Student came back — if already locked show message immediately
-    if (!window._quizActive && window._lockKey) {
+    // Returned to page
+    if (sessionStorage.getItem('_qLocked') === '1') {
+      window._lockKey = sessionStorage.getItem('_qLockKey');
       showLockedMessage();
     } else {
       cancelLock();
@@ -675,20 +669,25 @@ document.addEventListener('visibilitychange', function() {
   }
 });
 
-window.addEventListener('blur', function() { scheduleLock(); });
+window.addEventListener('blur',  function() { scheduleLock(); });
 window.addEventListener('focus', function() {
-  if (!window._quizActive && window._lockKey) {
+  if (sessionStorage.getItem('_qLocked') === '1') {
+    window._lockKey = sessionStorage.getItem('_qLockKey');
     showLockedMessage();
   } else {
     cancelLock();
   }
 });
 
-window.addEventListener('beforeunload', function() {
-  if (window._quizActive) savePartialAndLock();
-});
-window.addEventListener('pagehide', function() {
-  if (window._quizActive) savePartialAndLock();
+window.addEventListener('beforeunload', function() { if (window._quizActive) savePartialAndLock(); });
+window.addEventListener('pagehide',      function() { if (window._quizActive) savePartialAndLock(); });
+
+// On page load: check if student was mid-quiz and locked
+window.addEventListener('load', function() {
+  if (sessionStorage.getItem('_qLocked') === '1') {
+    window._lockKey = sessionStorage.getItem('_qLockKey');
+    showLockedMessage();
+  }
 });
 
 function savePartialAndLock() {
@@ -861,6 +860,12 @@ function submitQuiz() {
   var r = {student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a);}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
   saveToFb(r);
   markStudentDone(window._curStudent, window._curClass);
+  // Clear session so lock message doesn't appear after submit
+  sessionStorage.removeItem('_qActive');
+  sessionStorage.removeItem('_qLocked');
+  sessionStorage.removeItem('_qLockKey');
+  sessionStorage.removeItem('_qStudent');
+  sessionStorage.removeItem('_qClass');
   if (window._lockKey) {
     db.ref(ATTEMPTS_PATH+'/'+window._lockKey).set({submitted:true,student:window._curStudent,class:window._curClass,ts:Date.now()});
     db.ref(LOCKED_PATH+'/'+window._lockKey).remove();
