@@ -203,15 +203,35 @@ tr:hover td{background:#f8fafb}
 <!-- Loading -->
 <div class="lov" id="lov"><div class="spin"></div><div id="lovMsg" style="color:var(--primary);font-weight:600">جارٍ التحميل...</div></div>
 
+<!-- HOME -->
+<div id="homeScreen" class="screen active">
+  <div style="min-height:100vh;background:linear-gradient(135deg,#1a6b3c,#0d4f8b);display:flex;align-items:center;justify-content:center;padding:20px">
+    <div class="card" style="text-align:center;max-width:480px">
+      <div style="font-size:3.5rem;margin-bottom:10px">🔬</div>
+      <h2 style="color:var(--primary);font-size:1.4rem;margin-bottom:6px">اختبار العلوم التدريبي</h2>
+      <p style="color:#555;font-size:.88rem">مدرسة محمد بن حمد الشرقي للبنين - حلقة ثانية</p>
+      <p style="color:#888;font-size:.82rem;margin-bottom:6px">المعلم: عماد أبو حجيلة | الصف السابع</p>
+      <div style="margin-bottom:24px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <button class="btn-login" style="font-size:1.05rem;padding:14px;background:linear-gradient(135deg,var(--primary),#2d9e5f)" onclick="showScreen('loginScreen')">
+          🎓 دخول الطالب
+        </button>
+        <button class="btn-login" style="font-size:1.05rem;padding:14px;background:linear-gradient(135deg,#0d4f8b,#1a237e)" onclick="showScreen('teacherLogin')">
+          👨‍🏫 لوحة المعلم
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- LOGIN -->
-<div id="loginScreen" class="screen active">
+<div id="loginScreen" class="screen">
+  <div style="min-height:100vh;background:linear-gradient(135deg,#1a6b3c,#0d4f8b);display:flex;align-items:center;justify-content:center;padding:20px">
   <div class="card">
     <div class="logo">
-      <div style="font-size:2.8rem">🔬</div>
-      <h2>اختبار العلوم التدريبي</h2>
-      <p>مدرسة محمد بن حمد الشرقي للبنين - حلقة ثانية</p>
-      <p style="margin-top:3px;color:#888">المعلم: عماد أبو حجيلة | الصف السابع</p>
-      <div style="margin-top:8px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
+      <div style="font-size:2.8rem">🎓</div>
+      <h2 style="color:var(--primary)">دخول الطالب</h2>
+      <p>مدرسة محمد بن حمد الشرقي للبنين</p>
     </div>
     <div class="fg"><label>اختر الشعبة:</label>
       <select id="selClass" onchange="loadStudents()">
@@ -222,7 +242,8 @@ tr:hover td{background:#f8fafb}
     <div class="fg"><label>اختر اسمك:</label>
       <select id="selStudent"><option value="">-- اختر الشعبة أولاً --</option></select></div>
     <button class="btn-login" onclick="startQuiz()">🚀 بدء الاختبار</button>
-    <div class="tlink"><a onclick="goTeacherLogin()">🔐 لوحة المعلم</a></div>
+    <div class="tlink"><a onclick="showScreen('homeScreen')">← العودة للرئيسية</a></div>
+  </div>
   </div>
 </div>
 
@@ -288,7 +309,7 @@ tr:hover td{background:#f8fafb}
       <div id="fbSaveEl" style="margin-top:12px;font-size:.83rem;color:#666"></div>
       <div style="margin-top:18px;display:flex;flex-wrap:wrap;justify-content:center;gap:9px">
         <button class="rtn" onclick="retryQuiz()">🔄 إعادة الاختبار</button>
-        <button class="rtn" style="background:var(--sec)" onclick="showScreen('loginScreen')">🏠 الرئيسية</button>
+        <button class="rtn" style="background:var(--sec)" onclick="showScreen('homeScreen')">🏠 الرئيسية</button>
       </div>
     </div>
   </div>
@@ -300,7 +321,7 @@ tr:hover td{background:#f8fafb}
     <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>لوحة تحكم المعلم - عماد أبو حجيلة</h1></div>
     <div style="display:flex;align-items:center;gap:9px">
       <span id="fbstDash" class="fbst wait">⏳ جارٍ التحميل</span>
-      <button class="btn btn-prev" style="padding:5px 12px;font-size:.82rem" onclick="showScreen('loginScreen')">خروج</button>
+      <button class="btn btn-prev" style="padding:5px 12px;font-size:.82rem" onclick="showScreen('homeScreen')">خروج</button>
     </div>
   </div>
   <div class="dbody">
@@ -427,9 +448,27 @@ const STUDENTS = {
   '5':['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
 
-const TPWD = 'science2025';
+// ===== ACTIVE SESSION TRACKING =====
+const ACTIVE_PATH = 'science_quiz_grade7_active';
 
-// ===== QUESTIONS =====
+function markStudentActive(student, cls) {
+  const key = cls + '_' + student.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH + '/' + key).set({ student, class: cls, ts: Date.now() });
+}
+function markStudentDone(student, cls) {
+  const key = cls + '_' + student.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH + '/' + key).remove();
+}
+let activeSessions = {};
+function listenActiveSessions() {
+  db.ref(ACTIVE_PATH).on('value', snap => {
+    const d = snap.val();
+    activeSessions = d || {};
+    renderClassStatus();
+  });
+}
+
+const TPWD = 'science2025';
 const QS = [
   {id:1,bloom:1,type:'mcq',text:'أي من التراكيب الخلوية التالية يوجد في الخلية النباتية ويمنحها الدعم والصلابة لحمايتها، ولا يوجد في الخلية الحيوانية؟',hint:'ابحث عن التركيب الخارجي الأكثر سمكاً وصلابة المحيط بالخلية النباتية.',opts:['جدار الخلية','غشاء الخلية','الميتوكوندريا','النواة'],cor:0,fb:'جدار الخلية هو تركيب صلب يحيط بالخلية النباتية ليوفر لها الحماية والدعم الهيكلي.'},
   {id:2,bloom:1,type:'mcq',text:'تمتلك الحزازيات تراكيب خضراء دقيقة تشبه الأوراق، ولكن العلماء لا يصنفونها كأوراق حقيقية. ما السبب العلمي المباشر؟',hint:'تذكر الميزة الأساسية التي تقسم المملكة النباتية إلى وعائية ولاوعائية.',opts:['لأنها تفتقر إلى الأنسجة الناقلة (الوعائية)','لأنها لا تقوم بعملية البناء الضوئي','لأن حجمها دائماً أكبر من 5 سم','لأنها تنمو في بيئات جافة جداً'],cor:0,fb:'الأوراق الحقيقية يجب أن تحتوي على عروق داخلية (أنسجة وعائية) لنقل الماء والمغذيات.'},
@@ -501,13 +540,13 @@ function checkTeacher(){
   if(document.getElementById('tPwd').value===TPWD){document.getElementById('tPwd').value='';loadDash();showScreen('teacherDashboard')}
   else alert('رمز الدخول غير صحيح!')
 }
-
 // ===== QUIZ =====
 function startQuiz(){
   const cls=document.getElementById('selClass').value;
   const st=document.getElementById('selStudent').value;
   if(!cls||!st){alert('يرجى اختيار الشعبة والاسم أولاً');return}
   window._curStudent=st; window._curClass=cls;
+  markStudentActive(st, cls);
   answers=new Array(30).fill(null);checked=new Array(30).fill(false);
   orderStates=QS.map(q=>q.type==='order'?[...Array(q.items.length).keys()]:null);
   curQ=0;timeLeft=3600;startTime=Date.now();
@@ -599,6 +638,7 @@ function renderQ(){
   if(checked[curQ])applyVisuals();
   updateDots();updateProgress();
   document.getElementById('btnPrev').style.visibility=curQ>0?'visible':'hidden';
+  document.getElementById('btnNext').style.visibility=curQ<29?'visible':'hidden';
 }
 
 function setAns(v){if(checked[curQ])return;answers[curQ]=v;updateDots();updateProgress()}
@@ -684,7 +724,9 @@ function submitQuiz(){
     bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,
     answers:answers.map(a=>a===null?'null':typeof a==='object'?JSON.stringify(a):String(a)),
     date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
-  saveToFb(r);showResult(r,pct);
+  saveToFb(r);
+  markStudentDone(window._curStudent, window._curClass);
+  showResult(r,pct);
 }
 
 function showResult(r,pct){
@@ -749,7 +791,10 @@ function delFromFb(fbKey,localKey){
 function delAllFb(){db.ref(PATH).remove();localStorage.removeItem('sq_local')}
 
 // ===== DASHBOARD =====
-function loadDash(){loadFromFb(()=>{renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()})}
+function loadDash(){
+  listenActiveSessions();
+  loadFromFb(()=>{renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()})
+}
 function refreshDash(){
   Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
   loadDash();
@@ -810,33 +855,37 @@ function renderClassStatus(){
   if(!grid)return;
   grid.innerHTML=['1','2','4','5'].map(cls=>{
     const students=STUDENTS[cls];
-    // Find latest result per student in this class
     const getLatest=name=>{
       const rs=allResults.filter(r=>r.class===cls&&r.student===name);
       if(!rs.length)return null;
       return rs.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0))[0];
     };
-    // Check if currently in quiz (submitted within last 60 min and we can't know for sure, so we rely on timestamp diff)
-    // We mark "في الاختبار" if result timestamp is within last 2 minutes (just submitted) — not ideal but best without live tracking
-    // Better: we simply show done/not done
+    const isActive=name=>{
+      const key=cls+'_'+name.replace(/\s/g,'_');
+      if(!activeSessions[key])return false;
+      // consider active if ts within last 90 minutes
+      return (Date.now()-(activeSessions[key].ts||0))<90*60*1000;
+    };
     const done=students.filter(n=>getLatest(n)!==null).length;
-    const notDone=students.length-done;
+    const notDone=students.filter(n=>!getLatest(n)&&!isActive(n)).length;
+    const active=students.filter(n=>isActive(n)).length;
     const fail=students.filter(n=>{const r=getLatest(n);return r&&r.pct<50}).length;
 
     const rows=students.map((name,i)=>{
       const r=getLatest(name);
+      const act=isActive(name);
       let statusEl,scoreEl='';
-      if(!r){
+      if(act){
+        statusEl=`<span class="stu-status st-active">🟡 في الاختبار</span>`;
+      } else if(!r){
         statusEl=`<span class="stu-status st-none">لم يقدم</span>`;
       } else {
         scoreEl=`<span class="stu-score">${r.pct}%</span>`;
-        if(r.pct>=50){
-          statusEl=`<span class="stu-status st-done-pass">تقدّم ✓</span>`;
-        } else {
-          statusEl=`<span class="stu-status st-done-fail">تقدّم ✗</span>`;
-        }
+        statusEl=r.pct>=50
+          ?`<span class="stu-status st-done-pass">تقدّم ✓</span>`
+          :`<span class="stu-status st-done-fail">تقدّم ✗</span>`;
       }
-      const nameClass=r&&r.pct<50?'stu-name fail':'stu-name';
+      const nameClass=(r&&r.pct<50&&!act)?'stu-name fail':'stu-name';
       return `<div class="stu-row">
         <span style="color:#aaa;font-size:.75rem;margin-left:8px;min-width:18px">${i+1}</span>
         <span class="${nameClass}">${name}</span>
@@ -850,6 +899,7 @@ function renderClassStatus(){
         <span>الشعبة ${cls} (${students.length} طالب)</span>
         <div class="counts">
           <span class="cnt">✓ ${done} تقدّم</span>
+          <span class="cnt" style="background:rgba(255,193,7,.4)">🟡 ${active} نشط</span>
           <span class="cnt">✗ ${notDone} لم يقدم</span>
           ${fail?`<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ ${fail} راسب</span>`:''}
         </div>
