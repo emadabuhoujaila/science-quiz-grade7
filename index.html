@@ -167,6 +167,22 @@ tr:hover td{background:#f8fafb}
 /* Support */
 .suppsum{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:14px}
 .suppcard{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 5px rgba(0,0,0,.07);text-align:center}
+.cls-status-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.cls-status-header{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center}
+.cls-status-header .counts{font-size:.76rem;opacity:.9;display:flex;gap:8px}
+.cls-status-header .cnt{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px}
+.stu-row{display:flex;justify-content:space-between;align-items:center;padding:7px 14px;border-bottom:1px solid #f0f0f0;font-size:.83rem}
+.stu-row:last-child{border-bottom:none}
+.stu-row:hover{background:#f8fafb}
+.stu-name{flex:1}
+.stu-name.fail{color:var(--dan);font-weight:600}
+.stu-status{padding:3px 10px;border-radius:10px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.st-none{background:#f0f0f0;color:#888}
+.st-active{background:#fff3cd;color:#856404;animation:blink .9s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+.st-done-pass{background:#d5f5e3;color:#1e8449}
+.st-done-fail{background:#fde8e6;color:#922b21}
+.stu-score{font-size:.78rem;color:#888;margin-right:6px}
 
 /* Modal */
 .mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
@@ -324,6 +340,12 @@ tr:hover td{background:#f8fafb}
         <thead><tr><th>#</th><th>اسم الطالب</th><th>الشعبة</th><th>الدرجة</th><th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>حذف</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table></div>
+
+      <!-- Student status tables per class -->
+      <div style="margin-top:28px">
+        <h3 style="color:var(--sec);margin-bottom:16px;font-size:1rem">📋 حال الطلاب حسب الشعب</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px" id="classStatusGrid"></div>
+      </div>
     </div>
 
     <!-- TAB: Charts -->
@@ -727,7 +749,7 @@ function delFromFb(fbKey,localKey){
 function delAllFb(){db.ref(PATH).remove();localStorage.removeItem('sq_local')}
 
 // ===== DASHBOARD =====
-function loadDash(){loadFromFb(()=>{renderSummary();renderTable('all');renderSupport();renderOutcomes()})}
+function loadDash(){loadFromFb(()=>{renderSummary();renderTable('all');renderClassStatus();renderSupport();renderOutcomes()})}
 function refreshDash(){
   Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
   loadDash();
@@ -782,7 +804,60 @@ function renderTable(cls){
   }).join('');
 }
 
-// ===== CHARTS =====
+// ===== CLASS STATUS TABLES =====
+function renderClassStatus(){
+  const grid=document.getElementById('classStatusGrid');
+  if(!grid)return;
+  grid.innerHTML=['1','2','4','5'].map(cls=>{
+    const students=STUDENTS[cls];
+    // Find latest result per student in this class
+    const getLatest=name=>{
+      const rs=allResults.filter(r=>r.class===cls&&r.student===name);
+      if(!rs.length)return null;
+      return rs.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0))[0];
+    };
+    // Check if currently in quiz (submitted within last 60 min and we can't know for sure, so we rely on timestamp diff)
+    // We mark "في الاختبار" if result timestamp is within last 2 minutes (just submitted) — not ideal but best without live tracking
+    // Better: we simply show done/not done
+    const done=students.filter(n=>getLatest(n)!==null).length;
+    const notDone=students.length-done;
+    const fail=students.filter(n=>{const r=getLatest(n);return r&&r.pct<50}).length;
+
+    const rows=students.map((name,i)=>{
+      const r=getLatest(name);
+      let statusEl,scoreEl='';
+      if(!r){
+        statusEl=`<span class="stu-status st-none">لم يقدم</span>`;
+      } else {
+        scoreEl=`<span class="stu-score">${r.pct}%</span>`;
+        if(r.pct>=50){
+          statusEl=`<span class="stu-status st-done-pass">تقدّم ✓</span>`;
+        } else {
+          statusEl=`<span class="stu-status st-done-fail">تقدّم ✗</span>`;
+        }
+      }
+      const nameClass=r&&r.pct<50?'stu-name fail':'stu-name';
+      return `<div class="stu-row">
+        <span style="color:#aaa;font-size:.75rem;margin-left:8px;min-width:18px">${i+1}</span>
+        <span class="${nameClass}">${name}</span>
+        ${scoreEl}
+        ${statusEl}
+      </div>`;
+    }).join('');
+
+    return `<div class="cls-status-card">
+      <div class="cls-status-header">
+        <span>الشعبة ${cls} (${students.length} طالب)</span>
+        <div class="counts">
+          <span class="cnt">✓ ${done} تقدّم</span>
+          <span class="cnt">✗ ${notDone} لم يقدم</span>
+          ${fail?`<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ ${fail} راسب</span>`:''}
+        </div>
+      </div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
 function destChart(id){if(charts[id]){try{charts[id].destroy()}catch(e){}delete charts[id]}}
 
 function renderCharts(){
