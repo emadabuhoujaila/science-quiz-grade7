@@ -530,19 +530,8 @@ function checkTeacher() {
   var pwd = document.getElementById('tPwd').value;
   if (pwd !== TPWD) { alert('رمز الدخول غير صحيح!'); return; }
   document.getElementById('tPwd').value = '';
-  db.ref(TEACHER_DEV_PATH).once('value').then(function(s) {
-    var stored = s.val();
-    if (!stored) {
-      db.ref(TEACHER_DEV_PATH).set({deviceId:DEVICE_ID, ts:Date.now()});
-      loadDash(); SS('teacherDashboard');
-    } else if (stored.deviceId === DEVICE_ID) {
-      loadDash(); SS('teacherDashboard');
-    } else {
-      // different device — send pending request
-      db.ref(TEACHER_DEV_PATH+'/pending').set({deviceId:DEVICE_ID, ts:Date.now()});
-      showPendingScreen();
-    }
-  });
+  loadDash();
+  SS('teacherDashboard');
 }
 
 function showPendingScreen() {
