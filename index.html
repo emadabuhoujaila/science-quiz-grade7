@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار الفيزياء - الصف التاسع متقدم</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{--primary:#1a6b3c;--pl:#2d9e5f;--sec:#0d4f8b;--acc:#f0a500;--dan:#c0392b;--suc:#27ae60;--bg:#f4f7f6;--txt:#2c3e50;--brd:#dce3e0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
+body{background:var(--bg);color:var(--txt)}
+.screen{display:none}
+.topbar{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.topbar h1{font-size:1rem}.topbar .sub{font-size:.78rem;opacity:.85}
+.timer{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:8px;padding:5px 14px;font-size:1.3rem;font-weight:700;min-width:84px;text-align:center;transition:background .3s}
+.timer.warn{background:rgba(240,165,0,.5)}.timer.danger{background:rgba(192,57,43,.7);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.card{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:460px;box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.card .logo{text-align:center;margin-bottom:18px}.card .logo h2{color:var(--primary);font-size:1.3rem;margin-top:6px}.card .logo p{color:#666;font-size:.83rem}
+.fg{margin-bottom:14px}.fg label{display:block;margin-bottom:5px;font-weight:600;font-size:.88rem}
+.fg select,.fg input{width:100%;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;font-size:.93rem;color:var(--txt);background:#fff;transition:border-color .2s}
+.fg select:focus,.fg input:focus{outline:none;border-color:var(--primary)}
+.btn-login{width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.97rem;font-weight:700;cursor:pointer;margin-top:6px}
+.btn-login:hover{opacity:.9}
+.tlink{text-align:center;margin-top:12px}.tlink a{color:var(--sec);font-size:.83rem;cursor:pointer;text-decoration:underline}
+.fbst{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;padding:3px 10px;border-radius:10px}
+.fbst.ok{background:#d5f5e3;color:#1e8449}.fbst.err{background:#fde8e6;color:#922b21}.fbst.wait{background:#fef9e7;color:#7d6608}
+.fullpage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.qbody{max-width:800px;margin:0 auto;padding:18px 14px 40px}
+.sbar{background:#fff;border-radius:10px;padding:9px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.1);font-size:.83rem;color:#555}
+.pbg{background:#e8eceb;border-radius:8px;height:7px;margin-bottom:3px}
+.pb{height:7px;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:8px;transition:width .4s}
+.plbl{font-size:.73rem;color:#777;text-align:center;margin-bottom:14px}
+.qcard{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:14px}
+.qhdr{display:flex;align-items:flex-start;margin-bottom:12px}
+.qnum{background:var(--primary);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0;margin-left:8px}
+.tbadge{font-size:.7rem;background:#e8f4fd;color:var(--sec);padding:2px 9px;border-radius:10px;font-weight:600}
+.bbadge{font-size:.66rem;background:#fef9e7;color:#b7770d;padding:2px 7px;border-radius:9px;margin-top:2px}
+.qtxt{font-size:.95rem;line-height:1.7;margin-bottom:14px;font-weight:500}
+.hint{background:#fffbf0;border-right:3px solid var(--acc);padding:7px 11px;border-radius:6px;font-size:.8rem;color:#7d6608;margin-bottom:12px}
+.opts{list-style:none;display:flex;flex-direction:column;gap:7px}
+.opts li label{display:flex;align-items:center;gap:9px;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;cursor:pointer;transition:all .2s;font-size:.9rem}
+.opts li label:hover{border-color:var(--primary);background:#f0faf5}
+.opts li input[type=radio]{accent-color:var(--primary);width:15px;height:15px;flex-shrink:0}
+.opts li.rc label{border-color:var(--suc);background:#eafaf1}
+.opts li.wr label{border-color:var(--dan);background:#fdedeb}
+.tfopts{display:flex;gap:10px}
+.tfbtn{flex:1;padding:11px;border:2px solid var(--brd);border-radius:8px;background:#fff;cursor:pointer;font-size:.97rem;font-weight:600;transition:all .2s}
+.tfbtn:hover{border-color:var(--primary)}.tfbtn.sel{border-color:var(--primary);background:#e8f4fd}
+.tfbtn.rc{border-color:var(--suc);background:#eafaf1}.tfbtn.wr{border-color:var(--dan);background:#fdedeb}
+.fi{width:100%;padding:9px 12px;border:2px solid var(--brd);border-radius:8px;font-size:.93rem;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--primary)}
+.fi.rc{border-color:var(--suc);background:#eafaf1}.fi.wr{border-color:var(--dan);background:#fdedeb}
+.mc{display:flex;flex-direction:column;gap:7px}
+.mr{display:flex;align-items:center;gap:9px}
+.ml{flex:1;background:#f0f4f8;padding:7px 11px;border-radius:6px;font-size:.86rem}
+.ms{flex:1;padding:7px;border:2px solid var(--brd);border-radius:6px;font-size:.86rem;background:#fff}
+.ms.rc{border-color:var(--suc);background:#eafaf1}.ms.wr{border-color:var(--dan);background:#fdedeb}
+.ol{display:flex;flex-direction:column;gap:5px}
+.oi{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#f9fafb;border:2px solid var(--brd);border-radius:8px;cursor:grab;transition:all .2s;font-size:.86rem}
+.oi:active{cursor:grabbing}.oi.dragging{opacity:.5}.oi.dov{border-color:var(--primary);background:#e8f4fd}
+.oh{color:#aaa;font-size:1.1rem}
+.on{background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0}
+.oi.cor{border-color:var(--suc);background:#eafaf1}.oi.wrr{border-color:var(--dan);background:#fdedeb}
+.fb{margin-top:12px;padding:11px 13px;border-radius:8px;font-size:.83rem;line-height:1.6;display:none}
+.fb.rc{background:#eafaf1;border:1px solid #a9dfbf;color:#1e8449}
+.fb.wr{background:#fdedeb;border:1px solid #f1948a;color:#922b21}
+.fb.show{display:block}
+.navbtns{display:flex;justify-content:space-between;margin-top:14px;gap:9px}
+.btn{padding:9px 20px;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
+.btn-prev{background:#e8eceb;color:var(--txt)}.btn-prev:hover{background:#d5dbd9}
+.btn-next{background:var(--primary);color:#fff}.btn-next:hover{background:var(--pl)}
+.btn-sub{background:var(--acc);color:#fff}.btn-sub:hover{background:#d4920a}
+.btn-chk{background:var(--sec);color:#fff;font-size:.83rem;padding:7px 14px}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--brd);background:#fff;cursor:pointer;font-size:.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.dot.ans{background:var(--primary);color:#fff;border-color:var(--primary)}
+.dot.cur{border-color:var(--acc);box-shadow:0 0 0 3px rgba(240,165,0,.3)}
+.dot.cok{background:var(--suc);color:#fff;border-color:var(--suc)}
+.dot.cwrr{background:var(--dan);color:#fff;border-color:var(--dan)}
+.rbody{max-width:700px;margin:0 auto;padding:22px 14px 40px}
+.rcard{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.1);text-align:center;margin-bottom:18px}
+.scircle{width:130px;height:130px;border-radius:50%;margin:0 auto 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.9rem;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.scircle.exc{background:linear-gradient(135deg,#27ae60,#2ecc71)}
+.scircle.good{background:linear-gradient(135deg,#2980b9,#3498db)}
+.scircle.pass{background:linear-gradient(135deg,#f39c12,#f0a500)}
+.scircle.fail{background:linear-gradient(135deg,#c0392b,#e74c3c)}
+.slbl{font-size:.73rem;font-weight:normal}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px 0}
+.sbox{background:var(--bg);border-radius:10px;padding:12px;text-align:center}
+.sbox .n{font-size:1.5rem;font-weight:700;color:var(--primary)}.sbox .l{font-size:.76rem;color:#666}
+.blrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:.83rem}
+.blbg{flex:1;background:#e8eceb;border-radius:4px;height:9px;margin:0 9px}
+.blf{height:9px;border-radius:4px;background:var(--primary);transition:width .6s}
+.rtn{background:var(--primary);color:#fff;padding:11px 26px;border:none;border-radius:10px;font-size:.97rem;font-weight:700;cursor:pointer;margin:5px}
+.rtn:hover{background:var(--pl)}
+.dbody{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
+.ag{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.ac{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 6px rgba(0,0,0,.07);text-align:center}
+.ac .bn{font-size:1.8rem;font-weight:700;color:var(--primary)}.ac .d{font-size:.78rem;color:#666;margin-top:3px}
+.maintabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;border-bottom:2px solid var(--brd);padding-bottom:10px}
+.mtab{padding:8px 16px;border:2px solid var(--brd);border-radius:8px;background:#fff;cursor:pointer;font-size:.87rem;font-weight:600;color:var(--txt);transition:all .2s}
+.mtab.active{background:var(--sec);color:#fff;border-color:var(--sec)}
+.tabpane{display:none}.tabpane.active{display:block}
+.xbtns{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px}
+.xbtn{padding:9px 16px;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s;color:#fff}
+.xbtn:hover{opacity:.88}
+.xbtn.green{background:var(--suc)}.xbtn.blue{background:var(--sec)}.xbtn.orange{background:var(--acc)}.xbtn.red{background:var(--dan)}.xbtn.purple{background:#8e44ad}
+.stabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.stab{padding:6px 14px;border:2px solid var(--brd);border-radius:7px;background:#fff;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--txt);transition:all .2s}
+.stab.active{background:var(--sec);color:#fff;border-color:var(--sec)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+th{background:var(--sec);color:#fff;padding:9px 12px;font-size:.82rem;text-align:right}
+td{padding:8px 12px;border-bottom:1px solid #eee;font-size:.81rem}
+tr:hover td{background:#f8fafb}
+.badge{display:inline-block;padding:2px 9px;border-radius:9px;font-size:.73rem;font-weight:700}
+.bg{background:#d5f5e3;color:#1e8449}.bb{background:#d6eaf8;color:#1a5276}
+.by{background:#fef9e7;color:#7d6608}.br{background:#fde8e6;color:#922b21}
+.btn-sm{padding:4px 11px;font-size:.76rem;border-radius:6px;border:none;cursor:pointer;font-weight:600;background:var(--dan);color:#fff}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:16px}
+.cc{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.cc.full{grid-column:1/-1}.cctitle{font-size:.92rem;color:var(--sec);margin-bottom:12px;font-weight:700}
+.outcard{background:#fff;border-radius:11px;padding:16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.outhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.outtitle{font-size:.88rem;font-weight:700;color:var(--txt)}
+.outpct{font-size:1.05rem;font-weight:700}
+.obg{background:#e8eceb;border-radius:5px;height:11px;margin-bottom:7px}
+.ob{height:11px;border-radius:5px;transition:width .6s}
+.ob.wk{background:linear-gradient(90deg,var(--dan),#e74c3c)}
+.ob.md{background:linear-gradient(90deg,var(--acc),#f39c12)}
+.ob.gd{background:linear-gradient(90deg,var(--suc),#2ecc71)}
+.otag{display:inline-block;padding:2px 9px;border-radius:9px;font-size:.7rem;font-weight:600;margin-right:5px}
+.otg-wk{background:#fde8e6;color:#922b21}.otg-md{background:#fef9e7;color:#7d6608}.otg-gd{background:#d5f5e3;color:#1e8449}
+.suppsum{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:14px}
+.suppcard{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 5px rgba(0,0,0,.07);text-align:center}
+.cls-status-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.cls-status-header{background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center}
+.cls-status-header .counts{font-size:.76rem;opacity:.9;display:flex;gap:6px;flex-wrap:wrap}
+.cls-status-header .cnt{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px}
+.stu-row{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid #f0f0f0;font-size:.82rem;gap:4px}
+.stu-row:last-child{border-bottom:none}.stu-row:hover{background:#f8fafb}
+.stu-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stu-name.fail{color:var(--dan);font-weight:600}
+.stu-status{padding:2px 8px;border-radius:9px;font-size:.7rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+.st-none{background:#f0f0f0;color:#888}
+.st-active{background:#fff3cd;color:#856404;animation:blink .9s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+.st-done-pass{background:#d5f5e3;color:#1e8449}
+.st-done-fail{background:#fde8e6;color:#922b21}
+.stu-score{font-size:.76rem;color:#888;flex-shrink:0}
+.act-btn{padding:2px 8px;font-size:.7rem;border:none;border-radius:5px;cursor:pointer;font-weight:600;flex-shrink:0;color:#fff}
+.mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.mover.show{display:flex}
+.mbox{background:#fff;border-radius:12px;padding:26px;max-width:380px;width:90%;text-align:center}
+.mbox h3{margin-bottom:10px;color:var(--txt)}.mbox p{color:#666;margin-bottom:18px;font-size:.88rem}
+.mbtns{display:flex;gap:9px;justify-content:center}
+.lov{display:none;position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.lov.show{display:flex}
+.spin{width:44px;height:44px;border:5px solid #e8eceb;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){.card{padding:22px 16px}.rstats{grid-template-columns:repeat(2,1fr)}.topbar h1{font-size:.87rem}}
+.qcard[dir=ltr]{text-align:left}.qcard[dir=ltr] .hint{border-right:0;border-left:3px solid var(--acc)}.qcard[dir=ltr] .qnum{margin-left:0;margin-right:10px}
+</style>
+</head>
+<body>
+
+<div class="lov" id="lov"><div class="spin"></div><div id="lovMsg" style="color:var(--primary);font-weight:600">جارٍ التحميل...</div></div>
+
+<!-- HOME -->
+<div id="homeScreen" class="screen">
+  <div class="fullpage" style="background:linear-gradient(135deg,#1a6b3c,#0d4f8b)">
+    <div style="background:#fff;border-radius:18px;padding:40px 32px;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.25);text-align:center">
+      <div style="font-size:3rem;margin-bottom:10px">⚛️</div>
+      <h2 style="color:#1a6b3c;font-size:1.3rem;margin-bottom:6px;font-weight:700">اختبار الفيزياء التدريبي</h2>
+      <p style="color:#555;font-size:.85rem;margin-bottom:3px">مدرسة محمد بن حمد الشرقي للبنين</p>
+      <p style="color:#888;font-size:.8rem;margin-bottom:16px">المعلم: عماد أبو حجيلة | الصف التاسع متقدم</p>
+      <div style="margin-bottom:24px" id="fbst0"><span class="fbst wait">⏳ جارٍ الاتصال...</span></div>
+      <button onclick="SS('loginScreen')" style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1a6b3c,#2d9e5f);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:14px">🎓 دخول الطالب</button>
+      <button onclick="SS('teacherLogin')" style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#0d4f8b,#1a237e);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">👨‍🏫 لوحة المعلم</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="screen">
+  <div class="fullpage" style="background:linear-gradient(135deg,#1a6b3c,#0d4f8b)">
+  <div class="card">
+    <div class="logo"><div style="font-size:2.8rem">🎓</div><h2>دخول الطالب</h2><p>مدرسة محمد بن حمد الشرقي للبنين</p></div>
+    <div class="fg"><label>الصف:</label>
+      <select id="selClass" onchange="loadStudents()"><option value="9 متقدم">الصف التاسع متقدم</option></select></div>
+    <div class="fg"><label>اختر اسمك:</label>
+      <select id="selStudent"><option value="">-- اختر الصف أولاً --</option></select></div>
+    <button class="btn-login" onclick="startQuiz()">🚀 بدء الاختبار</button>
+    <div class="tlink"><a onclick="SS('homeScreen')">← العودة للرئيسية</a></div>
+  </div>
+  </div>
+</div>
+
+<!-- TEACHER LOGIN -->
+<div id="teacherLogin" class="screen">
+  <div class="fullpage" style="background:linear-gradient(135deg,#0d4f8b,#1a237e)">
+  <div class="card" id="teacherLoginCard">
+    <div class="logo"><div style="font-size:2.8rem">👨‍🏫</div><h2>لوحة المعلم</h2><p>أدخل رمز الدخول</p></div>
+    <div class="fg"><label>رمز الدخول:</label>
+      <input type="password" id="tPwd" placeholder="الرمز السري" onkeydown="if(event.key==='Enter')checkTeacher()"></div>
+    <button class="btn-login" onclick="checkTeacher()">دخول</button>
+    <div class="tlink"><a onclick="SS('homeScreen')">← العودة للرئيسية</a></div>
+  </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen" class="screen">
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>اختبار تدريبي - الفيزياء (الوحدتان 1 و2)</h1></div>
+    <div class="timer" id="timerEl">60:00</div>
+  </div>
+  <div class="qbody">
+    <div class="sbar"><span id="sNameBar">—</span><span id="sClassBar">—</span></div>
+    <div class="dots" id="dotsEl"></div>
+    <div class="pbg"><div class="pb" id="pbEl" style="width:0%"></div></div>
+    <div class="plbl" id="plblEl">السؤال 1 من 30</div>
+    <div id="qCont"></div>
+    <div class="navbtns">
+      <button class="btn btn-prev" id="btnPrev" onclick="prevQ()">→ السابق</button>
+      <button class="btn btn-chk" onclick="checkCurrent()">✓ تحقق</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQ()">التالي ←</button>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <button class="btn btn-sub" onclick="confirmSubmit()">📤 تسليم الاختبار</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen" class="screen">
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>نتيجة الاختبار التدريبي</h1></div>
+    <div style="font-size:.83rem;opacity:.85" id="rStudentInfo"></div>
+  </div>
+  <div class="rbody">
+    <div class="rcard">
+      <div class="scircle" id="scircle"><div id="sPct">0%</div><div class="slbl">درجتك</div></div>
+      <h2 id="rMsg" style="margin-bottom:10px"></h2>
+      <p id="rSubMsg" style="color:#666;font-size:.88rem"></p>
+      <div class="rstats">
+        <div class="sbox"><div class="n" id="rCor">0</div><div class="l">إجابات صحيحة</div></div>
+        <div class="sbox"><div class="n" id="rWrong">0</div><div class="l">إجابات خاطئة</div></div>
+        <div class="sbox"><div class="n" id="rTime">—</div><div class="l">الوقت المستغرق</div></div>
+      </div>
+      <div style="text-align:right">
+        <h4 style="margin-bottom:10px;color:var(--txt)">أداؤك حسب مستويات بلوم:</h4>
+        <div class="blrow"><span style="width:150px">تذكر وفهم (40%)</span><div class="blbg"><div class="blf" id="bl1" style="width:0%"></div></div><span id="bls1">0/12</span></div>
+        <div class="blrow"><span style="width:150px">تطبيق وتحليل (40%)</span><div class="blbg"><div class="blf" id="bl2" style="width:0%"></div></div><span id="bls2">0/12</span></div>
+        <div class="blrow"><span style="width:150px">تركيب وتقييم (20%)</span><div class="blbg"><div class="blf" id="bl3" style="width:0%"></div></div><span id="bls3">0/6</span></div>
+      </div>
+      <div id="fbSaveEl" style="margin-top:12px;font-size:.83rem;color:#666"></div>
+      <div style="margin-top:18px;display:flex;flex-wrap:wrap;justify-content:center;gap:9px">
+        <button class="rtn" onclick="SS('homeScreen')">🏠 الرئيسية</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div id="teacherDashboard" class="screen">
+  <div class="topbar">
+    <div><div class="sub">مدرسة محمد بن حمد الشرقي للبنين</div><h1>لوحة تحكم المعلم - عماد أبو حجيلة</h1></div>
+    <div style="display:flex;align-items:center;gap:9px">
+      <span id="fbstDash" class="fbst wait">⏳ جارٍ التحميل</span>
+      <button class="btn btn-prev" style="padding:5px 12px;font-size:.82rem" onclick="SS('homeScreen')">خروج</button>
+    </div>
+  </div>
+  <div class="dbody">
+    <!-- Pending Device Banner -->
+    <div id="pendingBanner" style="display:none;background:#fff3cd;border:2px solid #f0a500;border-radius:10px;padding:12px 18px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <span style="font-size:.88rem;color:#856404">⚠️ <strong>طلب دخول من جهاز جديد</strong> — جهاز آخر يطلب الوصول للوحة المعلم</span>
+        <div style="display:flex;gap:8px">
+          <button onclick="approveDevice()" style="padding:6px 14px;background:var(--suc);color:#fff;border:none;border-radius:7px;font-size:.82rem;font-weight:700;cursor:pointer">✅ السماح</button>
+          <button onclick="rejectDevice()" style="padding:6px 14px;background:var(--dan);color:#fff;border:none;border-radius:7px;font-size:.82rem;font-weight:700;cursor:pointer">❌ رفض</button>
+        </div>
+      </div>
+    </div>
+    <div class="ag" id="agEl"></div>
+    <div class="xbtns">
+      <button class="xbtn blue" onclick="exportAll()">📁 تصدير الكل</button>
+      <button class="xbtn purple" onclick="exportFullAnalysis()">🧠 تحليل النتائج</button>
+      <button class="xbtn orange" onclick="refreshDash()">🔄 تحديث</button>
+      <button class="xbtn red" onclick="confirmDelAll()">🗑️ حذف الكل</button>
+
+    </div>
+    <div class="maintabs">
+      <button class="mtab active" onclick="switchTab('results')">📋 النتائج</button>
+      <button class="mtab" onclick="switchTab('charts')">📊 الرسوم البيانية</button>
+      <button class="mtab" onclick="switchTab('support')">🎯 الطلاب المستهدفون</button>
+      <button class="mtab" onclick="switchTab('outcomes')">📚 نواتج التعلم</button>
+    </div>
+    <div class="tabpane active" id="tab-results">
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>اسم الطالب</th><th>الصف</th><th>الدرجة</th><th>الصحيحة</th><th>الخاطئة</th><th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>الوقت</th><th>التاريخ</th><th>حذف</th></tr></thead>
+        <tbody id="tblBody"></tbody>
+      </table></div>
+      <div style="margin-top:28px">
+        <h3 style="color:var(--sec);margin-bottom:16px;font-size:1rem">📋 حال الطلاب</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px" id="classStatusGrid"></div>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-charts">
+      <div class="cg">
+        <div class="cc"><div class="cctitle">📊 توزيع الدرجات</div><canvas id="cScore" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">🧠 الأداء حسب مستويات بلوم</div><canvas id="cBloom" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">🏫 متوسط درجات الصف</div><canvas id="cClass" height="230"></canvas></div>
+        <div class="cc"><div class="cctitle">📈 نسبة النجاح والرسوب</div><canvas id="cPass" height="230"></canvas></div>
+        <div class="cc full"><div class="cctitle">❓ نسبة الإجابات الصحيحة لكل سؤال</div><canvas id="cQues" height="170"></canvas></div>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-support">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+        <label style="font-weight:600;font-size:.88rem">تصفية:</label>
+        <select id="suppThr" onchange="renderSupport()" style="padding:6px 11px;border:2px solid var(--brd);border-radius:7px;background:#fff;font-size:.85rem">
+          <option value="50">أقل من 50%</option><option value="60">أقل من 60%</option><option value="70">أقل من 70%</option>
+        </select>
+        <select id="suppCls" onchange="renderSupport()" style="display:none;padding:6px 11px;border:2px solid var(--brd);border-radius:7px;background:#fff;font-size:.85rem">
+          <option value="all">الكل</option>
+        </select>
+      </div>
+      <div class="suppsum" id="suppSum"></div>
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>اسم الطالب</th><th>الصف</th><th>الدرجة</th><th>تذكر/فهم</th><th>تطبيق/تحليل</th><th>تركيب/تقييم</th><th>أضعف مجال</th><th>الأسئلة الخاطئة</th><th>توصية</th></tr></thead>
+        <tbody id="suppBody"></tbody>
+      </table></div>
+    </div>
+    <div class="tabpane" id="tab-outcomes">
+      <div id="outSum" style="display:flex;gap:11px;flex-wrap:wrap;margin-bottom:18px"></div>
+      <div id="outList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="mover" id="mover">
+  <div class="mbox">
+    <h3 id="mTitle">تأكيد</h3><p id="mMsg"></p>
+    <div class="mbtns">
+      <button class="btn btn-sub" id="mOkBtn">تأكيد</button>
+      <button class="btn btn-prev" onclick="closeModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// SCREEN MANAGER
+// ═══════════════════════════════════════════
+function SS(id) {
+  ['homeScreen','loginScreen','teacherLogin','quizScreen','resultScreen','teacherDashboard'].forEach(function(s) {
+    var el = document.getElementById(s);
+    if (el) el.style.display = 'none';
+  });
+  var t = document.getElementById(id);
+  if (t) t.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+SS('homeScreen');
+
+// ═══════════════════════════════════════════
+// FIREBASE
+// ═══════════════════════════════════════════
+firebase.initializeApp({
+  apiKey:"AIzaSyA4CeJQnEqnks_DcjQy4XZvqKaw8vJRNis",
+  authDomain:"final-exam-2026-e2777.firebaseapp.com",
+  databaseURL:"https://final-exam-2026-e2777-default-rtdb.firebaseio.com",
+  projectId:"final-exam-2026-e2777",
+  storageBucket:"final-exam-2026-e2777.firebasestorage.app",
+  messagingSenderId:"707186742298",
+  appId:"1:707186742298:web:e1739849c8674842f02da3"
+});
+var db = firebase.database();
+var PATH = 'physics_g9a_quiz';
+var ACTIVE_PATH = 'physics_g9a_quiz_active';
+var LOCKED_PATH = 'physics_g9a_quiz_locked';
+var ATTEMPTS_PATH = 'physics_g9a_quiz_attempts';
+var TEACHER_DEV_PATH = 'physics_g9a_quiz_teacher_device';
+
+db.ref('.info/connected').on('value', function(s) {
+  var ok = s.val() === true;
+  var html = ok ? '<span class="fbst ok">🟢 متصل بـ Firebase</span>' : '<span class="fbst err">🔴 غير متصل</span>';
+  ['fbst0','fbstDash'].forEach(function(id) { var el = document.getElementById(id); if (el) el.innerHTML = html; });
+});
+
+// ═══════════════════════════════════════════
+// DEVICE ID
+// ═══════════════════════════════════════════
+var DEVICE_ID = localStorage.getItem('device_id');
+if (!DEVICE_ID) {
+  DEVICE_ID = 'dev_' + Math.random().toString(36).substr(2,12) + '_' + Date.now();
+  localStorage.setItem('device_id', DEVICE_ID);
+}
+var TPWD = 'science2025';
+
+// ═══════════════════════════════════════════
+// STUDENTS
+// ═══════════════════════════════════════════
+var STUDENTS = {
+  '9 متقدم':['حمد جاسم محمد الشيبه الكعبي','حمدان سالم على خماس اليماحي','حمدان عبدالله محمد سالم المقبالي','خالد خلفان راشد سالمين الكياني','خالد عبدالله خميس الدوار','خالد ياسر سبيل احمد المرشدي','خلفان هلال خلفان أحمد الكعبي','خليفه صالح ميرزا على مراد','ذياب أحمد داد محمد أحمد','ذياب عبدالله خميس سعيد اليماحي','راشد عبيد راشد بن رشود المزروعى','راشد فايز عبدالله بن غافان الدهماني','سالم سعيد سالم حارب الكندى','سعود احمد سعيد سالم البريكي','سعود عبدالعزيز اسماعيل حميد الخالدي','سعيد احمد سعيد ارقيط المسماري','سعيد سلطان سعيد محمد الحسانى','سعيد عبدالله سعيد بن فارس المسماري','سعيد عمار سعيد خديم السماحي','عبدالله صابر احمد صابر الظنحاني','على احمد سالم عبدالله الخزيمي','علي راشد علي حنايا الكندي','عمار عادل على احمد عبدالله','مبارك أحمد مبارك عبيد الزحمي','محمد عياد محمد ال خادوم المطروشي','محمد منصور محمد حسن مراد','مروان عبدالسلام سالم العوانى الزعابي','منصور سيف راشد سعيد خميس العبدولي','منصور عبدالله على عبيد الكعبي','مهنا عبدالله مهنا سعيد الكندي','نايف سيف هيكل عبدالرحمن البلوشي','نهيان جاسم محمد الشيبه الكعبي','هزاع يوسف اسماعيل سعيد المطروشي']
+};
+
+// ═══════════════════════════════════════════
+// QUESTIONS
+// ═══════════════════════════════════════════
+var QS=[
+  {id:1,bloom:1,type:"mcq",text:"Which statement best describes a hypothesis?",hint:"Think about what a scientist forms before running an experiment.",opts:["A statement about what happens in nature that seems to be true all the time","An explanation based on knowledge gained from many repeated investigations","A possible explanation for a problem that can be tested through experimentation and observation","A representation of an object that is too small to be seen"],cor:2,fb:"A hypothesis is a possible explanation for a problem, based on what you know and have observed, that can be tested."},
+  {id:2,bloom:1,type:"mcq",text:"How does a scientific law differ from a scientific theory?",hint:"One of them tells you what will happen; the other tries to explain why or how.",opts:["A theory describes what happens in nature, while a law explains why it happens","A law describes what happens in nature under certain conditions, while a theory explains why or how it happens","A law is a hypothesis that has been tested many times and has become a theory","A theory is only a guess, while a law is proven and can never change"],cor:1,fb:"Laws tell what will happen under certain conditions but do not explain why. A theory can explain a law, but theories do not become laws."},
+  {id:3,bloom:1,type:"fill",text:"The adaptation of the metric system that scientists worldwide use, built on seven base quantities, is abbreviated as ______.",hint:"It is written with two capital letters and comes from the French name Système International d'Unités.",cor:"SI",alt:["S.I.","International System of Units","International System","Système International","Systeme International"],fb:"The SI system, regulated by the International Bureau of Weights and Measures, uses seven base quantities."},
+  {id:4,bloom:1,type:"tf",text:"In a measurement such as 138.1 mm, the last digit (1) is the uncertain, estimated digit.",hint:"Look at which digit you had to estimate between the ruler's tick marks.",cor:true,fb:"The first digits are certain, and the last digit given for any measurement is the uncertain one. All the valid digits together are the significant figures."},
+  {id:5,bloom:1,type:"match",text:"Match each SI base quantity with its SI base unit:",hint:"Recall the units kelvin, ampere, and mole from the table of SI base units.",items:["Electric current","Temperature","Amount of a substance"],opts:["mole (mol)","ampere (A)","kelvin (K)"],cor:[1,2,0],fb:"Electric current is measured in amperes (A), temperature in kelvins (K), and the amount of a substance in moles (mol)."},
+  {id:6,bloom:1,type:"order",text:"Arrange these steps of a typical scientific investigation in the correct order:",hint:"A problem is stated first, and conclusions come last.",items:["Analyze the data","State the problem","Draw conclusions","Form and test a hypothesis"],cor:[1,3,0,2],fb:"Investigations often follow this pattern: state the problem, form and test a hypothesis, analyze the data, then draw conclusions."},
+  {id:7,bloom:1,type:"mcq",text:"When is it appropriate to use the particle model of a moving object?",hint:"Think of the runner whose motion was reduced to a single dot at her waist.",opts:["When the object is at rest","When the object is much larger than the distance it moves","When the object moves along a curved path only","When the object's size is much less than the distance it moves"],cor:3,fb:"In a particle model the object is replaced by a single point. This works when the object's size is much less than the distance it moves."},
+  {id:8,bloom:1,type:"mcq",text:"Which statement correctly defines accuracy?",hint:"Compare a measurement with the accepted value.",opts:["How well a measurement agrees with the accepted value","The degree of exactness of a measurement","The apparent shift in an object's position when viewed from different angles","The number of valid digits in a measurement"],cor:0,fb:"Accuracy describes how well a measurement agrees with the accepted value, while precision is the degree of exactness of the measurement."},
+  {id:9,bloom:1,type:"fill",text:"The apparent shift in the position of an object when it is viewed from different angles, which causes errors when a scale is read at an angle, is called ______.",hint:"Reading a scale with your eye directly in front of it avoids this error.",cor:"parallax",alt:["parallax error"],fb:"Reading a scale from an angle introduces parallax and gives a less accurate value."},
+  {id:10,bloom:1,type:"tf",text:"On a position-time graph, time is plotted on the vertical axis and position on the horizontal axis.",hint:"Time is the independent variable.",cor:false,fb:"Time is plotted on the horizontal axis (x-axis) and position on the vertical axis."},
+  {id:11,bloom:1,type:"match",text:"Match each term with its definition:",hint:"Vectors need a direction; scalars do not.",items:["Scalar","Vector","Displacement"],opts:["A quantity that has both magnitude and direction","A quantity that is just a number, with no direction","The change in position from the initial position to the final position"],cor:[1,0,2],fb:"A scalar has magnitude only (such as time or distance), a vector has magnitude and direction, and displacement is the change in position: Δx = xf − xi."},
+  {id:12,bloom:1,type:"order",text:"Arrange the steps used to build a particle-model motion diagram of a runner:",hint:"Collect images first, then combine them, then simplify.",items:["Replace the runner with a single dot at the same point of her body in every image","Photograph the runner at equal time intervals","Combine the images into one motion diagram"],cor:[1,2,0],fb:"A motion diagram is made by combining images taken at equal time intervals. The particle model then replaces the object with a single point."},
+  {id:13,bloom:2,type:"mcq",text:"A student adds two length measurements: 12.34 cm + 5.6 cm. What should she report, using the correct number of significant figures?",hint:"When adding, round to match the least precise measurement.",opts:["17.94 cm","17.9 cm","18 cm","17.940 cm"],cor:1,fb:"12.34 + 5.6 = 17.94, but the least precise value (5.6) is known only to the tenths place, so the result is rounded to 17.9 cm."},
+  {id:14,bloom:2,type:"mcq",text:"A rectangular plate measures 4.2 cm by 13.75 cm. What is its area, written with the correct number of significant figures?",hint:"When multiplying, round to the fewest significant figures.",opts:["58 cm²","57.75 cm²","57.8 cm²","60 cm²"],cor:0,fb:"4.2 × 13.75 = 57.75, but 4.2 has only two significant figures, so the area is 58 cm²."},
+  {id:15,bloom:2,type:"fill",text:"Using conversion factors, a speed of 72 km/h is equal to ______ m/s (write the number only).",hint:"Multiply by 1000 m / 1 km and by 1 h / 3600 s.",cor:"20",alt:["20.0","20.00","20 m/s"],fb:"72 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 20 m/s."},
+  {id:16,bloom:2,type:"tf",text:"Student 1 reports a spring length of (14.6 ± 0.2) cm and student 2 reports (14.8 ± 0.3) cm. Their results agree because their uncertainty ranges overlap.",hint:"Write each result as a range and compare the two ranges.",cor:true,fb:"Student 1's range is 14.4–14.8 cm and student 2's range is 14.5–15.1 cm. The ranges overlap, so the measurements agree."},
+  {id:17,bloom:2,type:"match",text:"Classify each situation by the type of relationship its graph would show:",hint:"Think of a straight line, a parabola, and a hyperbola.",items:["Length of a spring versus the mass hung from it","Distance a ball falls versus time (d = 5t²)","Travel time for a fixed 300 km trip versus a car's speed"],opts:["Linear relationship","Inverse relationship","Quadratic relationship"],cor:[0,2,1],fb:"Spring length versus mass is linear, distance fallen versus time is quadratic (a parabola), and travel time versus speed is an inverse relationship (a hyperbola)."},
+  {id:18,bloom:2,type:"order",text:"Arrange the steps for constructing a line graph from a data table:",hint:"Decide what goes on each axis before you plot anything.",items:["Draw the line of best fit through the points","Identify the independent and dependent variables","Plot the data points","Label each axis with the variable name and its units"],cor:[1,3,2,0],fb:"Identify the variables, set up and label the axes, plot the points, and then draw a best-fit line (not dot-to-dot segments)."},
+  {id:19,bloom:2,type:"mcq",text:"A spring's length follows y = (0.08 cm/g)x + 13.7 cm, where x is the hanging mass in grams. What is the spring's length with a 30 g mass?",hint:"Multiply the slope by the mass, then add the y-intercept.",opts:["2.4 cm","13.8 cm","16.1 cm","18.1 cm"],cor:2,fb:"y = (0.08 cm/g)(30 g) + 13.7 cm = 2.4 cm + 13.7 cm = 16.1 cm."},
+  {id:20,bloom:2,type:"tf",text:"Masses up to 35 g were measured for a spring. Because the line of best fit is a good model, it is always reliable to extrapolate it to predict the spring's length with a 90 g mass.",hint:"Think about what might happen to the spring far outside the measured data.",cor:false,fb:"Predictions far outside the measured range may fail. The spring might break rather than stretch that far."},
+  {id:21,bloom:2,type:"fill",text:"A cyclist moves from x = +12 m to x = −8 m along a straight road. Her displacement is ______ m (include the sign).",hint:"Displacement = final position − initial position.",cor:"-20",alt:["−20","-20 m","−20 m"],fb:"Δx = xf − xi = (−8 m) − (+12 m) = −20 m, which is 20 m in the negative direction."},
+  {id:22,bloom:2,type:"mcq",text:"A runner passes the 10 m mark at t = 2.0 s and the 40 m mark at t = 8.0 s. What are her displacement and time interval between these two positions?",hint:"Subtract the initial value from the final value for both quantities.",opts:["Δx = 40 m, Δt = 8.0 s","Δx = 50 m, Δt = 6.0 s","Δx = 30 m, Δt = 10.0 s","Δx = 30 m, Δt = 6.0 s"],cor:3,fb:"Δx = 40 m − 10 m = 30 m and Δt = 8.0 s − 2.0 s = 6.0 s."},
+  {id:23,bloom:2,type:"match",text:"Match each vector operation with its resultant (east is the positive direction):",hint:"Treat east as positive and west as negative.",items:["5 km east + 3 km east","3 km east − 8 km east","8 km east − 3 km east"],opts:["5 km east","5 km west","8 km east"],cor:[2,1,0],fb:"5 + 3 = 8 km east. 3 − 8 = −5 km, which is 5 km west. 8 − 3 = 5 km east."},
+  {id:24,bloom:2,type:"order",text:"Arrange the steps for finding, from a position-time graph, the time at which a runner was 12.0 m from the start:",hint:"Start from the position axis.",items:["Move straight down from that point to the time axis and read the time","Locate where the best-fit line meets the horizontal line","Draw a horizontal line from the 12.0 m mark on the position axis"],cor:[2,1,0],fb:"Find 12.0 m on the position axis, go across to the best-fit line, then down to the time axis to read the time."},
+  {id:25,bloom:3,type:"mcq",text:"A student wants to investigate how the mass hung on a spring affects its length. Which experimental design is best?",hint:"Change only one factor at a time.",opts:["Hang different masses from different types of springs","Hang different masses from identical springs of the same initial length","Hang the same mass from springs of different types","Change both the mass and the spring each time to save time"],cor:1,fb:"Only one variable should change. Otherwise you cannot tell how much of the difference is due to the mass and how much is due to the springs."},
+  {id:26,bloom:3,type:"mcq",text:"A friend finds that 90% of the students surveyed in the cafeteria like pizza and says this scientifically proves that everyone likes pizza. What is the best evaluation of this claim?",hint:"Can a question about taste be tested the way a scientific question can?",opts:["The claim is valid because 90% is a large majority","The claim is valid if the survey is repeated many times in the cafeteria","The claim is not supported: a survey of opinions cannot prove that opinions are true for everyone","The claim is a scientific law because it is true for most students"],cor:2,fb:"Questions about opinions, values, and tastes cannot be tested scientifically. A survey only gathers opinions; it does not prove they hold for everyone."},
+  {id:27,bloom:3,type:"fill",text:"A student calculates a family car's speed to be 290 km/h. In the \"Evaluate the Answer\" step, she should reread the problem and ask whether her answer is ______.",hint:"A very large or very small result should make you stop and ask if it makes sense.",cor:"reasonable",alt:["realistic","sensible","plausible","logical","reasonably"],fb:"In the evaluation step you check that the answer is reasonable and that units and significant figures are correct. 290 km/h is not reasonable for a family car."},
+  {id:28,bloom:3,type:"tf",text:"The lines of two runners cross on a position-time graph. This proves that the runners collided at that moment.",hint:"What does an intersection tell you about position and time?",cor:false,fb:"An intersection shows that the runners are at the same position at the same time, but they may be in different lanes and not collide."},
+  {id:29,bloom:3,type:"match",text:"Match each situation with the problem it illustrates:",hint:"Think about parallax, calibration (zeroing), and bias.",items:["A student reads a scale from an angle and gets a value different from the head-on reading","A balance reads 0.3 g with nothing on it, so every mass measured is 0.3 g too high","A scientist keeps only the one trial that matches her expectation and ignores the others"],opts:["Bias in the investigation","Instrument not zeroed (fails the calibration check)","Parallax error"],cor:[2,1,0],fb:"Reading at an angle causes parallax. An instrument that does not read zero when it should fails the calibration check. Choosing only favorable trials is bias, which running many trials and keeping accurate notes helps reduce."},
+  {id:30,bloom:3,type:"order",text:"Design an investigation of how a spring's length depends on the hanging mass. Arrange the steps in a logical order:",hint:"Plan first, collect data second, analyze third, predict last.",items:["Plot the data and draw a line of best fit to look for a relationship","Hang different masses, changing only the mass, and record the spring's length each time","Use the equation of the line to predict the length for a mass that was not measured","State the problem and form a hypothesis about how length changes with mass"],cor:[3,1,0,2],fb:"State a hypothesis, collect data while changing only one variable, graph the data to find the relationship, and then use the equation to make predictions."}
+];
+
+var OUTCOMES=[
+  {id:1,title:'الطريقة العلمية والموضوعية (Scientific methods & bias)',qs:[1,6,29],bloom:1},
+  {id:2,title:'النظريات والقوانين وحدود العلم (Theories, laws & limits of science)',qs:[2,26],bloom:1},
+  {id:3,title:'وحدات SI والتحويل بين الوحدات (SI units & conversions)',qs:[3,5,15],bloom:1},
+  {id:4,title:'الأرقام المعنوية (Significant figures)',qs:[4,13,14],bloom:2},
+  {id:5,title:'الدقة والصحة وعدم اليقين في القياس (Precision, accuracy & uncertainty)',qs:[8,9,16],bloom:1},
+  {id:6,title:'رسم البيانات وأنواع العلاقات (Graphing & relationships)',qs:[17,18,25,30],bloom:2},
+  {id:7,title:'التنبؤ باستخدام الرسوم والمعادلات (Predicting from graphs & equations)',qs:[19,20],bloom:2},
+  {id:8,title:'مخططات الحركة ونموذج الجسيم (Motion diagrams & particle model)',qs:[7,12],bloom:1},
+  {id:9,title:'نظام الإحداثيات والمتجهات والإزاحة (Coordinates, vectors & displacement)',qs:[11,21,22,23],bloom:2},
+  {id:10,title:'الرسوم البيانية للموقع والزمن (Position-time graphs)',qs:[10,24,28],bloom:2},
+  {id:11,title:'التفكير الناقد وتقييم الأدلة والحلول (Critical thinking & evaluation)',qs:[25,26,27,28,29],bloom:3}
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+var curQ=0, answers=new Array(30).fill(null), checked=new Array(30).fill(false);
+var orderStates=[], timerInt=null, timeLeft=3600, startTime=null;
+var allResults=[], curClass='all', dragSrc=null, charts={};
+var activeSessions={};
+
+// ═══════════════════════════════════════════
+// ACTIVE SESSION TRACKING
+// ═══════════════════════════════════════════
+function markStudentActive(st,cls) {
+  var key = cls+'_'+st.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH+'/'+key).set({student:st,class:cls,ts:Date.now()});
+}
+function markStudentDone(st,cls) {
+  var key = cls+'_'+st.replace(/\s/g,'_');
+  db.ref(ACTIVE_PATH+'/'+key).remove();
+}
+function listenActiveSessions() {
+  db.ref(ACTIVE_PATH).on('value', function(s) {
+    activeSessions = s.val() || {};
+    renderClassStatus();
+  });
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function showLov(msg) { document.getElementById('lovMsg').textContent = msg||'جارٍ التحميل...'; document.getElementById('lov').classList.add('show'); }
+function hideLov() { document.getElementById('lov').classList.remove('show'); }
+function loadStudents() {
+  var cls = document.getElementById('selClass').value;
+  var sel = document.getElementById('selStudent');
+  sel.innerHTML = '<option value="">-- اختر اسمك --</option>';
+  if (cls && STUDENTS[cls]) {
+    STUDENTS[cls].forEach(function(n) {
+      var o = document.createElement('option');
+      o.value = n; o.textContent = n; sel.appendChild(o);
+    });
+  }
+}
+
+// ═══════════════════════════════════════════
+// TEACHER LOGIN + DEVICE CHECK
+// ═══════════════════════════════════════════
+function checkTeacher() {
+  var pwd = document.getElementById('tPwd').value;
+  if (pwd !== TPWD) { alert('رمز الدخول غير صحيح!'); return; }
+  document.getElementById('tPwd').value = '';
+  loadDash();
+  SS('teacherDashboard');
+}
+
+function showPendingScreen() {
+  SS('teacherLogin');
+  document.getElementById('teacherLoginCard').innerHTML =
+    '<div style="text-align:center">' +
+    '<div style="font-size:3rem;margin-bottom:12px">🔐</div>' +
+    '<h2 style="color:var(--dan);margin-bottom:10px">جهاز غير مصرح</h2>' +
+    '<p style="color:#555;margin-bottom:14px">لوحة المعلم مقيدة بجهاز آخر.<br>تم إرسال طلب السماح للمعلم.</p>' +
+    '<div style="background:#fef9e7;border:1px solid #f0a500;border-radius:8px;padding:12px;font-size:.85rem;color:#7d6608;margin-bottom:18px">⏳ في انتظار موافقة المعلم من جهازه الأصلي...</div>' +
+    '<button onclick="checkPendingApproval()" style="width:100%;padding:11px;background:linear-gradient(135deg,var(--primary),var(--sec));color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px">🔄 تحقق من الموافقة</button>' +
+    '<div class="tlink"><a onclick="SS(\'homeScreen\')">← العودة للرئيسية</a></div>' +
+    '</div>';
+}
+
+function checkPendingApproval() {
+  db.ref(TEACHER_DEV_PATH).once('value').then(function(s) {
+    var d = s.val();
+    if (d && d.deviceId === DEVICE_ID) {
+      loadDash(); SS('teacherDashboard');
+    } else {
+      alert('لم تتم الموافقة بعد. انتظر المعلم.');
+    }
+  });
+}
+
+function approveDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').once('value').then(function(s) {
+    var p = s.val();
+    if (p && p.deviceId) {
+      db.ref(TEACHER_DEV_PATH).set({deviceId:p.deviceId, ts:Date.now()});
+      db.ref(TEACHER_DEV_PATH+'/pending').remove();
+      alert('✅ تم السماح للجهاز الجديد.');
+    }
+  });
+}
+
+function rejectDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').remove();
+  document.getElementById('pendingBanner').style.display = 'none';
+}
+
+function resetTeacherDevice() {
+  if (confirm('هل تريد إزالة قيد الجهاز؟ سيتم تسجيل الجهاز الأول الذي يدخل تلقائياً.')) {
+    db.ref(TEACHER_DEV_PATH).remove();
+    alert('تم إزالة قيد الجهاز.');
+  }
+}
+
+// ═══════════════════════════════════════════
+// QUIZ START
+// ═══════════════════════════════════════════
+function startQuiz() {
+  var cls = document.getElementById('selClass').value;
+  var st = document.getElementById('selStudent').value;
+  if (!cls || !st) { alert('يرجى اختيار الصف والاسم أولاً'); return; }
+  var lkKey = cls+'_'+st.replace(/\s/g,'_');
+  showLov('جارٍ التحقق...');
+  db.ref(LOCKED_PATH+'/'+lkKey).once('value').then(function(s) {
+    var lockData = s.val();
+    if (lockData && lockData.locked) {
+      hideLov();
+      alert('⛔ تم إيقاف اختبارك. يرجى التواصل مع المعلم لإعادة فتح الاختبار.');
+      return;
+    }
+    db.ref(ATTEMPTS_PATH+'/'+lkKey).once('value').then(function(a) {
+      hideLov();
+      var attempt = a.val();
+      if (attempt && attempt.submitted) {
+        alert('✅ لقد قدّمت الاختبار مسبقاً. تواصل مع المعلم إذا أردت إعادة المحاولة.');
+        return;
+      }
+      doStartQuiz(cls, st, lkKey);
+    });
+  });
+}
+
+function doStartQuiz(cls, st, lkKey) {
+  window._curStudent = st; window._curClass = cls; window._lockKey = lkKey; window._quizActive = true;
+  sessionStorage.setItem('_qActive','1');
+  sessionStorage.setItem('_qStudent', st);
+  sessionStorage.setItem('_qClass', cls);
+  sessionStorage.setItem('_qLockKey', lkKey);
+  sessionStorage.removeItem('_qLocked');
+  markStudentActive(st, cls);
+  answers = new Array(30).fill(null); checked = new Array(30).fill(false);
+  orderStates = QS.map(function(q){ return q.type==='order'?[...Array(q.items.length).keys()]:null; });
+  curQ=0; timeLeft=3600; startTime=Date.now();
+  document.getElementById('sNameBar').textContent = st;
+  document.getElementById('sClassBar').textContent = 'الصف '+cls;
+  // Restore controls visibility
+  document.querySelectorAll('.navbtns,.pbg').forEach(function(e){ e.style.display=''; });
+  document.querySelectorAll('[onclick="confirmSubmit()"]').forEach(function(e){ e.style.display=''; });
+  buildDots(); renderQ(); startTimer(); SS('quizScreen');
+}
+
+// ══════════════════════════════════════════
+// ANTI-CHEAT: LOCK ON LEAVE
+// ══════════════════════════════════════════
+
+function lockQuizNow(reason) {
+  if (!window._quizActive) return;
+  window._quizActive = false;
+  clearInterval(timerInt);
+
+  // Save to Firebase
+  var lkKey = window._lockKey;
+  var st    = window._curStudent;
+  var cls   = window._curClass;
+  if (lkKey) {
+    db.ref(LOCKED_PATH+'/'+lkKey).set({
+      locked:true, student:st, class:cls,
+      ts:Date.now(), reason: reason||'غادر الاختبار'
+    });
+  }
+
+  // Save to sessionStorage as backup
+  sessionStorage.setItem('_qLocked','1');
+  sessionStorage.setItem('_qLockKey', lkKey||'');
+
+  // Show message immediately
+  showLockedMessage();
+}
+
+function showLockedMessage() {
+  window._quizActive = false;
+  clearInterval(timerInt);
+
+  // Force show quiz screen
+  document.querySelectorAll('.screen').forEach(function(s){ s.style.display='none'; });
+  var qs = document.getElementById('quizScreen');
+  qs.style.display = 'block';
+
+  // Hide all quiz controls
+  var hide = ['dotsEl','plblEl','sNameBar'];
+  hide.forEach(function(id){ var e=document.getElementById(id); if(e) e.style.display='none'; });
+  document.querySelectorAll('.navbtns,.pbg,.plbl,.sbar,[onclick="confirmSubmit()"]').forEach(function(e){ e.style.display='none'; });
+
+  // Override timer display
+  var t = document.getElementById('timerEl');
+  if (t) { t.textContent='🔒'; t.style.background='rgba(192,57,43,.8)'; }
+
+  // Show lock message
+  document.getElementById('qCont').innerHTML =
+    '<div style="text-align:center;padding:48px 24px 40px;background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.12);margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto">' +
+    '<div style="font-size:5rem;margin-bottom:16px">🔒</div>' +
+    '<h2 style="color:#c0392b;margin-bottom:14px;font-size:1.5rem">تم إيقاف اختبارك</h2>' +
+    '<p style="color:#555;font-size:.97rem;line-height:2;margin-bottom:22px">' +
+    'لقد غادرت شاشة الاختبار.<br>' +
+    'تم إغلاق اختبارك تلقائياً للحفاظ على نزاهة الامتحان.' +
+    '</p>' +
+    '<div style="background:#fef9e7;border:2px solid #f0a500;border-radius:12px;padding:16px 24px;margin-bottom:28px">' +
+    '<p style="color:#7d6608;font-size:.95rem;font-weight:700;margin:0">' +
+    '⚠️ يرجى التواصل مع المعلم لإعادة فتح الاختبار' +
+    '</p>' +
+    '</div>' +
+    '<button onclick="clearLockAndGoHome()" style="padding:13px 36px;background:#0d4f8b;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">🏠 العودة للرئيسية</button>' +
+    '</div>';
+}
+
+function clearLockAndGoHome() {
+  sessionStorage.removeItem('_qLocked');
+  sessionStorage.removeItem('_qLockKey');
+  // Reset hidden controls for next use
+  document.querySelectorAll('.navbtns,.pbg,.plbl,.sbar').forEach(function(e){ e.style.display=''; });
+  var t = document.getElementById('timerEl');
+  if (t) { t.style.background=''; }
+  SS('homeScreen');
+}
+
+// ── Event Listeners ──
+
+// 1. Page Visibility (most reliable: tab switch, phone app switch, screen off)
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'hidden' && window._quizActive) {
+    lockQuizNow('visibilitychange: hidden');
+  }
+});
+
+// 2. Window blur (open another app, file manager, another window)
+window.addEventListener('blur', function() {
+  if (window._quizActive) {
+    lockQuizNow('window blur');
+  }
+});
+
+// 3. Page unload / close / navigate away
+window.addEventListener('beforeunload', function() {
+  if (window._quizActive) lockQuizNow('beforeunload');
+});
+
+// 4. On page reload: if session says locked, show message
+document.addEventListener('DOMContentLoaded', function() {
+  if (sessionStorage.getItem('_qLocked') === '1') {
+    window._lockKey = sessionStorage.getItem('_qLockKey');
+    showLockedMessage();
+  }
+});
+
+function savePartialAndLock() {
+  if (!window._lockKey) return;
+  db.ref(LOCKED_PATH+'/'+window._lockKey).set({locked:true, student:window._curStudent, class:window._curClass, ts:Date.now(), reason:'غادر الاختبار'});
+  window._quizActive = false;
+}
+
+// ═══════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════
+function startTimer() {
+  clearInterval(timerInt);
+  timerInt = setInterval(function() {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) { clearInterval(timerInt); submitQuiz(); }
+  }, 1000);
+}
+function updateTimer() {
+  var m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  var s = (timeLeft%60).toString().padStart(2,'0');
+  var el = document.getElementById('timerEl');
+  el.textContent = m+':'+s; el.className = 'timer';
+  if (timeLeft <= 300) el.classList.add('danger');
+  else if (timeLeft <= 600) el.classList.add('warn');
+}
+
+// ═══════════════════════════════════════════
+// DOTS & PROGRESS
+// ═══════════════════════════════════════════
+function buildDots() {
+  var c = document.getElementById('dotsEl'); c.innerHTML = '';
+  QS.forEach(function(_,i) {
+    var d = document.createElement('div');
+    d.className = 'dot'+(i===curQ?' cur':'');
+    d.textContent = i+1;
+    d.onclick = function() { goToQ(i); };
+    c.appendChild(d);
+  });
+}
+function updateDots() {
+  document.querySelectorAll('.dot').forEach(function(d,i) {
+    d.className = 'dot';
+    if (i===curQ) d.classList.add('cur');
+    if (checked[i]) d.classList.add(isOk(i)?'cok':'cwrr');
+    else if (answers[i]!==null&&answers[i]!==undefined) d.classList.add('ans');
+  });
+}
+function updateProgress() {
+  var n = answers.filter(function(a) { return a!==null&&a!==undefined; }).length;
+  document.getElementById('pbEl').style.width = (n/30*100)+'%';
+  document.getElementById('plblEl').textContent = 'السؤال '+(curQ+1)+' من 30 | تم الإجابة على '+n+' سؤال';
+}
+
+// ═══════════════════════════════════════════
+// RENDER QUESTION
+// ═══════════════════════════════════════════
+function renderQ() {
+  var q = QS[curQ];
+  var tl = {mcq:'Multiple choice',tf:'True / False',fill:'Fill in the blank',match:'Matching',order:'Ordering'};
+  var bl = {1:'Remember & Understand',2:'Apply & Analyze',3:'Evaluate & Create'};
+  var h = '<div class="qcard" dir="ltr"><div class="qhdr"><div class="qnum">'+q.id+'</div><div><div class="tbadge">'+tl[q.type]+'</div><div class="bbadge">'+bl[q.bloom]+'</div></div></div><div class="qtxt">'+q.text+'</div><div class="hint">💡 Hint: '+q.hint+'</div>';
+  if (q.type==='mcq') {
+    h += '<ul class="opts">';
+    q.opts.forEach(function(o,i) { h += '<li id="opt'+i+'"><label><input type="radio" name="qans" value="'+i+'" '+(answers[curQ]===i?'checked':'')+' '+(checked[curQ]?'disabled':'')+' onchange="setAns('+i+')"> '+o+'</label></li>'; });
+    h += '</ul>';
+  } else if (q.type==='tf') {
+    h += '<div class="tfopts"><button class="tfbtn '+(answers[curQ]===true?'sel':'')+'" id="tfT" onclick="setTF(true)" '+(checked[curQ]?'disabled':'')+'>✅ صح</button><button class="tfbtn '+(answers[curQ]===false?'sel':'')+'" id="tfF" onclick="setTF(false)" '+(checked[curQ]?'disabled':'')+'>❌ خطأ</button></div>';
+  } else if (q.type==='fill') {
+    h += '<input class="fi" id="fiEl" type="text" placeholder="Type your answer..." value="'+(answers[curQ]||'')+'" '+(checked[curQ]?'disabled':'')+' oninput="setAns(this.value)">';
+  } else if (q.type==='match') {
+    h += '<div class="mc">';
+    q.items.forEach(function(it,i) {
+      var sv = answers[curQ] ? answers[curQ][i] : '';
+      h += '<div class="mr"><div class="ml">'+(i+1)+'. '+it+'</div><select class="ms" id="ms'+i+'" '+(checked[curQ]?'disabled':'')+' onchange="setMatch()"><option value="">-- Select --</option>'+q.opts.map(function(op,j){return'<option value="'+j+'" '+(sv==j?'selected':'')+'>'+op+'</option>'}).join('')+'</select></div>';
+    });
+    h += '</div>';
+  } else if (q.type==='order') {
+    h += '<div class="ol" id="olEl">';
+    orderStates[curQ].forEach(function(idx,pos) {
+      var cl2 = checked[curQ] ? (QS[curQ].cor[pos]===idx?'cor':'wrr') : '';
+      h += '<div class="oi '+cl2+'" draggable="'+(checked[curQ]?'false':'true')+'" data-pos="'+pos+'" ondragstart="ds(event)" ondragover="dov(event)" ondrop="di(event)" ondragleave="dl(event)"><span class="oh">☰</span><span class="on">'+(pos+1)+'</span><span>'+q.items[idx]+'</span></div>';
+    });
+    h += '</div>';
+    if (!checked[curQ]) answers[curQ] = [...orderStates[curQ]];
+  }
+  var fbCls = checked[curQ] ? (isOk(curQ)?'rc':'wr') : '';
+  h += '<div class="fb '+fbCls+' '+(checked[curQ]?'show':'')+'" id="fbEl">'+(checked[curQ]?(isOk(curQ)?'✅ Correct! ':'❌ Incorrect! ')+q.fb:q.fb)+'</div></div>';
+  document.getElementById('qCont').innerHTML = h;
+  if (checked[curQ]) applyVisuals();
+  updateDots(); updateProgress();
+  document.getElementById('btnPrev').style.visibility = curQ>0 ? 'visible' : 'hidden';
+  document.getElementById('btnNext').style.visibility = curQ<29 ? 'visible' : 'hidden';
+}
+
+// ═══════════════════════════════════════════
+// ANSWER HANDLERS
+// ═══════════════════════════════════════════
+function setAns(v) { if(checked[curQ])return; answers[curQ]=v; updateDots(); updateProgress(); }
+function setTF(v) {
+  if(checked[curQ])return; answers[curQ]=v;
+  document.getElementById('tfT').className='tfbtn'+(v===true?' sel':'');
+  document.getElementById('tfF').className='tfbtn'+(v===false?' sel':'');
+}
+function setMatch() {
+  if(checked[curQ])return;
+  answers[curQ] = QS[curQ].items.map(function(_,i) { var s=document.getElementById('ms'+i); return s&&s.value!==''?parseInt(s.value):null; });
+  updateDots(); updateProgress();
+}
+function ds(e) { dragSrc=parseInt(e.currentTarget.dataset.pos); e.currentTarget.classList.add('dragging'); }
+function dov(e) { e.preventDefault(); e.currentTarget.classList.add('dov'); }
+function dl(e) { e.currentTarget.classList.remove('dov'); }
+function di(e) {
+  e.preventDefault();
+  var tp = parseInt(e.currentTarget.dataset.pos);
+  e.currentTarget.classList.remove('dov');
+  if (dragSrc===null||dragSrc===tp) return;
+  var st = orderStates[curQ]; var tmp=st[dragSrc]; st[dragSrc]=st[tp]; st[tp]=tmp;
+  answers[curQ]=[...st]; dragSrc=null; renderQ();
+}
+
+function checkCurrent() {
+  var q = QS[curQ];
+  if (answers[curQ]===null||answers[curQ]===undefined) { alert('يرجى الإجابة على السؤال أولاً'); return; }
+  if (q.type==='match'&&(!answers[curQ]||answers[curQ].some(function(v){return v===null||v===undefined;}))) { alert('يرجى إكمال جميع الاختيارات'); return; }
+  checked[curQ]=true; if (q.type==='order') renderQ(); else applyVisuals(); updateDots();
+  var fb = document.getElementById('fbEl');
+  fb.className = 'fb '+(isOk(curQ)?'rc':'wr')+' show';
+  fb.textContent = (isOk(curQ)?'✅ Correct! ':'❌ Incorrect! ')+q.fb;
+}
+
+function applyVisuals() {
+  var q = QS[curQ];
+  if (q.type==='mcq') { q.opts.forEach(function(_,i){var li=document.getElementById('opt'+i);if(!li)return;li.className=i===q.cor?'rc':(i===answers[curQ]&&answers[curQ]!==q.cor?'wr':'');}); }
+  else if (q.type==='tf') { var t=document.getElementById('tfT'),f=document.getElementById('tfF');if(!t)return;t.className='tfbtn';f.className='tfbtn';if(q.cor===true){t.classList.add('rc');if(answers[curQ]===false)f.classList.add('wr')}else{f.classList.add('rc');if(answers[curQ]===true)t.classList.add('wr');} }
+  else if (q.type==='fill') { var inp=document.getElementById('fiEl');if(!inp)return;inp.className='fi '+(isOk(curQ)?'rc':'wr'); }
+  else if (q.type==='match') { q.items.forEach(function(_,i){var s=document.getElementById('ms'+i);if(!s)return;s.className='ms '+(answers[curQ]&&answers[curQ][i]===q.cor[i]?'rc':'wr');}); }
+  else if (q.type==='order') { /* colours are applied inside renderQ */ }
+}
+
+function isOk(idx) {
+  var q=QS[idx], a=answers[idx];
+  if (a===null||a===undefined) return false;
+  if (q.type==='mcq') return a===q.cor;
+  if (q.type==='tf') return a===q.cor;
+  if (q.type==='fill') { var nz=function(t){return String(t).trim().toLowerCase().replace(/[\u2212\u2013]/g,'-').replace(/\s+/g,'');}; var u=nz(a); if(u===nz(q.cor))return true; return q.alt?q.alt.some(function(x){return u===nz(x);}):false; }
+  if (q.type==='match') return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c;});
+  if (q.type==='order') return Array.isArray(a)&&q.cor.every(function(c,i){return a[i]===c;});
+  return false;
+}
+
+function goToQ(i) { curQ=i; renderQ(); }
+function nextQ() { if(curQ<29){curQ++;renderQ();} }
+function prevQ() { if(curQ>0){curQ--;renderQ();} }
+
+function confirmSubmit() {
+  var u = answers.filter(function(a){return a===null||a===undefined;}).length;
+  showModal('تسليم الاختبار','لديك '+u+' سؤال لم تجب عليه. هل تريد التسليم الآن؟', submitQuiz);
+}
+
+function submitQuiz() {
+  closeModal(); clearInterval(timerInt);
+  window._quizActive = false;
+  var el = Math.round((Date.now()-startTime)/1000);
+  var ts = Math.floor(el/60)+':'+(el%60).toString().padStart(2,'0');
+  var cor=0,b1=0,b2=0,b3=0;
+  QS.forEach(function(q,i){if(isOk(i)){cor++;if(q.bloom===1)b1++;if(q.bloom===2)b2++;if(q.bloom===3)b3++;}});
+  var pct = Math.round(cor/30*100);
+  var r = {student:window._curStudent,class:window._curClass,correct:cor,wrong:30-cor,pct:pct,timeStr:ts,elapsed:el,bloom1:b1,bloom2:b2,bloom3:b3,bloom1t:12,bloom2t:12,bloom3t:6,answers:answers.map(function(a){return a===null?'null':typeof a==='object'?JSON.stringify(a):String(a);}),date:new Date().toLocaleDateString('ar-AE'),timestamp:Date.now()};
+  saveToFb(r);
+  markStudentDone(window._curStudent, window._curClass);
+  window._quizActive = false;
+  sessionStorage.removeItem('_qActive');
+  sessionStorage.removeItem('_qLocked');
+  sessionStorage.removeItem('_qLockKey');
+  sessionStorage.removeItem('_qStudent');
+  sessionStorage.removeItem('_qClass');
+  if (window._lockKey) {
+    db.ref(ATTEMPTS_PATH+'/'+window._lockKey).set({submitted:true,student:window._curStudent,class:window._curClass,ts:Date.now()});
+    db.ref(LOCKED_PATH+'/'+window._lockKey).remove();
+  }
+  showResult(r, pct);
+}
+
+function showResult(r, pct) {
+  var sc = document.getElementById('scircle');
+  sc.className = 'scircle '+(pct>=90?'exc':pct>=70?'good':pct>=50?'pass':'fail');
+  document.getElementById('sPct').textContent = pct+'%';
+  document.getElementById('rStudentInfo').textContent = r.student+' | الصف '+r.class;
+  var msgs = pct>=90?['ممتاز! 🏆','أداء رائع يستحق الإشادة!']:pct>=70?['جيد جداً! 👍','استمر في المراجعة']:pct>=50?['مقبول ✔','تحتاج مراجعة بعض المواضيع']:['بحاجة لمراجعة ❗','راجع الدروس مع معلمك'];
+  document.getElementById('rMsg').textContent = msgs[0];
+  document.getElementById('rSubMsg').textContent = msgs[1];
+  document.getElementById('rCor').textContent = r.correct;
+  document.getElementById('rWrong').textContent = r.wrong;
+  document.getElementById('rTime').textContent = r.timeStr;
+  document.getElementById('bls1').textContent = r.bloom1+'/'+r.bloom1t;
+  document.getElementById('bls2').textContent = r.bloom2+'/'+r.bloom2t;
+  document.getElementById('bls3').textContent = r.bloom3+'/'+r.bloom3t;
+  document.getElementById('bl1').style.width = Math.round(r.bloom1/r.bloom1t*100)+'%';
+  document.getElementById('bl2').style.width = Math.round(r.bloom2/r.bloom2t*100)+'%';
+  document.getElementById('bl3').style.width = Math.round(r.bloom3/r.bloom3t*100)+'%';
+  SS('resultScreen');
+}
+
+// ═══════════════════════════════════════════
+// FIREBASE OPERATIONS
+// ═══════════════════════════════════════════
+function saveToFb(r) {
+  var el = document.getElementById('fbSaveEl');
+  el.textContent = '⏳ جارٍ الحفظ في Firebase...';
+  db.ref(PATH).push(r).then(function(){ el.textContent='✅ تم الحفظ في Firebase بنجاح'; }).catch(function(){
+    el.textContent='⚠️ فشل الحفظ في Firebase، تم الحفظ محلياً';
+    var loc=JSON.parse(localStorage.getItem('sq_local_phys')||'[]');
+    loc.push(Object.assign({},r,{key:Date.now().toString()}));
+    localStorage.setItem('sq_local_phys',JSON.stringify(loc));
+  });
+}
+
+function loadFromFb(cb) {
+  showLov('جارٍ تحميل النتائج من Firebase...');
+  db.ref(PATH).once('value').then(function(s) {
+    var d = s.val();
+    allResults = d ? Object.entries(d).map(function(e){return Object.assign({},e[1],{fbKey:e[0]});}) : [];
+    var loc = JSON.parse(localStorage.getItem('sq_local_phys')||'[]');
+    allResults = allResults.concat(loc);
+    allResults.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0);});
+    hideLov(); if(cb) cb();
+  }).catch(function(){
+    allResults = JSON.parse(localStorage.getItem('sq_local_phys')||'[]');
+    hideLov(); if(cb) cb();
+  });
+}
+
+function delFromFb(fbKey,localKey) {
+  if(fbKey) db.ref(PATH+'/'+fbKey).remove();
+  if(localKey){ var l=JSON.parse(localStorage.getItem('sq_local_phys')||'[]'); l=l.filter(function(r){return r.key!==localKey;}); localStorage.setItem('sq_local_phys',JSON.stringify(l)); }
+}
+function delAllFb() { db.ref(PATH).remove(); localStorage.removeItem('sq_local_phys'); }
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+function loadDash() {
+  listenActiveSessions();
+  listenPendingDevice();
+  listenLockedChanges();
+  loadFromFb(function(){ renderSummary(); renderTable('all'); renderClassStatus(); renderSupport(); renderOutcomes(); });
+}
+
+function listenLockedChanges() {
+  db.ref(LOCKED_PATH).on('value', function() {
+    renderClassStatus();
+  });
+}
+
+function refreshDash() {
+  Object.values(charts).forEach(function(c){try{c.destroy();}catch(e){}});
+  charts={};
+  loadDash();
+}
+
+function listenPendingDevice() {
+  db.ref(TEACHER_DEV_PATH+'/pending').on('value', function(s) {
+    var p = s.val();
+    var banner = document.getElementById('pendingBanner');
+    if (banner) banner.style.display = (p && p.deviceId && p.deviceId!==DEVICE_ID) ? 'block' : 'none';
+  });
+}
+
+function renderSummary() {
+  var t=allResults.length, avg=t?Math.round(allResults.reduce(function(s,r){return s+r.pct;},0)/t):0;
+  var pass=allResults.filter(function(r){return r.pct>=50;}).length, exc=allResults.filter(function(r){return r.pct>=90;}).length;
+  var at=t?Math.round(allResults.reduce(function(s,r){return s+(r.elapsed||0);},0)/t/60):0;
+  document.getElementById('agEl').innerHTML='<div class="ac"><div class="bn">'+t+'</div><div class="d">إجمالي المحاولات</div></div><div class="ac"><div class="bn">'+avg+'%</div><div class="d">متوسط الدرجات</div></div><div class="ac"><div class="bn">'+pass+'</div><div class="d">ناجحون (≥50%)</div></div><div class="ac"><div class="bn">'+exc+'</div><div class="d">ممتازون (≥90%)</div></div><div class="ac"><div class="bn">'+at+' د</div><div class="d">متوسط وقت الحل</div></div><div class="ac" style="background:#fde8e6"><div class="bn" style="color:var(--dan)">'+(t-pass)+'</div><div class="d">بحاجة دعم (&lt;50%)</div></div>';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.mtab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+tab).classList.add('active');
+  var idx=['results','charts','support','outcomes'].indexOf(tab);
+  document.querySelectorAll('.mtab')[idx].classList.add('active');
+  if(tab==='charts') setTimeout(renderCharts,80);
+  if(tab==='support') renderSupport();
+  if(tab==='outcomes') renderOutcomes();
+}
+
+function filterClass(cls,btn) {
+  curClass=cls;
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderTable(cls);
+}
+
+function renderTable(cls) {
+  var data = cls==='all' ? allResults : allResults.filter(function(r){return r.class===cls;});
+  var tb = document.getElementById('tblBody');
+  if (!data.length) { tb.innerHTML='<tr><td colspan="12" style="text-align:center;color:#999;padding:18px">لا توجد نتائج بعد</td></tr>'; return; }
+  tb.innerHTML = data.map(function(r,i) {
+    var bg = r.pct>=90?'bg':r.pct>=70?'bb':r.pct>=50?'by':'br';
+    return '<tr><td>'+(i+1)+'</td><td><strong>'+r.student+'</strong></td><td>الصف '+r.class+'</td><td><span class="badge '+bg+'">'+r.pct+'%</span></td><td>'+r.correct+'/30</td><td>'+r.wrong+'/30</td><td>'+r.bloom1+'/'+r.bloom1t+'</td><td>'+r.bloom2+'/'+r.bloom2t+'</td><td>'+r.bloom3+'/'+r.bloom3t+'</td><td>'+r.timeStr+'</td><td>'+r.date+'</td><td><button class="btn-sm" onclick="confirmDel1(\''+( r.fbKey||'')+'\',\''+(r.key||'')+'\')">حذف</button></td></tr>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// CLASS STATUS WITH LOCK/RESET BUTTONS
+// ═══════════════════════════════════════════
+function renderClassStatus() {
+  var grid = document.getElementById('classStatusGrid');
+  if (!grid) return;
+  db.ref(LOCKED_PATH).once('value').then(function(ls) {
+    var lockedData = ls.val() || {};
+    db.ref(ATTEMPTS_PATH).once('value').then(function(as) {
+      var attemptsData = as.val() || {};
+      grid.innerHTML = ['9 متقدم'].map(function(cls) {
+        var students = STUDENTS[cls];
+        function lkKey(n) { return cls+'_'+n.replace(/\s/g,'_'); }
+        function getLatest(n) { var rs=allResults.filter(function(r){return r.class===cls&&r.student===n;}); if(!rs.length)return null; return rs.sort(function(a,b){return(b.timestamp||0)-(a.timestamp||0);})[0]; }
+        function isActive(n) { var k=lkKey(n); if(!activeSessions[k])return false; return (Date.now()-(activeSessions[k].ts||0))<90*60*1000; }
+        function isLocked(n) { var k=lkKey(n); return lockedData[k]&&lockedData[k].locked; }
+        function isSubmitted(n) { var k=lkKey(n); return attemptsData[k]&&attemptsData[k].submitted; }
+        var done=students.filter(function(n){return getLatest(n)!==null;}).length;
+        var active=students.filter(function(n){return isActive(n);}).length;
+        var locked=students.filter(function(n){return isLocked(n);}).length;
+        var notDone=students.filter(function(n){return!getLatest(n)&&!isActive(n)&&!isLocked(n);}).length;
+        var fail=students.filter(function(n){var r=getLatest(n);return r&&r.pct<50;}).length;
+        var rows = students.map(function(name,i) {
+          var r=getLatest(name), act=isActive(name), lk=isLocked(name), sub=isSubmitted(name);
+          var statusEl='', scoreEl='', btnHtml='';
+          var k = lkKey(name);
+          if (lk) {
+            statusEl = '<span class="stu-status" style="background:#fde8e6;color:#922b21">🔒 موقوف</span>';
+            btnHtml = '<button class="act-btn" style="background:var(--suc)" onclick="unlockStudent(\''+k+'\',\''+name+'\')">🔓 فتح</button>';
+          } else if (act) {
+            statusEl = '<span class="stu-status st-active">🟡 في الاختبار</span>';
+          } else if (sub || r) {
+            var pv = r ? r.pct : 0;
+            scoreEl = r ? '<span class="stu-score">'+r.pct+'%</span>' : '';
+            statusEl = pv>=50 ? '<span class="stu-status st-done-pass">تقدّم ✓</span>' : '<span class="stu-status st-done-fail">تقدّم ✗</span>';
+            var fk = r ? (r.fbKey||'') : '';
+            btnHtml = '<button class="act-btn" style="background:var(--acc)" onclick="resetStudentAttempt(\''+k+'\',\''+name+'\',\''+cls+'\',\''+fk+'\')">🔄 إعادة</button>';
+          } else {
+            statusEl = '<span class="stu-status st-none">لم يقدم</span>';
+          }
+          var nc = (r&&r.pct<50&&!act&&!lk) ? 'stu-name fail' : 'stu-name';
+          return '<div class="stu-row"><span style="color:#aaa;font-size:.73rem;margin-left:6px;min-width:16px">'+(i+1)+'</span><span class="'+nc+'">'+name+'</span>'+scoreEl+btnHtml+statusEl+'</div>';
+        }).join('');
+        return '<div class="cls-status-card"><div class="cls-status-header"><span>الصف '+cls+' ('+students.length+' طالب)</span><div class="counts"><span class="cnt">✓ '+done+' تقدّم</span><span class="cnt" style="background:rgba(255,193,7,.4)">🟡 '+active+' نشط</span>'+(locked?'<span class="cnt" style="background:rgba(192,57,43,.4)">🔒 '+locked+' موقوف</span>':'')+' <span class="cnt">✗ '+notDone+' لم يقدم</span>'+(fail?'<span class="cnt" style="background:rgba(192,57,43,.4)">⚠ '+fail+' راسب</span>':'')+' </div></div>'+rows+'</div>';
+      }).join('');
+    });
+  });
+}
+
+function unlockStudent(k, name) {
+  db.ref(LOCKED_PATH+'/'+k).remove().then(function() {
+    alert('✅ تم فتح الاختبار للطالب: '+name);
+    loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+  });
+}
+
+function resetStudentAttempt(k, name, cls, fbKey) {
+  if (confirm('إعادة محاولة الطالب: '+name+'؟\nسيتم حذف إجابته السابقة وفتح الاختبار له من جديد.')) {
+    var ops = [];
+    if (fbKey) ops.push(db.ref(PATH+'/'+fbKey).remove());
+    ops.push(db.ref(ATTEMPTS_PATH+'/'+k).remove());
+    ops.push(db.ref(LOCKED_PATH+'/'+k).remove());
+    Promise.all(ops).then(function() {
+      alert('✅ تم فتح الاختبار للطالب '+name+' للمحاولة مرة أخرى.');
+      loadFromFb(function(){renderSummary();renderTable(curClass);renderClassStatus();});
+    });
+  }
+}
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+function destChart(id){if(charts[id]){try{charts[id].destroy();}catch(e){}delete charts[id];}}
+function renderCharts() {
+  if(!allResults.length){document.getElementById('tab-charts').innerHTML='<p style="color:#999;text-align:center;padding:30px">لا توجد بيانات كافية</p>';return;}
+  destChart('sc');destChart('bl');destChart('cl');destChart('pa');destChart('qu');
+  var bins=[0,0,0,0,0,0];
+  allResults.forEach(function(r){if(r.pct<50)bins[0]++;else if(r.pct<60)bins[1]++;else if(r.pct<70)bins[2]++;else if(r.pct<80)bins[3]++;else if(r.pct<90)bins[4]++;else bins[5]++;});
+  charts['sc']=new Chart(document.getElementById('cScore').getContext('2d'),{type:'bar',data:{labels:['<50%','50-59%','60-69%','70-79%','80-89%','90-100%'],datasets:[{label:'عدد الطلاب',data:bins,backgroundColor:['#e74c3c','#e67e22','#f1c40f','#3498db','#2ecc71','#27ae60'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+  var b1=allResults.reduce(function(s,r){return s+r.bloom1;},0),n1=allResults.length*12||1;
+  var b2=allResults.reduce(function(s,r){return s+r.bloom2;},0),n2=allResults.length*12||1;
+  var b3=allResults.reduce(function(s,r){return s+r.bloom3;},0),n3=allResults.length*6||1;
+  charts['bl']=new Chart(document.getElementById('cBloom').getContext('2d'),{type:'radar',data:{labels:['تذكر وفهم','تطبيق وتحليل','تركيب وتقييم'],datasets:[{label:'متوسط الأداء %',data:[Math.round(b1/n1*100),Math.round(b2/n2*100),Math.round(b3/n3*100)],backgroundColor:'rgba(26,107,60,.2)',borderColor:'rgba(26,107,60,.8)',pointBackgroundColor:'#1a6b3c',pointRadius:5}]},options:{responsive:true,scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:20}}}}});
+  var cls=['9 متقدم'];
+  var avgs=cls.map(function(c){var cr=allResults.filter(function(r){return r.class===c;});return cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct;},0)/cr.length):0;});
+  charts['cl']=new Chart(document.getElementById('cClass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الصف '+c;}),datasets:[{label:'متوسط الدرجة %',data:avgs,backgroundColor:['#3498db','#2ecc71','#f39c12','#9b59b6'],borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100}}}});
+  var pData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct>=50;}).length;});
+  var fData=cls.map(function(c){return allResults.filter(function(r){return r.class===c&&r.pct<50;}).length;});
+  charts['pa']=new Chart(document.getElementById('cPass').getContext('2d'),{type:'bar',data:{labels:cls.map(function(c){return'الصف '+c;}),datasets:[{label:'ناجح',data:pData,backgroundColor:'#27ae60',borderRadius:4},{label:'بحاجة دعم',data:fData,backgroundColor:'#e74c3c',borderRadius:4}]},options:{responsive:true,scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
+  var rates=getQRates();
+  charts['qu']=new Chart(document.getElementById('cQues').getContext('2d'),{type:'bar',data:{labels:QS.map(function(_,i){return'س'+(i+1);}),datasets:[{label:'% الصحيحة',data:rates,backgroundColor:rates.map(function(r){return r>=70?'#27ae60':r>=50?'#f39c12':'#e74c3c';}),borderRadius:3}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:function(v){return v+'%';}}}}}});
+}
+
+function getQRates() {
+  return QS.map(function(q,i) {
+    if(!allResults.length)return 0;
+    var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null'&&r.answers[i]!==null&&r.answers[i]!==undefined;});
+    if(!att.length)return 0;
+    var cor=att.filter(function(r){
+      var sv=answers;
+      answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}});
+      var res=isOk(i);answers=sv;return res;
+    });
+    return Math.round(cor.length/att.length*100);
+  });
+}
+
+// ═══════════════════════════════════════════
+// SUPPORT TAB
+// ═══════════════════════════════════════════
+function renderSupport() {
+  var thr=parseInt(document.getElementById('suppThr').value);
+  var cls=document.getElementById('suppCls').value;
+  var data=allResults.filter(function(r){return r.pct<thr;});
+  if(cls!=='all')data=data.filter(function(r){return r.class===cls;});
+  var byCls=['9 متقدم'].map(function(c){return{c:c,n:data.filter(function(r){return r.class===c;}).length};});
+  document.getElementById('suppSum').innerHTML='<div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">'+data.length+'</div><div style="font-size:.76rem;color:#666">إجمالي المستهدفين</div></div>'+byCls.map(function(b){return'<div class="suppcard"><div class="bn">'+b.n+'</div><div style="font-size:.76rem;color:#666">الصف '+b.c+'</div></div>';}).join('');
+  var tb=document.getElementById('suppBody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:#27ae60;padding:18px">✅ لا يوجد طلاب تحت هذه النسبة</td></tr>';return;}
+  tb.innerHTML=data.map(function(r,i){
+    var b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
+    var wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
+    var rec=r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل';
+    var wrongQs=[];
+    if(r.answers){var sv=answers;answers=r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}});QS.forEach(function(_,qi){if(!isOk(qi))wrongQs.push('س'+(qi+1));});answers=sv;}
+    var bg=r.pct<30?'br':r.pct<40?'by':'bb';
+    return'<tr><td>'+(i+1)+'</td><td><strong>'+r.student+'</strong></td><td>الصف '+r.class+'</td><td><span class="badge '+bg+'">'+r.pct+'%</span></td><td>'+b1p+'%</td><td>'+b2p+'%</td><td>'+b3p+'%</td><td><span class="badge br">'+wk+'</span></td><td style="font-size:.76rem;color:#555">'+wrongQs.slice(0,8).join('، ')+(wrongQs.length>8?'...':'')+'</td><td style="font-size:.78rem;color:#444">'+rec+'</td></tr>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// OUTCOMES TAB
+// ═══════════════════════════════════════════
+function renderOutcomes() {
+  var rates=getQRates();
+  var sorted=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1];},0)/o.qs.length);return Object.assign({},o,{avg:avg});}).sort(function(a,b){return a.avg-b.avg;});
+  var wk=sorted.filter(function(o){return o.avg<50;}).length, md=sorted.filter(function(o){return o.avg>=50&&o.avg<70;}).length, gd=sorted.filter(function(o){return o.avg>=70;}).length;
+  document.getElementById('outSum').innerHTML='<div class="suppcard" style="background:#fde8e6;border:1.5px solid #f1948a"><div class="bn" style="color:var(--dan)">'+wk+'</div><div style="font-size:.76rem;color:#666">تدخل عاجل (&lt;50%)</div></div><div class="suppcard" style="background:#fef9e7;border:1.5px solid #f0a500"><div class="bn" style="color:#b7770d">'+md+'</div><div style="font-size:.76rem;color:#666">يحتاج تعزيزاً (50-70%)</div></div><div class="suppcard" style="background:#d5f5e3;border:1.5px solid #27ae60"><div class="bn" style="color:var(--suc)">'+gd+'</div><div style="font-size:.76rem;color:#666">جيد (&gt;70%)</div></div>';
+  var bl={1:'تذكر وفهم',2:'تطبيق وتحليل',3:'تركيب وتقييم'};
+  var blc={1:'#0d4f8b',2:'#1a6b3c',3:'#8e44ad'};
+  var recs={wk:{1:'إعادة شرح المفاهيم الأساسية مع بطاقات تلخيص',2:'تمارين تطبيقية متدرجة',3:'مشاريع إبداعية مبسطة'},md:{1:'مراجعة سريعة مع اختبارات قصيرة',2:'تمارين إضافية ومناقشة في مجموعات',3:'تحديات تفكير ناقد'}};
+  document.getElementById('outList').innerHTML=sorted.map(function(o){
+    var cls=o.avg<50?'wk':o.avg<70?'md':'gd';
+    var tag=o.avg<50?'<span class="otag otg-wk">⚠️ تدخل عاجل</span>':o.avg<70?'<span class="otag otg-md">📌 يحتاج تعزيز</span>':'<span class="otag otg-gd">✅ جيد</span>';
+    var rec=o.avg<50?recs.wk[o.bloom]:o.avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';
+    return'<div class="outcard" style="border-right:4px solid '+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'"><div class="outhdr"><div><span class="outtitle">'+o.title+'</span>'+tag+'<span style="font-size:.68rem;background:#f0f4f8;padding:2px 7px;border-radius:8px;color:'+blc[o.bloom]+';margin-right:4px">'+bl[o.bloom]+'</span></div><div class="outpct" style="color:'+(o.avg<50?'var(--dan)':o.avg<70?'var(--acc)':'var(--suc)')+'">'+o.avg+'%</div></div><div class="obg"><div class="ob '+cls+'" style="width:'+o.avg+'%"></div></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:6px"><div style="font-size:.76rem;color:#666">الأسئلة: '+o.qs.map(function(q){return'س'+q+' ('+rates[q-1]+'%)';}).join(' | ')+'</div><div style="font-size:.76rem;background:#f8f9fa;border-radius:6px;padding:4px 9px;color:#444;min-width:180px;text-align:right">💡 '+rec+'</div></div></div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+function exportClass(cls){var data=allResults.filter(function(r){return r.class===cls;});if(!data.length){alert('لا توجد نتائج للشعبة '+cls);return;}doExport(data,'نتائج_الصف_'+cls);}
+function exportAll(){if(!allResults.length){alert('لا توجد نتائج بعد');return;}doExport(allResults,'نتائج_الصف_التاسع_متقدم');}
+function doExport(data,name){
+  var rows=data.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الصف':'الصف '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'النتائج');XLSX.writeFile(wb,name+'.xlsx');
+}
+
+function exportFullAnalysis(){
+  if(!allResults.length){alert('لا توجد نتائج بعد');return;}
+  var wb=XLSX.utils.book_new();var rates=getQRates();var total=allResults.length;
+  var avg=Math.round(allResults.reduce(function(s,r){return s+r.pct;},0)/total);
+  var pass=allResults.filter(function(r){return r.pct>=50;}).length;
+  var exc=allResults.filter(function(r){return r.pct>=90;}).length;
+  var sumRows=[{'المؤشر':'إجمالي المحاولات','القيمة':total},{'المؤشر':'متوسط الدرجات (%)','القيمة':avg},{'المؤشر':'عدد الناجحين (≥50%)','القيمة':pass},{'المؤشر':'نسبة النجاح (%)','القيمة':Math.round(pass/total*100)},{'المؤشر':'عدد المتميزين (≥90%)','القيمة':exc},{'المؤشر':'عدد المستهدفين (<50%)','القيمة':total-pass}].concat(['9 متقدم'].map(function(c){var cr=allResults.filter(function(r){return r.class===c;});return{'المؤشر':'متوسط الصف '+c,'القيمة':cr.length?Math.round(cr.reduce(function(s,r){return s+r.pct;},0)/cr.length):'-'};}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(sumRows),'ملخص عام');
+  var allRows=allResults.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الصف':'الصف '+r.class,'الدرجة %':r.pct,'الصحيحة':r.correct,'الخاطئة':r.wrong,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'التاريخ':r.date,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(allRows),'جميع النتائج');
+  ['9 متقدم'].forEach(function(c){var cr=allResults.filter(function(r){return r.class===c;});if(!cr.length)return;var rows=cr.map(function(r,i){return{'#':i+1,'اسم الطالب':r.student,'الدرجة %':r.pct,'الصحيحة':r.correct,'تذكر/فهم':r.bloom1+'/'+r.bloom1t,'تطبيق/تحليل':r.bloom2+'/'+r.bloom2t,'تركيب/تقييم':r.bloom3+'/'+r.bloom3t,'الوقت':r.timeStr,'المستوى':r.pct>=90?'ممتاز':r.pct>=70?'جيد جداً':r.pct>=50?'مقبول':'يحتاج دعم'};});XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'الصف '+c);});
+  var qRows=QS.map(function(q,i){var att=allResults.filter(function(r){return r.answers&&r.answers[i]!=='null';});return{'رقم السؤال':i+1,'نوع السؤال':{mcq:'اختيار',tf:'صح/خطأ',fill:'ملء',match:'توصيل',order:'ترتيب'}[q.type],'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[q.bloom],'عدد المحاولات':att.length,'نسبة الإجابة الصحيحة %':rates[i],'مستوى الصعوبة':rates[i]<50?'صعب':rates[i]<70?'متوسط':'سهل','التوصية':rates[i]<50?'⚠️ يستدعي المراجعة العاجلة':rates[i]<70?'يحتاج مزيداً من التدريب':'✅ مستوى جيد','نص السؤال':q.text.substring(0,60)+'...'};});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(qRows),'تحليل الأسئلة');
+  var sv=answers;
+  var tgtRows=allResults.filter(function(r){return r.pct<50;}).map(function(r,i){
+    var b1p=Math.round(r.bloom1/r.bloom1t*100),b2p=Math.round(r.bloom2/r.bloom2t*100),b3p=Math.round(r.bloom3/r.bloom3t*100);
+    var wk=b1p<=b2p&&b1p<=b3p?'تذكر وفهم':b2p<=b3p?'تطبيق وتحليل':'تركيب وتقييم';
+    answers=r.answers?r.answers.map(function(a){if(a==='null'||a===null)return null;try{return JSON.parse(a);}catch(e){return a==='true'?true:a==='false'?false:(isNaN(a)?a:parseInt(a));}}):new Array(30).fill(null);
+    var wrongQs=QS.map(function(_,qi){return!isOk(qi)?'س'+(qi+1):null;}).filter(Boolean);
+    return{'#':i+1,'اسم الطالب':r.student,'الصف':'الصف '+r.class,'الدرجة %':r.pct,'تذكر/فهم %':b1p,'تطبيق/تحليل %':b2p,'تركيب/تقييم %':b3p,'أضعف مجال':wk,'الأسئلة الخاطئة':wrongQs.join('، '),'التوصية العلاجية':r.pct<30?'جلسة علاجية فردية عاجلة':r.pct<40?'دعم مكثف في مجموعة صغيرة':'مراجعة موجهة مع أوراق عمل','الأولوية':r.pct<30?'عالية جداً':r.pct<40?'عالية':'متوسطة'};
+  });
+  answers=sv;
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(tgtRows.length?tgtRows:[{'ملاحظة':'لا يوجد طلاب تحت 50%'}]),'الطلاب المستهدفون');
+  var outRows=OUTCOMES.map(function(o){var avg=Math.round(o.qs.reduce(function(s,q){return s+rates[q-1];},0)/o.qs.length);var recs={wk:{1:'إعادة شرح المفاهيم مع بطاقات تلخيص',2:'تمارين تطبيقية متدرجة',3:'مشاريع إبداعية مبسطة'},md:{1:'مراجعة مع اختبارات قصيرة',2:'تمارين إضافية ومناقشة',3:'تحديات تفكير ناقد'}};var rec=avg<50?recs.wk[o.bloom]:avg<70?recs.md[o.bloom]:'الاستمرار في التعزيز';return{'رقم الناتج':o.id,'عنوان ناتج التعلم':o.title,'مستوى بلوم':{1:'تذكر/فهم',2:'تطبيق/تحليل',3:'تركيب/تقييم'}[o.bloom],'الأسئلة المرتبطة':o.qs.map(function(q){return'س'+q;}).join('، '),'متوسط الأداء %':avg,'الحالة':avg<50?'⚠️ يحتاج تدخلاً عاجلاً':avg<70?'📌 يحتاج تعزيزاً':'✅ مستوى جيد','التوصية العلاجية':rec,'الأولوية':avg<50?'1 - عالية جداً':avg<70?'2 - متوسطة':'3 - منخفضة'};}).sort(function(a,b){return a['متوسط الأداء %']-b['متوسط الأداء %'];});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(outRows),'نواتج التعلم');
+  var weakOut=outRows.filter(function(o){return o['متوسط الأداء %']<50;});
+  var planRows=weakOut.map(function(o,i){return{'الأسبوع':'الأسبوع '+(i+1),'ناتج التعلم':o['عنوان ناتج التعلم'],'مستوى بلوم':o['مستوى بلوم'],'الأسئلة المرتبطة':o['الأسئلة المرتبطة'],'الإجراء العلاجي':o['التوصية العلاجية'],'المواد المقترحة':'أوراق عمل + فيديو تعليمي + نشاط تطبيقي','معيار النجاح':'تحقيق 70% فأكثر في إعادة التقييم'};});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(planRows.length?planRows:[{'ملاحظة':'لا توجد نواتج تحت 50%'}]),'الخطة العلاجية');
+  XLSX.writeFile(wb,'تحليل_النتائج_الشامل_'+new Date().toLocaleDateString('ar-AE').replace(/\//g,'-')+'.xlsx');
+}
+
+// ═══════════════════════════════════════════
+// MODAL & DELETE
+// ═══════════════════════════════════════════
+function showModal(t,m,fn){document.getElementById('mTitle').textContent=t;document.getElementById('mMsg').textContent=m;document.getElementById('mOkBtn').onclick=fn;document.getElementById('mover').classList.add('show');}
+function closeModal(){document.getElementById('mover').classList.remove('show');}
+function confirmDel1(fbk,lk){showModal('حذف إجابة','هل تريد حذف إجابة هذا الطالب؟',function(){closeModal();delFromFb(fbk,lk);setTimeout(function(){loadFromFb(function(){renderSummary();renderTable(curClass);});},400);});}
+function confirmDelAll(){showModal('حذف كل الإجابات','هل أنت متأكد من حذف جميع الإجابات؟ لا يمكن التراجع!',function(){closeModal();delAllFb();setTimeout(function(){allResults=[];renderSummary();renderTable('all');renderSupport();renderOutcomes();},400);});}
+loadStudents();
+</script>
+</body>
+</html>
